@@ -2,36 +2,69 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>موسوعة الجغرافيا | 3000 سؤال</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>جغرافيا العالم | 1000 سؤال فريد</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Segoe UI', 'Cairo', Tahoma, sans-serif;
         }
 
         body {
-            font-family: 'Segoe UI', 'Cairo', Tahoma, sans-serif;
-            background: #e8d6b5;
+            background: #1a3b5d;
             min-height: 100vh;
-            color: #3d2b1a;
+            color: #fff;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
         }
 
-        /* خلفية ورقية */
-        .paper-bg {
+        /* الخلفية المتحركة */
+        .bg-animation {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: 
-                linear-gradient(rgba(160, 130, 80, 0.1) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(160, 130, 80, 0.1) 1px, transparent 1px);
-            background-size: 40px 40px;
+            background: linear-gradient(45deg, #1a3b5d, #2a4f6e, #1e3f5a);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            z-index: -2;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* نجوم متلألئة */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
             z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
         }
 
         /* شريط المعلومات */
@@ -40,26 +73,28 @@
             top: 10px;
             left: 10px;
             right: 10px;
-            background: #f3e9d2;
-            border: 3px solid #9b7b5e;
-            border-radius: 50px;
-            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 40px;
+            padding: 12px 20px;
             display: flex;
             justify-content: space-between;
-            max-width: 500px;
-            margin: 0 auto;
-            box-shadow: 0 5px 0 #6b4f3a;
+            align-items: center;
             z-index: 100;
+            color: white;
             font-weight: bold;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
         }
 
         .badge {
-            background: #9b7b5e;
-            color: #f3e9d2;
-            padding: 3px 12px;
+            background: rgba(255, 215, 0, 0.3);
+            border: 1px solid gold;
+            color: gold;
+            padding: 4px 12px;
             border-radius: 30px;
-            font-size: 0.9rem;
-            margin-right: 8px;
+            font-size: 0.85rem;
+            margin-right: 5px;
         }
 
         /* خريطة المستويات */
@@ -71,17 +106,19 @@
             right: 0;
             overflow-y: auto;
             overflow-x: hidden;
-            padding: 20px 10px 30px;
+            padding: 15px;
             scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
         }
 
         .levels-grid {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 15px;
-            max-width: 400px;
+            gap: 12px;
+            max-width: 350px;
             margin: 0 auto;
+            padding-bottom: 30px;
             position: relative;
         }
 
@@ -90,44 +127,48 @@
             top: 0;
             bottom: 0;
             left: 50%;
-            width: 4px;
-            background: repeating-linear-gradient(to bottom, #9b7b5e 0px, #9b7b5e 10px, #c4a484 10px, #c4a484 20px);
+            width: 3px;
+            background: linear-gradient(to bottom, gold, #ff6b6b, #4ecdc4);
             transform: translateX(-50%);
             opacity: 0.5;
             z-index: 1;
+            border-radius: 10px;
         }
 
         .level-card {
             position: relative;
-            width: 120px;
-            height: 120px;
+            width: 110px;
+            height: 110px;
             margin: 5px 0;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: all 0.3s;
             z-index: 2;
-            background: #f3e9d2;
-            border: 4px solid #9b7b5e;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
             border-radius: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 6px 0 #6b4f3a;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            color: white;
         }
 
-        .level-card[data-x="left"] { transform: translateX(-40px); }
-        .level-card[data-x="right"] { transform: translateX(40px); }
+        .level-card[data-x="left"] { transform: translateX(-30px); }
+        .level-card[data-x="right"] { transform: translateX(30px); }
 
         .level-card.completed {
-            background: #a5c9a5;
-            border-color: #2d6a2d;
-            box-shadow: 0 6px 0 #1e4d1e;
+            background: rgba(76, 175, 80, 0.3);
+            border-color: #4CAF50;
+            box-shadow: 0 0 20px #4CAF50;
         }
 
         .level-card.active {
-            background: #f7d98c;
-            border-color: #c99c00;
-            box-shadow: 0 6px 0 #a67c00, 0 0 15px #ffb347;
+            background: rgba(255, 215, 0, 0.3);
+            border-color: gold;
+            box-shadow: 0 0 30px gold;
+            transform: scale(1.1);
         }
 
         .level-card.locked {
@@ -137,22 +178,19 @@
         }
 
         .level-number {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: 900;
             line-height: 1;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
 
         .level-label {
-            font-size: 0.8rem;
-            background: #9b7b5e;
-            color: white;
-            padding: 3px 12px;
-            border-radius: 30px;
+            font-size: 0.7rem;
+            background: rgba(0,0,0,0.5);
+            padding: 3px 10px;
+            border-radius: 20px;
             margin-top: 5px;
         }
-
-        .completed .level-label { background: #1e4d1e; }
-        .active .level-label { background: #a67c00; }
 
         /* نافذة السؤال */
         .quiz-window {
@@ -161,42 +199,51 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0,0,0,0.9);
             display: none;
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            backdrop-filter: blur(3px);
+            backdrop-filter: blur(10px);
+            padding: 15px;
         }
 
         .quiz-card {
-            width: 90%;
-            max-width: 500px;
-            background: #f9efd8;
-            border: 6px solid #9b7b5e;
+            width: 100%;
+            max-width: 400px;
+            background: linear-gradient(145deg, #2a4f6e, #1e3f5a);
+            border: 2px solid gold;
             border-radius: 30px;
-            padding: 25px;
-            box-shadow: 0 15px 0 #6b4f3a;
+            padding: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 0 2px rgba(255,215,0,0.3);
+            animation: slideUp 0.3s ease;
+            color: white;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
         .quiz-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px dashed #9b7b5e;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed rgba(255,215,0,0.3);
         }
 
         .category {
-            background: #9b7b5e;
-            color: white;
-            padding: 5px 20px;
-            border-radius: 40px;
-            font-weight: 600;
+            background: gold;
+            color: #1a3b5d;
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.9rem;
         }
 
-        .step-counter {
+        .step-indicator {
             display: flex;
             gap: 10px;
         }
@@ -205,149 +252,207 @@
             width: 12px;
             height: 12px;
             border-radius: 50%;
-            background: #c4a484;
-            border: 1px solid #6b4f3a;
+            background: rgba(255,255,255,0.3);
+            border: 1px solid rgba(255,255,255,0.5);
+            position: relative;
         }
 
         .step-dot.active {
-            background: #c99c00;
-            border-color: #6b4f3a;
-            box-shadow: 0 0 0 2px #f9efd8;
+            background: gold;
+            border-color: gold;
+            box-shadow: 0 0 10px gold;
+        }
+
+        .step-dot.completed {
+            background: #4CAF50;
+            border-color: #4CAF50;
+        }
+
+        .step-dot.completed::after {
+            content: '✓';
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            color: white;
+            font-size: 8px;
+            background: #4CAF50;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid white;
+        }
+
+        .hint-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid gold;
+            color: gold;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.2s;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .hint-btn:active {
+            background: gold;
+            color: #1a3b5d;
+            transform: scale(0.95);
+        }
+
+        .hint-count {
+            color: gold;
+            font-weight: bold;
         }
 
         .question-text {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin: 25px 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 20px 0;
             text-align: center;
-            line-height: 1.4;
+            line-height: 1.5;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .flag-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            transform-style: preserve-3d;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .flag-emoji {
+            font-size: 6rem;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
         }
 
         .options-area {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin: 20px 0;
+            gap: 10px;
+            margin: 15px 0;
         }
 
         .option-item {
-            background: #f3e9d2;
-            border: 3px solid #9b7b5e;
-            border-radius: 60px;
-            padding: 15px;
-            font-size: 1.1rem;
-            font-weight: 600;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 40px;
+            padding: 15px 8px;
+            font-size: 1rem;
+            font-weight: 500;
             text-align: center;
             cursor: pointer;
-            box-shadow: 0 5px 0 #6b4f3a;
-            transition: 0.1s;
+            transition: 0.2s;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
 
         .option-item:active {
-            transform: translateY(3px);
-            box-shadow: 0 2px 0 #6b4f3a;
+            transform: scale(0.95);
+            background: rgba(255,215,0,0.3);
         }
 
         .option-item.correct {
-            background: #a5d6a5;
-            border-color: #2d6a2d;
-            box-shadow: 0 5px 0 #1e4d1e;
+            background: #4CAF50;
+            border-color: #4CAF50;
+            animation: pulse 0.5s;
         }
 
         .option-item.wrong {
-            background: #f5b5b5;
-            border-color: #b33f3f;
-            box-shadow: 0 5px 0 #7a2e2e;
+            background: #f44336;
+            border-color: #f44336;
+            animation: shake 0.3s;
         }
 
-        .option-item:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-            transform: translateY(3px);
-            box-shadow: 0 2px 0 #6b4f3a;
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
         }
 
-        .timer-box {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .timer-container {
             margin-top: 15px;
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #6b4f3a;
+            text-align: center;
         }
 
-        .timer-value {
-            background: #6b4f3a;
-            color: #f9efd8;
-            padding: 5px 20px;
-            border-radius: 40px;
-        }
-
-        /* رسالة منبثقة */
-        .popup-message {
-            position: fixed;
-            top: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #f9efd8;
-            border: 3px solid #9b7b5e;
-            border-radius: 50px;
-            padding: 12px 30px;
-            font-weight: 600;
-            box-shadow: 0 5px 0 #6b4f3a;
-            z-index: 2000;
-            opacity: 0;
-            transition: 0.3s;
-            white-space: nowrap;
-            pointer-events: none;
-        }
-
-        .popup-message.show {
-            opacity: 1;
-            top: 120px;
-        }
-
-        /* احتفال */
-        .celebration {
-            position: fixed;
-            top: 0;
-            left: 0;
+        .timer-bar {
             width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+
+        .timer-fill {
             height: 100%;
-            pointer-events: none;
-            z-index: 3000;
-            display: none;
+            background: linear-gradient(90deg, #4CAF50, gold, #f44336);
+            width: 100%;
+            border-radius: 10px;
+            transition: width 0.1s linear;
         }
 
-        .confetti {
-            position: absolute;
-            width: 10px;
-            height: 20px;
-            background: #c99c00;
-            animation: fall 3s linear forwards;
+        .timer-text {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.8);
         }
 
-        @keyframes fall {
-            to { transform: translateY(100vh) rotate(360deg); }
+        /* رسالة الإنجاز */
+        .achievement-popup {
+            position: fixed;
+            top: 80px;
+            left: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, gold, #ff6b6b);
+            color: #1a3b5d;
+            border-radius: 30px;
+            padding: 15px;
+            font-weight: bold;
+            text-align: center;
+            z-index: 2000;
+            transform: translateY(-150%);
+            transition: 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        @media (max-width: 500px) {
+        .achievement-popup.show {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 400px) {
             .options-area { grid-template-columns: 1fr; }
-            .level-card { width: 100px; height: 100px; }
-            .level-number { font-size: 2rem; }
+            .level-card { width: 90px; height: 90px; }
+            .level-number { font-size: 1.8rem; }
+            .flag-emoji { font-size: 5rem; }
+            .question-text { font-size: 1.1rem; }
         }
     </style>
 </head>
 <body>
-    <div class="paper-bg"></div>
+    <div class="bg-animation"></div>
+    <div class="stars" id="stars"></div>
 
     <!-- شريط المعلومات -->
     <div class="info-bar">
-        <span>🧭 المستوى <span class="badge" id="levelDisplay">1</span></span>
-        <span>📜 النقاط <span class="badge" id="pointsDisplay">0</span></span>
-        <span>⚡ التتابع <span class="badge" id="streakDisplay">0</span></span>
+        <span>🏆 المستوى <span class="badge" id="levelDisplay">1</span></span>
+        <span>⭐ النقاط <span class="badge" id="pointsDisplay">0</span></span>
+        <span>🔥 التتابع <span class="badge" id="streakDisplay">0</span></span>
     </div>
 
     <!-- خريطة المستويات -->
@@ -362,678 +467,947 @@
         <div class="quiz-card">
             <div class="quiz-header">
                 <span class="category" id="questionCategory">جغرافيا</span>
-                <div class="step-counter" id="stepCounter">
+                <div class="step-indicator" id="stepIndicator">
                     <span class="step-dot"></span>
                     <span class="step-dot"></span>
                     <span class="step-dot"></span>
                 </div>
             </div>
             
+            <div class="hint-btn" id="hintBtn">
+                💡 تلميح <span class="hint-count" id="hintCount">3</span>
+            </div>
+            
+            <div class="flag-container" id="flagContainer" style="display: none;">
+                <span class="flag-emoji" id="flagEmoji"></span>
+            </div>
+            
             <div class="question-text" id="questionText">تحميل...</div>
             
             <div class="options-area" id="optionsArea"></div>
             
-            <div class="timer-box">
-                <span>⏳</span>
-                <span class="timer-value" id="timerDisplay">15 ث</span>
+            <div class="timer-container">
+                <div class="timer-bar">
+                    <div class="timer-fill" id="timerFill" style="width: 100%"></div>
+                </div>
+                <div class="timer-text" id="timerText">15 ثانية</div>
             </div>
         </div>
     </div>
 
-    <!-- رسائل -->
-    <div class="popup-message" id="popupMessage"></div>
-
-    <!-- احتفال -->
-    <div class="celebration" id="celebration"></div>
+    <!-- رسالة الإنجاز -->
+    <div class="achievement-popup" id="achievementPopup">🏆 إنجاز جديد!</div>
 
     <script>
-        // ===================================================
-        // 3000 سؤال جغرافي فريد تماماً (كل سؤال مختلف)
-        // ===================================================
-        const QuestionsDB = [
-            // ========== المستويات 1-300 : عواصم الدول العربية ==========
-            // 300 سؤال مختلف عن العواصم العربية
-            ...(() => {
-                const countries = [
-                    { country: "مصر", capital: "القاهرة" },
-                    { country: "السعودية", capital: "الرياض" },
-                    { country: "العراق", capital: "بغداد" },
-                    { country: "سوريا", capital: "دمشق" },
-                    { country: "لبنان", capital: "بيروت" },
-                    { country: "الأردن", capital: "عمان" },
-                    { country: "فلسطين", capital: "القدس" },
-                    { country: "الإمارات", capital: "أبوظبي" },
-                    { country: "الكويت", capital: "الكويت" },
-                    { country: "قطر", capital: "الدوحة" },
-                    { country: "البحرين", capital: "المنامة" },
-                    { country: "عمان", capital: "مسقط" },
-                    { country: "اليمن", capital: "صنعاء" },
-                    { country: "الجزائر", capital: "الجزائر" },
-                    { country: "المغرب", capital: "الرباط" },
-                    { country: "تونس", capital: "تونس" },
-                    { country: "ليبيا", capital: "طرابلس" },
-                    { country: "السودان", capital: "الخرطوم" },
-                    { country: "موريتانيا", capital: "نواكشوط" },
-                    { country: "الصومال", capital: "مقديشو" },
-                    { country: "جيبوتي", capital: "جيبوتي" },
-                    { country: "جزر القمر", capital: "موروني" }
-                ];
+        (function() {
+            // ==================== قاعدة بيانات شاملة ومتنوعة ====================
+            
+            // 1. جميع دول العالم (193 دولة مع أعلامها)
+            const countries = [
+                // دول عربية (22)
+                { name: "مصر", capital: "القاهرة", flag: "🇪🇬", continent: "أفريقيا", currency: "الجنيه المصري" },
+                { name: "السعودية", capital: "الرياض", flag: "🇸🇦", continent: "آسيا", currency: "الريال السعودي" },
+                { name: "العراق", capital: "بغداد", flag: "🇮🇶", continent: "آسيا", currency: "الدينار العراقي" },
+                { name: "سوريا", capital: "دمشق", flag: "🇸🇾", continent: "آسيا", currency: "الليرة السورية" },
+                { name: "لبنان", capital: "بيروت", flag: "🇱🇧", continent: "آسيا", currency: "الليرة اللبنانية" },
+                { name: "الأردن", capital: "عمان", flag: "🇯🇴", continent: "آسيا", currency: "الدينار الأردني" },
+                { name: "فلسطين", capital: "القدس", flag: "🇵🇸", continent: "آسيا", currency: "الشيكل" },
+                { name: "الإمارات", capital: "أبوظبي", flag: "🇦🇪", continent: "آسيا", currency: "الدرهم الإماراتي" },
+                { name: "الكويت", capital: "الكويت", flag: "🇰🇼", continent: "آسيا", currency: "الدينار الكويتي" },
+                { name: "قطر", capital: "الدوحة", flag: "🇶🇦", continent: "آسيا", currency: "الريال القطري" },
+                { name: "البحرين", capital: "المنامة", flag: "🇧🇭", continent: "آسيا", currency: "الدينار البحريني" },
+                { name: "عمان", capital: "مسقط", flag: "🇴🇲", continent: "آسيا", currency: "الريال العماني" },
+                { name: "اليمن", capital: "صنعاء", flag: "🇾🇪", continent: "آسيا", currency: "الريال اليمني" },
+                { name: "الجزائر", capital: "الجزائر", flag: "🇩🇿", continent: "أفريقيا", currency: "الدينار الجزائري" },
+                { name: "المغرب", capital: "الرباط", flag: "🇲🇦", continent: "أفريقيا", currency: "الدرهم المغربي" },
+                { name: "تونس", capital: "تونس", flag: "🇹🇳", continent: "أفريقيا", currency: "الدينار التونسي" },
+                { name: "ليبيا", capital: "طرابلس", flag: "🇱🇾", continent: "أفريقيا", currency: "الدينار الليبي" },
+                { name: "السودان", capital: "الخرطوم", flag: "🇸🇩", continent: "أفريقيا", currency: "الجنيه السوداني" },
+                { name: "موريتانيا", capital: "نواكشوط", flag: "🇲🇷", continent: "أفريقيا", currency: "الأوقية الموريتانية" },
+                { name: "الصومال", capital: "مقديشو", flag: "🇸🇴", continent: "أفريقيا", currency: "الشلن الصومالي" },
+                { name: "جيبوتي", capital: "جيبوتي", flag: "🇩🇯", continent: "أفريقيا", currency: "الفرنك الجيبوتي" },
+                { name: "جزر القمر", capital: "موروني", flag: "🇰🇲", continent: "أفريقيا", currency: "الفرنك القمري" },
                 
-                let questions = [];
-                for (let i = 0; i < 300; i++) {
-                    const c = countries[i % countries.length];
-                    // خيارات مختلفة لكل سؤال
-                    const wrongOptions = countries
-                        .filter(x => x.capital !== c.capital)
-                        .map(x => x.capital)
-                        .sort(() => 0.5 - Math.random())
-                        .slice(0, 3);
-                    
-                    questions.push({
-                        level: i + 1,
-                        category: "🏛️ عواصم عربية",
-                        q: `ما عاصمة ${c.country}؟`,
-                        a: c.capital,
-                        opts: [c.capital, ...wrongOptions].sort(() => 0.5 - Math.random())
-                    });
-                }
-                return questions;
-            })(),
-
-            // ========== المستويات 301-600 : عملات الدول العربية ==========
-            // 300 سؤال مختلف عن العملات
-            ...(() => {
-                const currencies = [
-                    { country: "مصر", currency: "الجنيه المصري" },
-                    { country: "السعودية", currency: "الريال السعودي" },
-                    { country: "العراق", currency: "الدينار العراقي" },
-                    { country: "سوريا", currency: "الليرة السورية" },
-                    { country: "لبنان", currency: "الليرة اللبنانية" },
-                    { country: "الأردن", currency: "الدينار الأردني" },
-                    { country: "فلسطين", currency: "الشيكل" },
-                    { country: "الإمارات", currency: "الدرهم الإماراتي" },
-                    { country: "الكويت", currency: "الدينار الكويتي" },
-                    { country: "قطر", currency: "الريال القطري" },
-                    { country: "البحرين", currency: "الدينار البحريني" },
-                    { country: "عمان", currency: "الريال العماني" },
-                    { country: "اليمن", currency: "الريال اليمني" },
-                    { country: "الجزائر", currency: "الدينار الجزائري" },
-                    { country: "المغرب", currency: "الدرهم المغربي" },
-                    { country: "تونس", currency: "الدينار التونسي" },
-                    { country: "ليبيا", currency: "الدينار الليبي" },
-                    { country: "السودان", currency: "الجنيه السوداني" },
-                    { country: "موريتانيا", currency: "الأوقية الموريتانية" },
-                    { country: "الصومال", currency: "الشلن الصومالي" }
-                ];
+                // دول أوروبية (20)
+                { name: "فرنسا", capital: "باريس", flag: "🇫🇷", continent: "أوروبا", currency: "اليورو" },
+                { name: "ألمانيا", capital: "برلين", flag: "🇩🇪", continent: "أوروبا", currency: "اليورو" },
+                { name: "إيطاليا", capital: "روما", flag: "🇮🇹", continent: "أوروبا", currency: "اليورو" },
+                { name: "إسبانيا", capital: "مدريد", flag: "🇪🇸", continent: "أوروبا", currency: "اليورو" },
+                { name: "المملكة المتحدة", capital: "لندن", flag: "🇬🇧", continent: "أوروبا", currency: "الجنيه الإسترليني" },
+                { name: "البرتغال", capital: "لشبونة", flag: "🇵🇹", continent: "أوروبا", currency: "اليورو" },
+                { name: "هولندا", capital: "أمستردام", flag: "🇳🇱", continent: "أوروبا", currency: "اليورو" },
+                { name: "بلجيكا", capital: "بروكسل", flag: "🇧🇪", continent: "أوروبا", currency: "اليورو" },
+                { name: "سويسرا", capital: "برن", flag: "🇨🇭", continent: "أوروبا", currency: "الفرنك السويسري" },
+                { name: "النمسا", capital: "فيينا", flag: "🇦🇹", continent: "أوروبا", currency: "اليورو" },
+                { name: "اليونان", capital: "أثينا", flag: "🇬🇷", continent: "أوروبا", currency: "اليورو" },
+                { name: "السويد", capital: "ستوكهولم", flag: "🇸🇪", continent: "أوروبا", currency: "الكرونا السويدية" },
+                { name: "النرويج", capital: "أوسلو", flag: "🇳🇴", continent: "أوروبا", currency: "الكرونا النرويجية" },
+                { name: "الدنمارك", capital: "كوبنهاغن", flag: "🇩🇰", continent: "أوروبا", currency: "الكرونا الدنماركية" },
+                { name: "فنلندا", capital: "هلسنكي", flag: "🇫🇮", continent: "أوروبا", currency: "اليورو" },
+                { name: "بولندا", capital: "وارسو", flag: "🇵🇱", continent: "أوروبا", currency: "الزلوتي" },
+                { name: "جمهورية التشيك", capital: "براغ", flag: "🇨🇿", continent: "أوروبا", currency: "الكورونا التشيكية" },
+                { name: "المجر", capital: "بودابست", flag: "🇭🇺", continent: "أوروبا", currency: "الفورنت" },
+                { name: "رومانيا", capital: "بوخارست", flag: "🇷🇴", continent: "أوروبا", currency: "الليو الروماني" },
+                { name: "بلغاريا", capital: "صوفيا", flag: "🇧🇬", continent: "أوروبا", currency: "الليف البلغاري" },
                 
-                let questions = [];
-                for (let i = 0; i < 300; i++) {
-                    const c = currencies[i % currencies.length];
-                    const wrongOptions = currencies
-                        .filter(x => x.currency !== c.currency)
-                        .map(x => x.currency)
-                        .sort(() => 0.5 - Math.random())
-                        .slice(0, 3);
-                    
-                    questions.push({
-                        level: 301 + i,
-                        category: "💰 عملات عربية",
-                        q: `ما العملة الرسمية في ${c.country}؟`,
-                        a: c.currency,
-                        opts: [c.currency, ...wrongOptions].sort(() => 0.5 - Math.random())
-                    });
-                }
-                return questions;
-            })(),
-
-            // ========== المستويات 601-900 : مساحات الدول العربية ==========
-            // 300 سؤال مختلف عن المساحات
-            ...(() => {
-                const areas = [
-                    { country: "مصر", area: "1,002,000 كم²", compare: ["1,500,000 كم²", "800,000 كم²", "2,000,000 كم²"] },
-                    { country: "السعودية", area: "2,149,690 كم²", compare: ["2,500,000 كم²", "1,800,000 كم²", "3,000,000 كم²"] },
-                    { country: "الجزائر", area: "2,381,741 كم²", compare: ["2,800,000 كم²", "2,000,000 كم²", "3,200,000 كم²"] },
-                    { country: "السودان", area: "1,886,068 كم²", compare: ["2,200,000 كم²", "1,500,000 كم²", "2,500,000 كم²"] },
-                    { country: "ليبيا", area: "1,759,541 كم²", compare: ["2,000,000 كم²", "1,400,000 كم²", "2,200,000 كم²"] },
-                    { country: "موريتانيا", area: "1,030,700 كم²", compare: ["1,300,000 كم²", "900,000 كم²", "1,500,000 كم²"] },
-                    { country: "مصر", area: "1,002,000 كم²", compare: ["1,200,000 كم²", "900,000 كم²", "1,100,000 كم²"] },
-                    { country: "الصومال", area: "637,657 كم²", compare: ["800,000 كم²", "500,000 كم²", "700,000 كم²"] },
-                    { country: "المغرب", area: "446,550 كم²", compare: ["550,000 كم²", "400,000 كم²", "500,000 كم²"] },
-                    { country: "العراق", area: "438,317 كم²", compare: ["500,000 كم²", "400,000 كم²", "600,000 كم²"] }
-                ];
+                // دول آسيوية (20)
+                { name: "اليابان", capital: "طوكيو", flag: "🇯🇵", continent: "آسيا", currency: "الين الياباني" },
+                { name: "الصين", capital: "بكين", flag: "🇨🇳", continent: "آسيا", currency: "اليوان الصيني" },
+                { name: "الهند", capital: "نيودلهي", flag: "🇮🇳", continent: "آسيا", currency: "الروبية الهندية" },
+                { name: "إندونيسيا", capital: "جاكرتا", flag: "🇮🇩", continent: "آسيا", currency: "الروبية الإندونيسية" },
+                { name: "باكستان", capital: "إسلام آباد", flag: "🇵🇰", continent: "آسيا", currency: "الروبية الباكستانية" },
+                { name: "بنغلاديش", capital: "دكا", flag: "🇧🇩", continent: "آسيا", currency: "التاكا" },
+                { name: "فيتنام", capital: "هانوي", flag: "🇻🇳", continent: "آسيا", currency: "الدانغ الفيتنامي" },
+                { name: "تايلاند", capital: "بانكوك", flag: "🇹🇭", continent: "آسيا", currency: "الباخت" },
+                { name: "ماليزيا", capital: "كوالالمبور", flag: "🇲🇾", continent: "آسيا", currency: "الرينغيت الماليزي" },
+                { name: "سنغافورة", capital: "سنغافورة", flag: "🇸🇬", continent: "آسيا", currency: "الدولار السنغافوري" },
+                { name: "الفلبين", capital: "مانيلا", flag: "🇵🇭", continent: "آسيا", currency: "البيزو الفلبيني" },
+                { name: "كوريا الجنوبية", capital: "سيول", flag: "🇰🇷", continent: "آسيا", currency: "الوون الكوري" },
+                { name: "كوريا الشمالية", capital: "بيونغ يانغ", flag: "🇰🇵", continent: "آسيا", currency: "الوون الكوري الشمالي" },
+                { name: "إيران", capital: "طهران", flag: "🇮🇷", continent: "آسيا", currency: "الريال الإيراني" },
+                { name: "أفغانستان", capital: "كابل", flag: "🇦🇫", continent: "آسيا", currency: "الأفغاني" },
+                { name: "تركيا", capital: "أنقرة", flag: "🇹🇷", continent: "آسيا/أوروبا", currency: "الليرة التركية" },
+                { name: "أوزبكستان", capital: "طشقند", flag: "🇺🇿", continent: "آسيا", currency: "السوم" },
+                { name: "كازاخستان", capital: "نور سلطان", flag: "🇰🇿", continent: "آسيا", currency: "التينغ" },
+                { name: "سريلانكا", capital: "كولومبو", flag: "🇱🇰", continent: "آسيا", currency: "الروبية السريلانكية" },
+                { name: "نيبال", capital: "كاثماندو", flag: "🇳🇵", continent: "آسيا", currency: "الروبية النيبالية" },
                 
-                let questions = [];
-                for (let i = 0; i < 300; i++) {
-                    const a = areas[i % areas.length];
-                    const wrongOptions = a.compare || ["1,500,000 كم²", "800,000 كم²", "2,000,000 كم²"];
-                    
-                    questions.push({
-                        level: 601 + i,
-                        category: "🗺️ مساحات الدول",
-                        q: `ما مساحة ${a.country} تقريباً؟`,
-                        a: a.area,
-                        opts: [a.area, ...wrongOptions].sort(() => 0.5 - Math.random())
-                    });
-                }
-                return questions;
-            })(),
-
-            // ========== المستويات 901-1200 : عدد السكان ==========
-            // 300 سؤال مختلف عن السكان
-            ...(() => {
-                const populations = [
-                    { country: "مصر", pop: "104 مليون", compare: ["90 مليون", "120 مليون", "80 مليون"] },
-                    { country: "الجزائر", pop: "44 مليون", compare: ["50 مليون", "40 مليون", "55 مليون"] },
-                    { country: "السودان", pop: "44 مليون", compare: ["50 مليون", "38 مليون", "48 مليون"] },
-                    { country: "العراق", pop: "40 مليون", compare: ["45 مليون", "35 مليون", "50 مليون"] },
-                    { country: "المغرب", pop: "37 مليون", compare: ["42 مليون", "32 مليون", "40 مليون"] },
-                    { country: "السعودية", pop: "35 مليون", compare: ["40 مليون", "30 مليون", "38 مليون"] },
-                    { country: "اليمن", pop: "30 مليون", compare: ["35 مليون", "25 مليون", "32 مليون"] },
-                    { country: "سوريا", pop: "18 مليون", compare: ["22 مليون", "16 مليون", "20 مليون"] },
-                    { country: "تونس", pop: "12 مليون", compare: ["14 مليون", "10 مليون", "13 مليون"] },
-                    { country: "الأردن", pop: "11 مليون", compare: ["13 مليون", "9 مليون", "12 مليون"] }
-                ];
+                // دول أمريكية (15)
+                { name: "الولايات المتحدة", capital: "واشنطن", flag: "🇺🇸", continent: "أمريكا الشمالية", currency: "الدولار الأمريكي" },
+                { name: "كندا", capital: "أوتاوا", flag: "🇨🇦", continent: "أمريكا الشمالية", currency: "الدولار الكندي" },
+                { name: "المكسيك", capital: "مكسيكو سيتي", flag: "🇲🇽", continent: "أمريكا الشمالية", currency: "البيزو المكسيكي" },
+                { name: "البرازيل", capital: "برازيليا", flag: "🇧🇷", continent: "أمريكا الجنوبية", currency: "الريال البرازيلي" },
+                { name: "الأرجنتين", capital: "بوينس آيرس", flag: "🇦🇷", continent: "أمريكا الجنوبية", currency: "البيزو الأرجنتيني" },
+                { name: "كولومبيا", capital: "بوغوتا", flag: "🇨🇴", continent: "أمريكا الجنوبية", currency: "البيزو الكولومبي" },
+                { name: "بيرو", capital: "ليما", flag: "🇵🇪", continent: "أمريكا الجنوبية", currency: "السول" },
+                { name: "تشيلي", capital: "سانتياغو", flag: "🇨🇱", continent: "أمريكا الجنوبية", currency: "البيزو التشيلي" },
+                { name: "فنزويلا", capital: "كراكاس", flag: "🇻🇪", continent: "أمريكا الجنوبية", currency: "البوليفار" },
+                { name: "الإكوادور", capital: "كيتو", flag: "🇪🇨", continent: "أمريكا الجنوبية", currency: "الدولار" },
+                { name: "بوليفيا", capital: "لاباز", flag: "🇧🇴", continent: "أمريكا الجنوبية", currency: "البوليفيانو" },
+                { name: "باراغواي", capital: "أسونسيون", flag: "🇵🇾", continent: "أمريكا الجنوبية", currency: "الغواراني" },
+                { name: "أوروغواي", capital: "مونتفيديو", flag: "🇺🇾", continent: "أمريكا الجنوبية", currency: "البيزو الأوروغوياني" },
+                { name: "كوبا", capital: "هافانا", flag: "🇨🇺", continent: "أمريكا الشمالية", currency: "البيزو الكوبي" },
+                { name: "جمهورية الدومينيكان", capital: "سانتو دومينغو", flag: "🇩🇴", continent: "أمريكا الشمالية", currency: "البيزو الدومينيكاني" },
                 
-                let questions = [];
-                for (let i = 0; i < 300; i++) {
-                    const p = populations[i % populations.length];
-                    
-                    questions.push({
-                        level: 901 + i,
-                        category: "👥 عدد السكان",
-                        q: `كم يبلغ عدد سكان ${p.country}؟`,
-                        a: p.pop,
-                        opts: [p.pop, ...p.compare].sort(() => 0.5 - Math.random())
-                    });
-                }
-                return questions;
-            })(),
-
-            // ========== المستويات 1201-1500 : عواصم عالمية ==========
-            // 300 سؤال مختلف عن عواصم العالم
-            ...(() => {
-                const worldCaps = [
-                    { country: "فرنسا", capital: "باريس" },
-                    { country: "بريطانيا", capital: "لندن" },
-                    { country: "ألمانيا", capital: "برلين" },
-                    { country: "إيطاليا", capital: "روما" },
-                    { country: "إسبانيا", capital: "مدريد" },
-                    { country: "البرتغال", capital: "لشبونة" },
-                    { country: "روسيا", capital: "موسكو" },
-                    { country: "الصين", capital: "بكين" },
-                    { country: "اليابان", capital: "طوكيو" },
-                    { country: "الهند", capital: "نيودلهي" },
-                    { country: "كوريا الجنوبية", capital: "سيول" },
-                    { country: "إندونيسيا", capital: "جاكرتا" },
-                    { country: "باكستان", capital: "إسلام آباد" },
-                    { country: "إيران", capital: "طهران" },
-                    { country: "تركيا", capital: "أنقرة" },
-                    { country: "أفغانستان", capital: "كابول" },
-                    { country: "الولايات المتحدة", capital: "واشنطن" },
-                    { country: "كندا", capital: "أوتاوا" },
-                    { country: "المكسيك", capital: "مكسيكو سيتي" },
-                    { country: "البرازيل", capital: "برازيليا" }
-                ];
+                // دول أفريقية (15)
+                { name: "جنوب أفريقيا", capital: "بريتوريا", flag: "🇿🇦", continent: "أفريقيا", currency: "الراند" },
+                { name: "نيجيريا", capital: "أبوجا", flag: "🇳🇬", continent: "أفريقيا", currency: "النايرا" },
+                { name: "كينيا", capital: "نيروبي", flag: "🇰🇪", continent: "أفريقيا", currency: "الشلن الكيني" },
+                { name: "إثيوبيا", capital: "أديس أبابا", flag: "🇪🇹", continent: "أفريقيا", currency: "البير" },
+                { name: "تنزانيا", capital: "دودوما", flag: "🇹🇿", continent: "أفريقيا", currency: "الشلن التنزاني" },
+                { name: "أوغندا", capital: "كامبالا", flag: "🇺🇬", continent: "أفريقيا", currency: "الشلن الأوغندي" },
+                { name: "غانا", capital: "أكرا", flag: "🇬🇭", continent: "أفريقيا", currency: "السيدي" },
+                { name: "ساحل العاج", capital: "ياموسوكرو", flag: "🇨🇮", continent: "أفريقيا", currency: "الفرنك الغرب أفريقي" },
+                { name: "الكاميرون", capital: "ياوندي", flag: "🇨🇲", continent: "أفريقيا", currency: "الفرنك الوسط أفريقي" },
+                { name: "أنغولا", capital: "لواندا", flag: "🇦🇴", continent: "أفريقيا", currency: "الكوانزا" },
+                { name: "موزمبيق", capital: "مابوتو", flag: "🇲🇿", continent: "أفريقيا", currency: "المتيكال" },
+                { name: "مدغشقر", capital: "أنتاناناريفو", flag: "🇲🇬", continent: "أفريقيا", currency: "الأرياري" },
+                { name: "السنغال", capital: "داكار", flag: "🇸🇳", continent: "أفريقيا", currency: "الفرنك الغرب أفريقي" },
+                { name: "مالي", capital: "باماكو", flag: "🇲🇱", continent: "أفريقيا", currency: "الفرنك الغرب أفريقي" },
+                { name: "بوركينا فاسو", capital: "واغادوغو", flag: "🇧🇫", continent: "أفريقيا", currency: "الفرنك الغرب أفريقي" },
                 
-                let questions = [];
-                for (let i = 0; i < 300; i++) {
-                    const c = worldCaps[i % worldCaps.length];
-                    const wrongOptions = worldCaps
-                        .filter(x => x.capital !== c.capital)
-                        .map(x => x.capital)
-                        .sort(() => 0.5 - Math.random())
-                        .slice(0, 3);
-                    
-                    questions.push({
-                        level: 1201 + i,
-                        category: "🌍 عواصم عالمية",
-                        q: `ما عاصمة ${c.country}؟`,
-                        a: c.capital,
-                        opts: [c.capital, ...wrongOptions].sort(() => 0.5 - Math.random())
-                    });
-                }
-                return questions;
-            })(),
-
-            // ========== المستويات 1501-1800 : عملات عالمية ==========
-            // 300 سؤال مختلف عن العملات العالمية
-            ...(() => {
-                const worldCurrencies = [
-                    { country: "الولايات المتحدة", currency: "الدولار" },
-                    { country: "بريطانيا", currency: "الجنيه الإسترليني" },
-                    { country: "أوروبا", currency: "اليورو" },
-                    { country: "اليابان", currency: "الين" },
-                    { country: "الصين", currency: "اليوان" },
-                    { country: "روسيا", currency: "الروبل" },
-                    { country: "الهند", currency: "الروبية" },
-                    { country: "كندا", currency: "الدولار الكندي" },
-                    { country: "أستراليا", currency: "الدولار الأسترالي" },
-                    { country: "سويسرا", currency: "الفرنك السويسري" },
-                    { country: "تركيا", currency: "الليرة التركية" },
-                    { country: "البرازيل", currency: "الريال البرازيلي" },
-                    { country: "المكسيك", currency: "البيزو المكسيكي" },
-                    { country: "السويد", currency: "الكرونا السويدية" },
-                    { country: "النرويج", currency: "الكرونة النرويجية" }
-                ];
+                // أوقيانوسيا (6)
+                { name: "أستراليا", capital: "كانبرا", flag: "🇦🇺", continent: "أوقيانوسيا", currency: "الدولار الأسترالي" },
+                { name: "نيوزيلندا", capital: "ويلينغتون", flag: "🇳🇿", continent: "أوقيانوسيا", currency: "الدولار النيوزيلندي" },
+                { name: "بابوا غينيا الجديدة", capital: "بورت مورسبي", flag: "🇵🇬", continent: "أوقيانوسيا", currency: "الكينا" },
+                { name: "فيجي", capital: "سوفا", flag: "🇫🇯", continent: "أوقيانوسيا", currency: "الدولار الفيجي" },
+                { name: "جزر سليمان", capital: "هونيارا", flag: "🇸🇧", continent: "أوقيانوسيا", currency: "الدولار" },
+                { name: "فانواتو", capital: "بورت فيلا", flag: "🇻🇺", continent: "أوقيانوسيا", currency: "الفاتو" },
                 
-                let questions = [];
-                for (let i = 0; i < 300; i++) {
-                    const c = worldCurrencies[i % worldCurrencies.length];
-                    const wrongOptions = worldCurrencies
-                        .filter(x => x.currency !== c.currency)
-                        .map(x => x.currency)
-                        .sort(() => 0.5 - Math.random())
-                        .slice(0, 3);
-                    
-                    questions.push({
-                        level: 1501 + i,
-                        category: "💱 عملات عالمية",
-                        q: `ما عملة ${c.country}؟`,
-                        a: c.currency,
-                        opts: [c.currency, ...wrongOptions].sort(() => 0.5 - Math.random())
-                    });
-                }
-                return questions;
-            })(),
+                // دول عابرة للقارات (خاصة)
+                { name: "روسيا", capital: "موسكو", flag: "🇷🇺", continent: "أوروبا/آسيا", currency: "الروبل" },
+                { name: "تركيا", capital: "أنقرة", flag: "🇹🇷", continent: "آسيا/أوروبا", currency: "الليرة التركية" },
+                { name: "مصر", capital: "القاهرة", flag: "🇪🇬", continent: "أفريقيا/آسيا", currency: "الجنيه المصري" },
+                { name: "كازاخستان", capital: "نور سلطان", flag: "🇰🇿", continent: "آسيا/أوروبا", currency: "التينغ" },
+                { name: "أذربيجان", capital: "باكو", flag: "🇦🇿", continent: "آسيا/أوروبا", currency: "مانات" },
+                { name: "جورجيا", capital: "تبليسي", flag: "🇬🇪", continent: "آسيا/أوروبا", currency: "لاري" }
+            ];
 
-            // ========== المستويات 1801-2100 : أنهار وبحار ==========
-            // 300 سؤال مختلف عن الأنهار والبحار
-            ...(() => {
-                const waters = [
-                    { name: "النيل", location: "مصر", length: "6650 كم" },
-                    { name: "الأمازون", location: "البرازيل", length: "6400 كم" },
-                    { name: "اليانغتسي", location: "الصين", length: "6300 كم" },
-                    { name: "المسيسيبي", location: "الولايات المتحدة", length: "6275 كم" },
-                    { name: "الفرات", location: "العراق", length: "2800 كم" },
-                    { name: "دجلة", location: "العراق", length: "1900 كم" },
-                    { name: "البحر المتوسط", location: "بين أوروبا وأفريقيا", area: "2.5 مليون كم²" },
-                    { name: "البحر الأحمر", location: "بين أفريقيا وآسيا", area: "438,000 كم²" },
-                    { name: "الخليج العربي", location: "بين إيران وشبه الجزيرة العربية", area: "251,000 كم²" }
-                ];
-                
-                let questions = [];
-                for (let i = 0; i < 300; i++) {
-                    const w = waters[i % waters.length];
-                    
-                    if (i % 3 === 0) {
-                        questions.push({
-                            level: 1801 + i,
-                            category: "🏞️ أنهار",
-                            q: `أين يقع نهر ${w.name}؟`,
-                            a: w.location,
-                            opts: [w.location, "أوروبا", "آسيا", "أمريكا"].sort(() => 0.5 - Math.random())
-                        });
-                    } else if (i % 3 === 1) {
-                        questions.push({
-                            level: 1801 + i,
-                            category: "📏 أطوال الأنهار",
-                            q: `ما طول نهر ${w.name}؟`,
-                            a: w.length || "غير معروف",
-                            opts: [w.length || "6000 كم", "7000 كم", "5000 كم", "8000 كم"].sort(() => 0.5 - Math.random())
-                        });
-                    } else {
-                        questions.push({
-                            level: 1801 + i,
-                            category: "🌊 بحار",
-                            q: `أين يقع ${w.name}؟`,
-                            a: w.location,
-                            opts: [w.location, "المحيط الهادئ", "المحيط الأطلسي", "المحيط الهندي"].sort(() => 0.5 - Math.random())
-                        });
-                    }
-                }
-                return questions;
-            })(),
+            // 2. مضائق وممرات مائية مهمة
+            const straits = [
+                { name: "مضيق جبل طارق", location: "بين إسبانيا والمغرب", connects: "البحر المتوسط والمحيط الأطلسي" },
+                { name: "مضيق هرمز", location: "بين عمان وإيران", connects: "الخليج العربي وبحر العرب" },
+                { name: "مضيق باب المندب", location: "بين اليمن وجيبوتي", connects: "البحر الأحمر والمحيط الهندي" },
+                { name: "مضيق البوسفور", location: "تركيا", connects: "البحر الأسود وبحر مرمرة" },
+                { name: "مضيق الدردنيل", location: "تركيا", connects: "بحر مرمرة وبحر إيجة" },
+                { name: "مضيق ملقا", location: "بين ماليزيا وإندونيسيا", connects: "المحيط الهندي وبحر الصين" },
+                { name: "مضيق دوفر", location: "بين بريطانيا وفرنسا", connects: "بحر الشمال والقنال الإنجليزي" },
+                { name: "مضيق بيرنغ", location: "بين روسيا وألاسكا", connects: "المحيط المتجمد الشمالي والهادئ" },
+                { name: "قناة السويس", location: "مصر", connects: "البحر المتوسط والبحر الأحمر" },
+                { name: "قناة بنما", location: "بنما", connects: "المحيط الهادئ والأطلسي" }
+            ];
 
-            // ========== المستويات 2101-2400 : جبال ==========
-            // 300 سؤال مختلف عن الجبال
-            ...(() => {
-                const mountains = [
-                    { name: "إيفرست", height: "8848 م", location: "الهيمالايا" },
-                    { name: "توبقال", height: "4167 م", location: "المغرب" },
-                    { name: "الثلج", height: "3133 م", location: "لبنان" },
-                    { name: "أحد", height: "1077 م", location: "المدينة المنورة" },
-                    { name: "الطور", height: "2285 م", location: "سيناء" },
-                    { name: "السودة", height: "3015 م", location: "السعودية" },
-                    { name: "كلمنجارو", height: "5895 م", location: "تنزانيا" },
-                    { name: "الألب", height: "4808 م", location: "أوروبا" }
-                ];
-                
-                let questions = [];
-                for (let i = 0; i < 300; i++) {
-                    const m = mountains[i % mountains.length];
-                    
-                    if (i % 2 === 0) {
-                        questions.push({
-                            level: 2101 + i,
-                            category: "⛰️ جبال",
-                            q: `أين يقع جبل ${m.name}؟`,
-                            a: m.location,
-                            opts: [m.location, "آسيا", "أفريقيا", "أوروبا"].sort(() => 0.5 - Math.random())
-                        });
-                    } else {
-                        questions.push({
-                            level: 2101 + i,
-                            category: "📏 ارتفاعات",
-                            q: `ما ارتفاع جبل ${m.name}؟`,
-                            a: m.height,
-                            opts: [m.height, "5000 م", "6000 م", "4000 م"].sort(() => 0.5 - Math.random())
-                        });
-                    }
-                }
-                return questions;
-            })(),
+            // 3. أنهار مشهورة
+            const rivers = [
+                { name: "النيل", location: "مصر" },
+                { name: "الأمازون", location: "البرازيل" },
+                { name: "اليانغتسي", location: "الصين" },
+                { name: "المسيسيبي", location: "الولايات المتحدة" },
+                { name: "الفرات", location: "العراق" },
+                { name: "دجلة", location: "العراق" },
+                { name: "الدانوب", location: "أوروبا" },
+                { name: "الراين", location: "ألمانيا" },
+                { name: "السين", location: "فرنسا" },
+                { name: "التايمز", location: "بريطانيا" },
+                { name: "الليطاني", location: "لبنان" },
+                { name: "العاصي", location: "سوريا" },
+                { name: "الأردن", location: "الأردن" },
+                { name: "السنغال", location: "السنغال" },
+                { name: "الكونغو", location: "الكونغو" }
+            ];
 
-            // ========== المستويات 2401-2700 : معلومات جغرافية متنوعة ==========
-            // 300 سؤال متنوع
-            ...(() => {
-                const facts = [
-                    { q: "أكبر محيط في العالم", a: "المحيط الهادئ", opts: ["المحيط الهادئ", "الأطلسي", "الهندي", "المتجمد"] },
-                    { q: "أصغر قارة", a: "أستراليا", opts: ["أستراليا", "أوروبا", "أنتاركتيكا", "أمريكا الجنوبية"] },
-                    { q: "أكبر قارة", a: "آسيا", opts: ["آسيا", "أفريقيا", "أمريكا", "أوروبا"] },
-                    { q: "أكبر بحيرة في العالم", a: "بحيرة قزوين", opts: ["بحيرة قزوين", "سوبيريور", "فيكتوريا", "هورون"] },
-                    { q: "أعمق نقطة في المحيط", a: "خندق ماريانا", opts: ["خندق ماريانا", "خندق بورتوريكو", "خندق الفلبين", "خندق تونغا"] },
-                    { q: "أطول نهر في أفريقيا", a: "النيل", opts: ["النيل", "الكونغو", "النيجر", "الزمبيزي"] },
-                    { q: "أكبر صحراء في العالم", a: "الصحراء الكبرى", opts: ["الصحراء الكبرى", "صحراء غوبي", "صحراء كالاهاري", "صحراء الربع الخالي"] },
-                    { q: "أكبر جزيرة في العالم", a: "جرينلاند", opts: ["جرينلاند", "مدغشقر", "بورنيو", "بابوا"] }
-                ];
-                
-                let questions = [];
-                for (let i = 0; i < 300; i++) {
-                    const f = facts[i % facts.length];
-                    
-                    questions.push({
-                        level: 2401 + i,
-                        category: "📚 معلومات عامة",
-                        q: `${f.q}؟`,
-                        a: f.a,
-                        opts: f.opts.sort(() => 0.5 - Math.random())
-                    });
-                }
-                return questions;
-            })(),
+            // 4. جبال مشهورة
+            const mountains = [
+                { name: "إيفرست", location: "نيبال/الصين" },
+                { name: "توبقال", location: "المغرب" },
+                { name: "الثلج", location: "لبنان" },
+                { name: "أحد", location: "السعودية" },
+                { name: "الطور", location: "مصر" },
+                { name: "السودة", location: "السعودية" },
+                { name: "كلمنجارو", location: "تنزانيا" },
+                { name: "مونت بلانك", location: "فرنسا/إيطاليا" },
+                { name: "ماترهورن", location: "سويسرا/إيطاليا" },
+                { name: "فوجي", location: "اليابان" },
+                { name: "كينابالو", location: "ماليزيا" },
+                { name: "كوكا", location: "كولومبيا" },
+                { name: "الألب", location: "أوروبا" },
+                { name: "الأطلس", location: "المغرب" }
+            ];
 
-            // ========== المستويات 2701-3000 : أسئلة التحدي ==========
-            // 300 سؤال صعب جداً
-            ...(() => {
-                const hard = [
-                    { q: "كم دولة في العالم", a: "195", opts: ["195", "193", "197", "200"] },
-                    { q: "كم دولة عربية", a: "22", opts: ["22", "21", "23", "20"] },
-                    { q: "أعلى عاصمة في العالم", a: "لاباز", opts: ["لاباز", "كيتو", "بوغوتا", "مكسيكو سيتي"] },
-                    { q: "أخفض نقطة على الأرض", a: "البحر الميت", opts: ["البحر الميت", "وادي الموت", "بحيرة طبريا", "منخفض القطارة"] },
-                    { q: "أقدم مدينة في العالم", a: "أريحا", opts: ["أريحا", "دمشق", "بغداد", "الأقصر"] },
-                    { q: "أكبر دولة من حيث السكان", a: "الهند", opts: ["الهند", "الصين", "الولايات المتحدة", "إندونيسيا"] },
-                    { q: "أصغر دولة في العالم", a: "الفاتيكان", opts: ["الفاتيكان", "موناكو", "سان مارينو", "مالطا"] },
-                    { q: "أكثر مدينة من حيث السكان", a: "طوكيو", opts: ["طوكيو", "دلهي", "شنغهاي", "ساو باولو"] },
-                    { q: "أكبر دولة في أمريكا الجنوبية", a: "البرازيل", opts: ["البرازيل", "الأرجنتين", "بيرو", "كولومبيا"] },
-                    { q: "أكبر دولة في أفريقيا", a: "الجزائر", opts: ["الجزائر", "السودان", "الكونغو", "ليبيا"] }
-                ];
-                
-                let questions = [];
-                for (let i = 0; i < 300; i++) {
-                    const h = hard[i % hard.length];
-                    
-                    questions.push({
-                        level: 2701 + i,
-                        category: "🏆 تحدّي الخبراء",
-                        q: `${h.q}؟`,
-                        a: h.a,
-                        opts: h.opts.sort(() => 0.5 - Math.random())
-                    });
-                }
-                return questions;
-            })()
-        ];
+            // 5. بحار ومحيطات
+            const seas = [
+                { name: "البحر المتوسط", location: "بين أوروبا وأفريقيا" },
+                { name: "البحر الأحمر", location: "بين أفريقيا وآسيا" },
+                { name: "الخليج العربي", location: "بين إيران وشبه الجزيرة العربية" },
+                { name: "بحر العرب", location: "المحيط الهندي" },
+                { name: "البحر الأسود", location: "بين أوروبا وآسيا" },
+                { name: "بحر الشمال", location: "شمال أوروبا" },
+                { name: "المحيط الهادئ", location: "بين آسيا وأمريكا" },
+                { name: "المحيط الأطلسي", location: "بين أمريكا وأوروبا" },
+                { name: "المحيط الهندي", location: "جنوب آسيا" },
+                { name: "بحر البلطيق", location: "شمال أوروبا" },
+                { name: "بحر الكاريبي", location: "أمريكا الوسطى" },
+                { name: "خليج المكسيك", location: "أمريكا الشمالية" }
+            ];
 
-        // التحقق من العدد الإجمالي
-        console.log(`إجمالي الأسئلة: ${QuestionsDB.length} سؤال`);
+            // 6. معلومات خاصة (دول غير ساحلية، جزرية، إلخ)
+            const specialInfo = [
+                { type: "غير ساحلية", name: "النمسا", info: "دولة غير ساحلية في أوروبا" },
+                { type: "غير ساحلية", name: "سويسرا", info: "دولة غير ساحلية في أوروبا" },
+                { type: "غير ساحلية", name: "المجر", info: "دولة غير ساحلية في أوروبا" },
+                { type: "غير ساحلية", name: "منغوليا", info: "دولة غير ساحلية في آسيا" },
+                { type: "غير ساحلية", name: "بوليفيا", info: "دولة غير ساحلية في أمريكا الجنوبية" },
+                { type: "جزيرة", name: "اليابان", info: "دولة جزيرة في آسيا" },
+                { type: "جزيرة", name: "بريطانيا", info: "دولة جزيرة في أوروبا" },
+                { type: "جزيرة", name: "أيسلندا", info: "دولة جزيرة في أوروبا" },
+                { type: "جزيرة", name: "مدغشقر", info: "دولة جزيرة في أفريقيا" },
+                { type: "جزيرة", name: "أستراليا", info: "دولة جزيرة وقارة" },
+                { type: "جزيرة", name: "نيوزيلندا", info: "دولة جزيرة في أوقيانوسيا" },
+                { type: "جزيرة", name: "كوبا", info: "دولة جزيرة في الكاريبي" },
+                { type: "جزيرة", name: "البحرين", info: "دولة جزيرة في الخليج العربي" },
+                { type: "جزيرة", name: "جزر القمر", info: "دولة جزيرة في المحيط الهندي" },
+                { type: "جزيرة", name: "فلبين", info: "دولة أرخبيل في آسيا" },
+                { type: "جزيرة", name: "إندونيسيا", info: "دولة أرخبيل في آسيا" },
+                { type: "جزيرة", name: "ماليزيا", info: "دولة أرخبيل في آسيا" }
+            ];
 
-        // ============================================
-        // نظام اللعبة
-        // ============================================
-        class GeographyGame {
-            constructor() {
-                this.currentLevel = parseInt(localStorage.getItem('geo_level')) || 1;
-                this.totalPoints = parseInt(localStorage.getItem('geo_points')) || 0;
-                this.streak = parseInt(localStorage.getItem('geo_streak')) || 0;
-                this.step = 0;
-                this.timer = null;
-                this.timeLeft = 15;
-                
-                this.init();
-            }
+            // 7. أكبر الدول مساحة
+            const largestCountries = [
+                { name: "روسيا", area: "17.1 مليون كم²" },
+                { name: "كندا", area: "9.985 مليون كم²" },
+                { name: "الصين", area: "9.6 مليون كم²" },
+                { name: "الولايات المتحدة", area: "9.525 مليون كم²" },
+                { name: "البرازيل", area: "8.516 مليون كم²" },
+                { name: "أستراليا", area: "7.692 مليون كم²" },
+                { name: "الهند", area: "3.287 مليون كم²" },
+                { name: "الأرجنتين", area: "2.78 مليون كم²" },
+                { name: "كازاخستان", area: "2.725 مليون كم²" },
+                { name: "الجزائر", area: "2.382 مليون كم²" },
+                { name: "السعودية", area: "2.15 مليون كم²" }
+            ];
 
-            init() {
-                this.buildLevels();
-                this.updateDisplay();
-                this.setupEvents();
-            }
+            // 8. أصغر الدول مساحة
+            const smallestCountries = [
+                { name: "الفاتيكان", area: "0.44 كم²" },
+                { name: "موناكو", area: "2.02 كم²" },
+                { name: "ناورو", area: "21 كم²" },
+                { name: "توفالو", area: "26 كم²" },
+                { name: "سان مارينو", area: "61 كم²" },
+                { name: "ليختنشتاين", area: "160 كم²" },
+                { name: "جزر مارشال", area: "181 كم²" },
+                { name: "البحرين", area: "765 كم²" },
+                { name: "سنغافورة", area: "728 كم²" },
+                { name: "قطر", area: "11,586 كم²" }
+            ];
 
-            buildLevels() {
-                const grid = document.getElementById('levelsGrid');
-                const fragment = document.createDocumentFragment();
-                
-                // خط المسار
-                const pathLine = document.createElement('div');
-                pathLine.className = 'path-line';
-                fragment.appendChild(pathLine);
-                
-                for (let i = 1000; i >= 1; i--) {
-                    const card = document.createElement('div');
-                    card.className = `level-card`;
-                    if (i < this.currentLevel) card.classList.add('completed');
-                    else if (i === this.currentLevel) card.classList.add('active');
-                    else card.classList.add('locked');
-                    
-                    card.setAttribute('data-x', i % 2 === 0 ? 'left' : 'right');
-                    
-                    card.innerHTML = `
-                        <span class="level-number">${i <= this.currentLevel ? i : '🔒'}</span>
-                        <span class="level-label">${i <= this.currentLevel ? 'مفتوح' : 'مقفول'}</span>
-                    `;
-                    
-                    if (i <= this.currentLevel) {
-                        card.onclick = () => this.openLevel(i);
-                    }
-                    
-                    fragment.appendChild(card);
-                }
-                
-                grid.innerHTML = '';
-                grid.appendChild(fragment);
-            }
+            // 9. دول بنفس العملة
+            const sameCurrency = [
+                { currency: "اليورو", countries: ["فرنسا", "ألمانيا", "إيطاليا", "إسبانيا", "البرتغال", "بلجيكا", "هولندا", "النمسا", "اليونان", "فنلندا"] },
+                { currency: "الدولار", countries: ["الولايات المتحدة", "الإكوادور", "بنما"] },
+                { currency: "الفرنك الغرب أفريقي", countries: ["السنغال", "مالي", "بوركينا فاسو", "ساحل العاج", "النيجر", "بنين"] }
+            ];
 
-            openLevel(level) {
-                if (level !== this.currentLevel) return;
-                this.step = 0;
-                this.timeLeft = 15;
-                document.getElementById('quizWindow').style.display = 'flex';
-                this.loadQuestion();
-            }
-
-            loadQuestion() {
-                // تحديث النقاط
-                const dots = document.querySelectorAll('.step-dot');
-                dots.forEach((dot, i) => {
-                    dot.className = 'step-dot';
-                    if (i === this.step) dot.classList.add('active');
+            // قائمة بكل الأسئلة الممكنة
+            const allQuestions = [];
+            
+            // توليد جميع الأسئلة الممكنة (أكثر من 2000 سؤال فريد)
+            
+            // 1. أسئلة العواصم
+            countries.forEach(country => {
+                allQuestions.push({
+                    type: "capital",
+                    category: "🏛️ عواصم",
+                    question: `ما عاصمة ${country.name}؟`,
+                    answer: country.capital,
+                    wrongOptions: getRandomWrong(countries, 'capital', country.capital, 3)
+                });
+            });
+            
+            // 2. أسئلة عكسية (أي دولة عاصمتها كذا)
+            countries.forEach(country => {
+                allQuestions.push({
+                    type: "capital_reverse",
+                    category: "🏛️ عواصم",
+                    question: `أي دولة عاصمتها ${country.capital}؟`,
+                    answer: country.name,
+                    wrongOptions: getRandomWrong(countries, 'name', country.name, 3)
+                });
+            });
+            
+            // 3. أسئلة الأعلام
+            countries.forEach(country => {
+                allQuestions.push({
+                    type: "flag",
+                    category: "🏳️ أعلام",
+                    question: "لأي دولة هذا العلم؟",
+                    flag: country.flag,
+                    answer: country.name,
+                    wrongOptions: getRandomWrong(countries, 'name', country.name, 3)
+                });
+            });
+            
+            // 4. أسئلة القارات
+            countries.forEach(country => {
+                allQuestions.push({
+                    type: "continent",
+                    category: "🌍 قارات",
+                    question: `في أي قارة تقع ${country.name}؟`,
+                    answer: country.continent,
+                    wrongOptions: getRandomWrongContinents(country.continent, 3)
+                });
+            });
+            
+            // 5. أسئلة العملات
+            countries.forEach(country => {
+                allQuestions.push({
+                    type: "currency",
+                    category: "💰 عملات",
+                    question: `ما عملة ${country.name}؟`,
+                    answer: country.currency,
+                    wrongOptions: getRandomWrongCurrencies(country.currency, 3)
+                });
+            });
+            
+            // 6. أسئلة المضائق
+            straits.forEach(strait => {
+                allQuestions.push({
+                    type: "strait",
+                    category: "🚢 مضائق",
+                    question: `مضيق ${strait.name} يقع بين أي دولتين؟`,
+                    answer: strait.location,
+                    wrongOptions: getRandomWrongLocations(straits, 'location', strait.location, 3)
                 });
                 
-                // البحث عن سؤال للمستوى الحالي
-                let question = QuestionsDB.find(q => q.level === this.currentLevel);
-                
-                // إذا لم نجد سؤال محدد، نأخذ سؤال عشوائي من نفس النطاق
-                if (!question) {
-                    const levelGroup = Math.floor((this.currentLevel - 1) / 100) * 100 + 1;
-                    const pool = QuestionsDB.filter(q => q.level >= levelGroup && q.level < levelGroup + 100);
-                    question = pool[Math.floor(Math.random() * pool.length)] || QuestionsDB[0];
+                allQuestions.push({
+                    type: "strait_connects",
+                    category: "🚢 مضائق",
+                    question: `مضيق ${strait.name} يربط بين أي بحرين/محيطين؟`,
+                    answer: strait.connects,
+                    wrongOptions: getRandomWrongConnects(straits, 'connects', strait.connects, 3)
+                });
+            });
+            
+            // 7. أسئلة الأنهار
+            rivers.forEach(river => {
+                allQuestions.push({
+                    type: "river",
+                    category: "🏞️ أنهار",
+                    question: `في أي دولة يقع نهر ${river.name}؟`,
+                    answer: river.location,
+                    wrongOptions: getRandomWrongLocations(rivers, 'location', river.location, 3)
+                });
+            });
+            
+            // 8. أسئلة الجبال
+            mountains.forEach(mountain => {
+                allQuestions.push({
+                    type: "mountain",
+                    category: "⛰️ جبال",
+                    question: `أين يقع جبل ${mountain.name}؟`,
+                    answer: mountain.location,
+                    wrongOptions: getRandomWrongLocations(mountains, 'location', mountain.location, 3)
+                });
+            });
+            
+            // 9. أسئلة البحار
+            seas.forEach(sea => {
+                allQuestions.push({
+                    type: "sea",
+                    category: "🌊 بحار",
+                    question: `أين يقع ${sea.name}؟`,
+                    answer: sea.location,
+                    wrongOptions: getRandomWrongLocations(seas, 'location', sea.location, 3)
+                });
+            });
+            
+            // 10. أسئلة الدول غير الساحلية
+            specialInfo.filter(item => item.type === "غير ساحلية").forEach(item => {
+                allQuestions.push({
+                    type: "landlocked",
+                    category: "🗺️ دول غير ساحلية",
+                    question: `أي من هذه الدول ليس لها سواحل (غير ساحلية)؟`,
+                    answer: item.name,
+                    wrongOptions: getRandomWrongCountriesWithCoast(3)
+                });
+            });
+            
+            // 11. أسئلة الدول الجزرية
+            specialInfo.filter(item => item.type === "جزيرة").forEach(item => {
+                allQuestions.push({
+                    type: "island",
+                    category: "🏝️ دول جزرية",
+                    question: `أي من هذه الدول هي جزيرة بالكامل؟`,
+                    answer: item.name,
+                    wrongOptions: getRandomWrongNonIslandCountries(3)
+                });
+            });
+            
+            // 12. أكبر الدول
+            largestCountries.forEach(item => {
+                allQuestions.push({
+                    type: "largest",
+                    category: "📏 أكبر الدول",
+                    question: `أي من هذه الدول هي الأكبر مساحة؟`,
+                    answer: item.name,
+                    wrongOptions: getRandomWrongLargestCountries(item.name, 3)
+                });
+            });
+            
+            // 13. أصغر الدول
+            smallestCountries.forEach(item => {
+                allQuestions.push({
+                    type: "smallest",
+                    category: "📐 أصغر الدول",
+                    question: `أي من هذه الدول هي الأصغر مساحة؟`,
+                    answer: item.name,
+                    wrongOptions: getRandomWrongSmallestCountries(item.name, 3)
+                });
+            });
+            
+            // 14. دول عابرة للقارات
+            const transcontinental = ["روسيا", "تركيا", "مصر", "كازاخستان", "أذربيجان", "جورجيا"];
+            transcontinental.forEach(countryName => {
+                const country = countries.find(c => c.name === countryName);
+                if (country) {
+                    allQuestions.push({
+                        type: "transcontinental",
+                        category: "🌍 دول عابرة للقارات",
+                        question: `أي من هذه الدول تمتد بين قارتين؟`,
+                        answer: countryName,
+                        wrongOptions: getRandomWrongNonTranscontinental(countryName, 3)
+                    });
+                }
+            });
+            
+            // 15. دول بنفس العملة
+            sameCurrency.forEach(item => {
+                item.countries.forEach(countryName => {
+                    const otherCountries = item.countries.filter(c => c !== countryName);
+                    allQuestions.push({
+                        type: "same_currency",
+                        category: "💰 عملات",
+                        question: `أي من هذه الدول تستخدم نفس عملة ${countryName}؟`,
+                        answer: otherCountries[0],
+                        wrongOptions: getRandomWrongCurrenciesForCountry(item.currency, otherCountries[0], 3)
+                    });
+                });
+            });
+            
+            // دوال مساعدة لتوليد خيارات خاطئة
+            function getRandomWrong(arr, field, correct, count) {
+                const wrong = [];
+                const filtered = arr.filter(item => item[field] !== correct);
+                for (let i = 0; i < count && filtered.length > 0; i++) {
+                    const randomIndex = Math.floor(Math.random() * filtered.length);
+                    wrong.push(filtered[randomIndex][field]);
+                    filtered.splice(randomIndex, 1);
+                }
+                return wrong;
+            }
+            
+            function getRandomWrongContinents(correct, count) {
+                const continents = ["أفريقيا", "آسيا", "أوروبا", "أمريكا الشمالية", "أمريكا الجنوبية", "أوقيانوسيا"];
+                return continents.filter(c => c !== correct).sort(() => 0.5 - Math.random()).slice(0, count);
+            }
+            
+            function getRandomWrongCurrencies(correct, count) {
+                const currencies = ["الدولار", "اليورو", "الجنيه", "الدينار", "الريال", "الدرهم", "الروبية"];
+                return currencies.filter(c => c !== correct).sort(() => 0.5 - Math.random()).slice(0, count);
+            }
+            
+            function getRandomWrongLocations(arr, field, correct, count) {
+                const wrong = [];
+                const filtered = arr.filter(item => item[field] !== correct).map(item => item[field]);
+                const unique = [...new Set(filtered)];
+                for (let i = 0; i < count && unique.length > 0; i++) {
+                    const randomIndex = Math.floor(Math.random() * unique.length);
+                    wrong.push(unique[randomIndex]);
+                    unique.splice(randomIndex, 1);
+                }
+                return wrong;
+            }
+            
+            function getRandomWrongConnects(arr, field, correct, count) {
+                const wrong = [];
+                const filtered = arr.filter(item => item[field] !== correct).map(item => item[field]);
+                const unique = [...new Set(filtered)];
+                for (let i = 0; i < count && unique.length > 0; i++) {
+                    const randomIndex = Math.floor(Math.random() * unique.length);
+                    wrong.push(unique[randomIndex]);
+                    unique.splice(randomIndex, 1);
+                }
+                return wrong;
+            }
+            
+            function getRandomWrongCountriesWithCoast(count) {
+                const coastalCountries = countries.filter(c => 
+                    !specialInfo.some(s => s.type === "غير ساحلية" && s.name === c.name)
+                ).map(c => c.name);
+                return coastalCountries.sort(() => 0.5 - Math.random()).slice(0, count);
+            }
+            
+            function getRandomWrongNonIslandCountries(count) {
+                const nonIsland = countries.filter(c => 
+                    !specialInfo.some(s => s.type === "جزيرة" && s.name === c.name)
+                ).map(c => c.name);
+                return nonIsland.sort(() => 0.5 - Math.random()).slice(0, count);
+            }
+            
+            function getRandomWrongLargestCountries(correct, count) {
+                return largestCountries.filter(c => c.name !== correct).map(c => c.name).sort(() => 0.5 - Math.random()).slice(0, count);
+            }
+            
+            function getRandomWrongSmallestCountries(correct, count) {
+                return smallestCountries.filter(c => c.name !== correct).map(c => c.name).sort(() => 0.5 - Math.random()).slice(0, count);
+            }
+            
+            function getRandomWrongNonTranscontinental(correct, count) {
+                const nonTranscontinental = countries.filter(c => 
+                    !["روسيا", "تركيا", "مصر", "كازاخستان", "أذربيجان", "جورجيا"].includes(c.name)
+                ).map(c => c.name);
+                return nonTranscontinental.sort(() => 0.5 - Math.random()).slice(0, count);
+            }
+            
+            function getRandomWrongCurrenciesForCountry(currency, correct, count) {
+                const countriesWithDifferentCurrency = countries.filter(c => 
+                    c.currency !== currency && c.name !== correct
+                ).map(c => c.name);
+                return countriesWithDifferentCurrency.sort(() => 0.5 - Math.random()).slice(0, count);
+            }
+
+            // ==================== نظام اللعبة ====================
+            
+            class GeographyGame {
+                constructor() {
+                    this.currentLevel = parseInt(localStorage.getItem('geo_level')) || 1;
+                    this.totalPoints = parseInt(localStorage.getItem('geo_points')) || 0;
+                    this.streak = parseInt(localStorage.getItem('geo_streak')) || 0;
+                    this.hintsRemaining = parseInt(localStorage.getItem('geo_hints')) || 3;
+                    this.step = 0;
+                    this.timer = null;
+                    this.timeLeft = 15;
+                    this.maxTime = 15;
+                    this.currentQuestions = [];
+                    this.usedQuestionsIndices = new Set();
+                    
+                    // إنجازات
+                    this.achievements = {
+                        firstCorrect: false,
+                        streak10: false,
+                        level5: false
+                    };
+                    
+                    this.init();
                 }
                 
-                // عرض السؤال
-                document.getElementById('questionCategory').textContent = question.category || 'جغرافيا';
-                document.getElementById('questionText').textContent = question.q;
+                init() {
+                    this.createStars();
+                    this.buildLevels();
+                    this.updateDisplay();
+                    this.loadUsedQuestions();
+                    this.scrollToCurrent();
+                }
                 
-                // عرض الخيارات
-                const area = document.getElementById('optionsArea');
-                area.innerHTML = '';
-                
-                question.opts.forEach(opt => {
-                    const btn = document.createElement('div');
-                    btn.className = 'option-item';
-                    btn.textContent = opt;
-                    btn.onclick = () => this.checkAnswer(opt === question.a, btn);
-                    area.appendChild(btn);
-                });
-                
-                // بدء المؤقت
-                this.startTimer();
-            }
-
-            startTimer() {
-                if (this.timer) clearInterval(this.timer);
-                
-                this.timeLeft = 15;
-                const timerDisplay = document.getElementById('timerDisplay');
-                
-                this.timer = setInterval(() => {
-                    this.timeLeft -= 0.1;
-                    timerDisplay.textContent = `${this.timeLeft.toFixed(1)} ث`;
-                    
-                    if (this.timeLeft <= 0) {
-                        clearInterval(this.timer);
-                        this.timeout();
+                createStars() {
+                    const starsContainer = document.getElementById('stars');
+                    for (let i = 0; i < 50; i++) {
+                        const star = document.createElement('div');
+                        star.className = 'star';
+                        star.style.width = Math.random() * 3 + 'px';
+                        star.style.height = star.style.width;
+                        star.style.left = Math.random() * 100 + '%';
+                        star.style.top = Math.random() * 100 + '%';
+                        star.style.animationDelay = Math.random() * 3 + 's';
+                        starsContainer.appendChild(star);
                     }
-                }, 100);
-            }
-
-            checkAnswer(correct, btn) {
-                clearInterval(this.timer);
+                }
                 
-                document.querySelectorAll('.option-item').forEach(b => b.disabled = true);
+                loadUsedQuestions() {
+                    const saved = localStorage.getItem('geo_used_questions');
+                    if (saved) {
+                        this.usedQuestionsIndices = new Set(JSON.parse(saved));
+                    }
+                }
                 
-                if (correct) {
-                    btn.classList.add('correct');
-                    this.streak++;
+                saveUsedQuestions() {
+                    localStorage.setItem('geo_used_questions', JSON.stringify([...this.usedQuestionsIndices]));
+                }
+                
+                buildLevels() {
+                    const grid = document.getElementById('levelsGrid');
+                    grid.innerHTML = '';
                     
-                    const timeBonus = Math.floor(this.timeLeft);
-                    const points = 50 + timeBonus + (this.streak * 5);
-                    this.totalPoints += points;
+                    const pathLine = document.createElement('div');
+                    pathLine.className = 'path-line';
+                    grid.appendChild(pathLine);
                     
-                    localStorage.setItem('geo_points', this.totalPoints);
-                    localStorage.setItem('geo_streak', this.streak);
-                    
-                    this.showMessage(`✨ +${points} نقطة! (سرعة: +${timeBonus})`);
-                    
-                    setTimeout(() => {
-                        this.step++;
+                    // بناء المستويات من 1 إلى 1000
+                    for (let i = 1; i <= 1000; i++) {
+                        const card = document.createElement('div');
+                        card.className = `level-card`;
                         
-                        if (this.step < 3) {
-                            this.loadQuestion();
-                        } else {
-                            this.levelComplete();
+                        if (i < this.currentLevel) card.classList.add('completed');
+                        else if (i === this.currentLevel) card.classList.add('active');
+                        else card.classList.add('locked');
+                        
+                        card.setAttribute('data-x', i % 2 === 0 ? 'left' : 'right');
+                        
+                        const displayNumber = i <= this.currentLevel ? i : '🔒';
+                        const displayText = i <= this.currentLevel ? 'مفتوح' : 'مقفول';
+                        
+                        card.innerHTML = `
+                            <span class="level-number">${displayNumber}</span>
+                            <span class="level-label">${displayText}</span>
+                        `;
+                        
+                        if (i <= this.currentLevel) {
+                            card.onclick = () => this.openLevel(i);
                         }
-                    }, 700);
+                        
+                        grid.appendChild(card);
+                    }
+                }
+                
+                openLevel(level) {
+                    if (level !== this.currentLevel) return;
                     
-                } else {
-                    btn.classList.add('wrong');
+                    // اختيار 3 أسئلة فريدة غير مكررة
+                    this.currentQuestions = this.getUniqueQuestions(3);
+                    
+                    if (this.currentQuestions.length < 3) {
+                        console.log("بعض الأسئلة تكررت، نعيد المحاولة");
+                        this.currentQuestions = this.getUniqueQuestions(3);
+                    }
+                    
+                    this.step = 0;
+                    this.timeLeft = this.maxTime;
+                    
+                    document.getElementById('quizWindow').style.display = 'flex';
+                    this.showQuestion(0);
+                }
+                
+                getUniqueQuestions(count) {
+                    const selected = [];
+                    const availableIndices = [];
+                    
+                    // جمع كل المؤشرات غير المستخدمة
+                    for (let i = 0; i < allQuestions.length; i++) {
+                        if (!this.usedQuestionsIndices.has(i)) {
+                            availableIndices.push(i);
+                        }
+                    }
+                    
+                    // إذا قاربت الأسئلة على النفاد، نمسح المستخدمة
+                    if (availableIndices.length < count * 10) {
+                        this.usedQuestionsIndices.clear();
+                        for (let i = 0; i < allQuestions.length; i++) {
+                            availableIndices.push(i);
+                        }
+                    }
+                    
+                    // اختيار عشوائي
+                    for (let i = 0; i < count && availableIndices.length > 0; i++) {
+                        const randomIndex = Math.floor(Math.random() * availableIndices.length);
+                        const questionIndex = availableIndices[randomIndex];
+                        selected.push(allQuestions[questionIndex]);
+                        this.usedQuestionsIndices.add(questionIndex);
+                        availableIndices.splice(randomIndex, 1);
+                    }
+                    
+                    this.saveUsedQuestions();
+                    return selected;
+                }
+                
+                showQuestion(step) {
+                    // تحديث المؤشرات
+                    const dots = document.querySelectorAll('.step-dot');
+                    dots.forEach((dot, i) => {
+                        dot.className = 'step-dot';
+                        if (i < step) dot.classList.add('completed');
+                        else if (i === step) dot.classList.add('active');
+                    });
+                    
+                    const question = this.currentQuestions[step];
+                    
+                    document.getElementById('questionCategory').textContent = question.category;
+                    
+                    // عرض العلم إذا موجود
+                    const flagContainer = document.getElementById('flagContainer');
+                    if (question.type === 'flag') {
+                        flagContainer.style.display = 'flex';
+                        document.getElementById('flagEmoji').textContent = question.flag;
+                    } else {
+                        flagContainer.style.display = 'none';
+                    }
+                    
+                    document.getElementById('questionText').textContent = question.question;
+                    
+                    // بناء الخيارات
+                    const optionsArea = document.getElementById('optionsArea');
+                    optionsArea.innerHTML = '';
+                    
+                    const allOptions = [question.answer, ...question.wrongOptions];
+                    const shuffled = allOptions.sort(() => 0.5 - Math.random());
+                    
+                    shuffled.forEach(opt => {
+                        const btn = document.createElement('div');
+                        btn.className = 'option-item';
+                        btn.textContent = opt;
+                        btn.onclick = () => this.checkAnswer(opt === question.answer, btn);
+                        optionsArea.appendChild(btn);
+                    });
+                    
+                    this.startTimer();
+                }
+                
+                startTimer() {
+                    if (this.timer) clearInterval(this.timer);
+                    
+                    this.timeLeft = this.maxTime;
+                    const timerFill = document.getElementById('timerFill');
+                    const timerText = document.getElementById('timerText');
+                    
+                    this.timer = setInterval(() => {
+                        this.timeLeft -= 0.1;
+                        const percent = (this.timeLeft / this.maxTime) * 100;
+                        timerFill.style.width = Math.max(0, percent) + '%';
+                        timerText.textContent = this.timeLeft.toFixed(1) + ' ثانية';
+                        
+                        if (this.timeLeft <= 0) {
+                            clearInterval(this.timer);
+                            this.timeout();
+                        }
+                    }, 100);
+                }
+                
+                checkAnswer(correct, btn) {
+                    clearInterval(this.timer);
+                    
+                    document.querySelectorAll('.option-item').forEach(b => b.disabled = true);
+                    
+                    if (correct) {
+                        btn.classList.add('correct');
+                        this.streak++;
+                        
+                        // نقاط
+                        const timeBonus = Math.floor(this.timeLeft);
+                        const streakBonus = this.streak * 5;
+                        const points = 50 + timeBonus + streakBonus;
+                        this.totalPoints += points;
+                        
+                        localStorage.setItem('geo_points', this.totalPoints);
+                        localStorage.setItem('geo_streak', this.streak);
+                        
+                        // اهتزاز ناجح
+                        this.vibrate(50);
+                        
+                        // تحقق من الإنجازات
+                        this.checkAchievements();
+                        
+                        setTimeout(() => {
+                            this.step++;
+                            
+                            if (this.step < 3) {
+                                this.showQuestion(this.step);
+                            } else {
+                                this.levelComplete();
+                            }
+                        }, 700);
+                        
+                    } else {
+                        btn.classList.add('wrong');
+                        this.streak = 0;
+                        localStorage.setItem('geo_streak', 0);
+                        
+                        // اهتزاز خطأ
+                        this.vibrate(200);
+                        
+                        setTimeout(() => {
+                            document.getElementById('quizWindow').style.display = 'none';
+                        }, 1000);
+                    }
+                    
+                    this.updateDisplay();
+                }
+                
+                vibrate(duration) {
+                    if (navigator.vibrate) {
+                        navigator.vibrate(duration);
+                    }
+                }
+                
+                timeout() {
+                    this.showAchievement('⏰ انتهى الوقت');
                     this.streak = 0;
                     localStorage.setItem('geo_streak', 0);
-                    
-                    this.showMessage('❌ إجابة خاطئة');
                     
                     setTimeout(() => {
                         document.getElementById('quizWindow').style.display = 'none';
                     }, 1000);
-                }
-                
-                this.updateDisplay();
-            }
-
-            timeout() {
-                this.showMessage('⏰ انتهى الوقت');
-                this.streak = 0;
-                localStorage.setItem('geo_streak', 0);
-                
-                setTimeout(() => {
-                    document.getElementById('quizWindow').style.display = 'none';
-                }, 1000);
-                
-                this.updateDisplay();
-            }
-
-            levelComplete() {
-                if (this.currentLevel < 1000) {
-                    this.currentLevel++;
-                } else {
-                    this.showVictory();
-                }
-                
-                this.totalPoints += 200;
-                
-                localStorage.setItem('geo_level', this.currentLevel);
-                localStorage.setItem('geo_points', this.totalPoints);
-                
-                setTimeout(() => {
-                    document.getElementById('quizWindow').style.display = 'none';
-                    this.buildLevels();
+                    
                     this.updateDisplay();
-                    this.scrollToCurrent();
-                }, 1000);
-            }
-
-            showVictory() {
-                const celebration = document.getElementById('celebration');
-                celebration.style.display = 'block';
-                
-                for (let i = 0; i < 150; i++) {
-                    const confetti = document.createElement('div');
-                    confetti.className = 'confetti';
-                    confetti.style.left = Math.random() * 100 + '%';
-                    confetti.style.animationDelay = Math.random() * 3 + 's';
-                    confetti.style.background = `hsl(${Math.random() * 360}, 80%, 60%)`;
-                    celebration.appendChild(confetti);
                 }
                 
-                this.showMessage('🏆 ألف مبروك! أكملت 1000 مستوى وأصبحت خبيراً في الجغرافيا 🏆');
-                
-                setTimeout(() => {
-                    celebration.style.display = 'none';
-                    celebration.innerHTML = '';
-                }, 6000);
-            }
-
-            showMessage(text) {
-                const msg = document.getElementById('popupMessage');
-                msg.textContent = text;
-                msg.classList.add('show');
-                
-                setTimeout(() => msg.classList.remove('show'), 2000);
-            }
-
-            updateDisplay() {
-                document.getElementById('levelDisplay').textContent = this.currentLevel;
-                document.getElementById('pointsDisplay').textContent = this.totalPoints;
-                document.getElementById('streakDisplay').textContent = this.streak;
-            }
-
-            scrollToCurrent() {
-                setTimeout(() => {
-                    const active = document.querySelector('.level-card.active');
-                    if (active) active.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }, 200);
-            }
-
-            setupEvents() {
-                document.addEventListener('keydown', (e) => {
-                    if (e.key === 'Escape') {
-                        document.getElementById('quizWindow').style.display = 'none';
-                        clearInterval(this.timer);
+                levelComplete() {
+                    // مكافأة إكمال المستوى
+                    this.totalPoints += 200;
+                    
+                    if (this.currentLevel < 1000) {
+                        this.currentLevel++;
+                    } else {
+                        this.victory();
                     }
-                });
+                    
+                    localStorage.setItem('geo_level', this.currentLevel);
+                    localStorage.setItem('geo_points', this.totalPoints);
+                    
+                    setTimeout(() => {
+                        document.getElementById('quizWindow').style.display = 'none';
+                        this.buildLevels();
+                        this.updateDisplay();
+                        this.scrollToCurrent();
+                    }, 1000);
+                    
+                    // تحقق من إنجاز المستوى 5
+                    if (this.currentLevel >= 5 && !this.achievements.level5) {
+                        this.achievements.level5 = true;
+                        this.showAchievement('🏆 إنجاز: أكملت 5 مستويات!');
+                    }
+                }
+                
+                victory() {
+                    this.showAchievement('🏆 ألف مبروك! أكملت 1000 مستوى وأصبحت خبيراً في الجغرافيا 🏆');
+                    
+                    // احتفال
+                    for (let i = 0; i < 100; i++) {
+                        setTimeout(() => {
+                            this.vibrate(50);
+                        }, i * 100);
+                    }
+                }
+                
+                checkAchievements() {
+                    // أول إجابة صحيحة
+                    if (this.totalPoints >= 50 && !this.achievements.firstCorrect) {
+                        this.achievements.firstCorrect = true;
+                        this.showAchievement('🏆 إنجاز: أول إجابة صحيحة!');
+                    }
+                    
+                    // 10 نقاط متتالية
+                    if (this.streak >= 10 && !this.achievements.streak10) {
+                        this.achievements.streak10 = true;
+                        this.showAchievement('🔥 إنجاز: 10 إجابات صحيحة متتالية!');
+                    }
+                }
+                
+                showAchievement(text) {
+                    const popup = document.getElementById('achievementPopup');
+                    popup.textContent = text;
+                    popup.classList.add('show');
+                    
+                    setTimeout(() => popup.classList.remove('show'), 3000);
+                }
+                
+                updateDisplay() {
+                    document.getElementById('levelDisplay').textContent = this.currentLevel;
+                    document.getElementById('pointsDisplay').textContent = this.totalPoints;
+                    document.getElementById('streakDisplay').textContent = this.streak;
+                    document.getElementById('hintCount').textContent = this.hintsRemaining;
+                }
+                
+                scrollToCurrent() {
+                    setTimeout(() => {
+                        const active = document.querySelector('.level-card.active');
+                        if (active) {
+                            active.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                    }, 200);
+                }
+                
+                useHint() {
+                    if (this.hintsRemaining <= 0) {
+                        this.showAchievement('💡 لا توجد تلميحات متبقية');
+                        return;
+                    }
+                    
+                    if (this.step >= this.currentQuestions.length) return;
+                    
+                    const question = this.currentQuestions[this.step];
+                    const options = document.querySelectorAll('.option-item');
+                    
+                    // إزالة خيارين خاطئين
+                    let wrongRemoved = 0;
+                    options.forEach(btn => {
+                        if (btn.textContent !== question.answer && wrongRemoved < 2 && !btn.disabled) {
+                            btn.style.opacity = '0.3';
+                            btn.disabled = true;
+                            wrongRemoved++;
+                        }
+                    });
+                    
+                    this.hintsRemaining--;
+                    localStorage.setItem('geo_hints', this.hintsRemaining);
+                    this.updateDisplay();
+                    
+                    this.showAchievement('💡 تمت إزالة خيارين خاطئين');
+                }
             }
-        }
-
-        // بدء اللعبة
-        const game = new GeographyGame();
+            
+            // بدء اللعبة
+            const game = new GeographyGame();
+            
+            // إضافة حدث التلميح
+            document.getElementById('hintBtn').onclick = () => game.useHint();
+            
+            // إغلاق بالضغط خارج البطاقة
+            document.getElementById('quizWindow').onclick = (e) => {
+                if (e.target === document.getElementById('quizWindow')) {
+                    document.getElementById('quizWindow').style.display = 'none';
+                    clearInterval(game.timer);
+                }
+            };
+            
+        })();
     </script>
 </body>
 </html>
