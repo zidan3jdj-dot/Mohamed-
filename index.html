@@ -347,22 +347,6 @@
         .level-node.completed {
             opacity: 0.9;
         }
-        .level-node.completed::after {
-            content: "✓";
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            width: 30px;
-            height: 30px;
-            background: #4caf50;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            color: white;
-            border: 2px solid white;
-        }
 
         .level-node.locked {
             opacity: 0.5;
@@ -388,7 +372,7 @@
         }
 
         .star.empty {
-            color: #ccc;
+            color: rgba(255, 215, 0, 0.2);
         }
 
         .challenge-modal {
@@ -811,7 +795,7 @@
                     this.timer = null;
                     this.answers = [];
                     
-                    // تحميل النجوم المحفوظة
+                    // تحميل النجوم المحفوظة (عدد الإجابات الصحيحة لكل مستوى)
                     this.levelStars = JSON.parse(localStorage.getItem('geo_stars')) || {};
                     
                     this.init();
@@ -837,9 +821,19 @@
                         node.className = `level-node`;
                         node.setAttribute('data-align', i % 2 === 0 ? 'left' : 'right');
                         
-                        if (i < this.currentLevel) node.classList.add('completed');
-                        else if (i === this.currentLevel) node.classList.add('active-node');
-                        else node.classList.add('locked');
+                        // إزالة completed وإضافة فتح جميع المستويات السابقة
+                        if (i < this.currentLevel) {
+                            node.classList.add('completed');
+                        }
+                        
+                        if (i === this.currentLevel) {
+                            node.classList.add('active-node');
+                        }
+                        
+                        // المستويات المفتوحة هي كل المستويات حتى currentLevel
+                        if (i > this.currentLevel) {
+                            node.classList.add('locked');
+                        }
                         
                         // عرض النجوم حسب الإجابات الصحيحة
                         const stars = this.levelStars[i] || 0;
@@ -853,6 +847,7 @@
                             </div>
                         `;
                         
+                        // يمكن الدخول إلى أي مستوى مفتوح (أقل من أو يساوي currentLevel)
                         if (i <= this.currentLevel) {
                             node.onclick = () => this.openLevel(i);
                         }
@@ -872,7 +867,11 @@
                 }
 
                 openLevel(level) {
-                    if (level !== this.currentLevel) return;
+                    // يمكن فتح أي مستوى أقل من أو يساوي currentLevel
+                    if (level > this.currentLevel) return;
+                    
+                    // إذا كان المستوى له نجوم محفوظة، نعرضها في الواجهة
+                    const savedStars = this.levelStars[level] || 0;
                     
                     this.levelQuestions = this.getQuestionsForLevel(level);
                     this.currentStep = 0;
@@ -1013,7 +1012,7 @@
                     // حساب عدد الإجابات الصحيحة (0-3)
                     const correctCount = this.answers.filter(a => a.isCorrect).length;
                     
-                    // حفظ النجوم (عدد الإجابات الصحيحة)
+                    // حفظ النجوم (عدد الإجابات الصحيحة فقط)
                     this.levelStars[this.currentLevel] = correctCount;
                     localStorage.setItem('geo_stars', JSON.stringify(this.levelStars));
                     
@@ -1055,7 +1054,7 @@
 
                 closeResults() {
                     document.getElementById('resultsModal').style.display = 'none';
-                    this.buildLevels();
+                    this.buildLevels(); // إعادة بناء المستويات لتحديث النجوم
                     this.updateStats();
                     this.scrollToCurrentLevel();
                 }
