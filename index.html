@@ -177,19 +177,17 @@
             position: fixed;
             top: 15px;
             right: 15px;
-            display: flex;
-            gap: 10px;
             z-index: 100;
         }
 
         .settings-btn {
-            width: 50px;
-            height: 50px;
+            width: 55px;
+            height: 55px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
+            font-size: 2rem;
             cursor: pointer;
             transition: 0.2s;
             background: rgba(255, 255, 255, 0.2);
@@ -201,31 +199,43 @@
             transform: scale(1.1);
         }
 
-        .theme-selector {
+        .settings-panel {
             position: fixed;
-            top: 75px;
+            top: 80px;
             right: 15px;
-            padding: 20px;
+            width: 280px;
+            padding: 25px;
             border-radius: 30px;
             z-index: 100;
             display: none;
-            width: 280px;
         }
 
-        .theme-selector.show {
+        .settings-panel.show {
             display: block;
+        }
+
+        .settings-section {
+            margin-bottom: 25px;
+        }
+
+        .settings-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .theme-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
-            margin-top: 15px;
+            gap: 8px;
         }
 
         .theme-option {
             aspect-ratio: 1;
-            border-radius: 20px;
+            border-radius: 15px;
             cursor: pointer;
             border: 3px solid transparent;
             transition: 0.2s;
@@ -239,6 +249,45 @@
         .theme-option.active {
             border-color: gold;
             transform: scale(1.1);
+        }
+
+        .sound-control {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255,255,255,0.1);
+            padding: 12px 20px;
+            border-radius: 40px;
+        }
+
+        .sound-toggle {
+            width: 60px;
+            height: 30px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.2);
+            position: relative;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .sound-toggle.on {
+            background: #4caf50;
+        }
+
+        .sound-toggle::after {
+            content: '';
+            position: absolute;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: white;
+            top: 2px;
+            left: 2px;
+            transition: 0.2s;
+        }
+
+        .sound-toggle.on::after {
+            left: 32px;
         }
 
         .stat-bar {
@@ -566,17 +615,37 @@
 <body class="theme-modern">
     <div class="settings-bar">
         <div class="settings-btn" onclick="toggleSettings()">⚙️</div>
-        <div class="settings-btn" onclick="toggleSound()" id="soundBtn">🔊</div>
     </div>
 
-    <div class="theme-selector game-card" id="themeSelector">
-        <h3 style="text-align: center; margin-bottom: 15px;">🎨 اختر الثيم</h3>
-        <div class="theme-grid">
-            <div class="theme-option" onclick="changeTheme('paper')" title="ورقي قديم">📜</div>
-            <div class="theme-option" onclick="changeTheme('modern')" title="عصري حديث">💎</div>
-            <div class="theme-option" onclick="changeTheme('nature')" title="طبيعي">🌳</div>
-            <div class="theme-option" onclick="changeTheme('desert')" title="صحراوي">🏜️</div>
-            <div class="theme-option" onclick="changeTheme('ocean')" title="محيطي">🌊</div>
+    <div class="settings-panel game-card" id="settingsPanel">
+        <h3 style="text-align: center; margin-bottom: 20px;">⚙️ الإعدادات</h3>
+        
+        <div class="settings-section">
+            <div class="settings-title">🎨 الثيمات</div>
+            <div class="theme-grid">
+                <div class="theme-option" onclick="changeTheme('paper')" title="ورقي قديم">📜</div>
+                <div class="theme-option" onclick="changeTheme('modern')" title="عصري حديث">💎</div>
+                <div class="theme-option" onclick="changeTheme('nature')" title="طبيعي">🌳</div>
+                <div class="theme-option" onclick="changeTheme('desert')" title="صحراوي">🏜️</div>
+                <div class="theme-option" onclick="changeTheme('ocean')" title="محيطي">🌊</div>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <div class="settings-title">🔊 المؤثرات الصوتية</div>
+            <div class="sound-control">
+                <span>🔊</span>
+                <div class="sound-toggle" id="soundToggle" onclick="toggleSound()"></div>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <div class="settings-title">ℹ️ عن اللعبة</div>
+            <p style="text-align: center; line-height: 1.8; opacity: 0.8;">
+                1000 مستوى • 3000 سؤال<br>
+                أصعب لعبة جغرافيا في العالم<br>
+                <span style="font-size: 0.9rem;">© 2026</span>
+            </p>
         </div>
     </div>
 
@@ -626,7 +695,7 @@
 
     <script>
         (function() {
-            // ==================== أول 20 مستوى كاملة (60 سؤال) ====================
+            // ==================== أول 20 مستوى كاملة ====================
             const QUESTION_BANK = [
                 // المستوى 1
                 { level: 1, step: 0, cat: "🏛️ عواصم", q: "ما عاصمة مصر؟", a: "القاهرة", opts: ["القاهرة", "الإسكندرية", "الجيزة", "أسوان"] },
@@ -752,7 +821,7 @@
                     this.buildLevels();
                     this.updateStats();
                     this.scrollToCurrentLevel();
-                    this.updateSoundButton();
+                    this.updateSoundToggle();
                 }
 
                 getQuestionsForLevel(level) {
@@ -772,6 +841,7 @@
                         else if (i === this.currentLevel) node.classList.add('active-node');
                         else node.classList.add('locked');
                         
+                        // عرض النجوم حسب الإجابات الصحيحة
                         const stars = this.levelStars[i] || 0;
                         
                         node.innerHTML = `
@@ -829,7 +899,10 @@
                     const optionsContainer = document.getElementById('optionsGrid');
                     optionsContainer.innerHTML = '';
                     
-                    q.opts.forEach(opt => {
+                    // خلط الخيارات
+                    const shuffledOpts = [...q.opts].sort(() => Math.random() - 0.5);
+                    
+                    shuffledOpts.forEach(opt => {
                         const btn = document.createElement('div');
                         btn.className = 'option-btn';
                         btn.textContent = opt;
@@ -937,15 +1010,18 @@
                 }
 
                 completeLevel() {
+                    // حساب عدد الإجابات الصحيحة (0-3)
                     const correctCount = this.answers.filter(a => a.isCorrect).length;
                     
+                    // حفظ النجوم (عدد الإجابات الصحيحة)
                     this.levelStars[this.currentLevel] = correctCount;
                     localStorage.setItem('geo_stars', JSON.stringify(this.levelStars));
                     
+                    // مكافأة النقاط حسب عدد الإجابات الصحيحة
                     const levelBonus = correctCount * 100;
                     this.totalPoints += levelBonus;
                     
-                    // إذا أجاب على سؤالين على الأقل، يفتح المستوى التالي
+                    // فتح المستوى التالي إذا أجاب على سؤالين على الأقل
                     if (correctCount >= 2 && this.currentLevel < 1000) {
                         this.currentLevel++;
                         localStorage.setItem('geo_level', this.currentLevel);
@@ -1023,20 +1099,25 @@
                     document.getElementById('streakDisplay').textContent = this.streak;
                 }
 
-                updateSoundButton() {
-                    document.getElementById('soundBtn').textContent = this.soundEnabled ? '🔊' : '🔇';
+                updateSoundToggle() {
+                    const toggle = document.getElementById('soundToggle');
+                    if (this.soundEnabled) {
+                        toggle.classList.add('on');
+                    } else {
+                        toggle.classList.remove('on');
+                    }
                 }
             }
 
             // ==================== الدوال العامة ====================
             window.toggleSettings = function() {
-                document.getElementById('themeSelector').classList.toggle('show');
+                document.getElementById('settingsPanel').classList.toggle('show');
             };
 
             window.toggleSound = function() {
                 game.soundEnabled = !game.soundEnabled;
                 localStorage.setItem('geo_sound', game.soundEnabled ? 'on' : 'off');
-                game.updateSoundButton();
+                game.updateSoundToggle();
             };
 
             window.changeTheme = function(theme) {
@@ -1045,7 +1126,7 @@
                 
                 document.querySelectorAll('.theme-option').forEach(el => el.classList.remove('active'));
                 event.currentTarget.classList.add('active');
-                document.getElementById('themeSelector').classList.remove('show');
+                // لا نغلق القائمة تلقائياً
             };
 
             window.continueToNext = function() {
