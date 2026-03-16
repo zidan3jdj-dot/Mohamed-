@@ -2,12 +2,8 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>القرآن الكريم - المصحف الأخضر</title>
-    <!-- الخطوط -->
-    <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&display=swap" rel="stylesheet">
-    <!-- أيقونات Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>أطلس المعرفة | رحلة جغرافية</title>
     <style>
         * {
             margin: 0;
@@ -15,1004 +11,951 @@
             box-sizing: border-box;
         }
 
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Amiri:wght@400;700&display=swap');
+
         body {
-            font-family: 'Amiri Quran', serif;
-            background: #0a3b2e;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.05"><path d="M20 20 L30 10 L40 20 L50 5 L60 20 L70 8 L80 20 L85 15 L90 20 L82 35 L90 50 L80 60 L70 50 L60 70 L50 55 L40 70 L30 55 L20 70 L10 50 L20 35 L10 20 L20 20" fill="none" stroke="%23e6d5a8" stroke-width="1"/><circle cx="50" cy="30" r="2" fill="%23e6d5a8"/><circle cx="30" cy="50" r="2" fill="%23e6d5a8"/><circle cx="70" cy="50" r="2" fill="%23e6d5a8"/></svg>');
-            background-repeat: repeat;
+            font-family: 'Cairo', 'Amiri', serif;
+            background: #d9c8a9;
             min-height: 100vh;
-            padding-bottom: 120px;
-            color: #f0ecd9;
             position: relative;
+            color: #2c1810;
         }
 
+        /* خلفية ورق قديم */
         body::before {
-            content: "";
+            content: '';
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(10, 59, 46, 0.88);
+            background-image: 
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M10 10 Q 30 5, 50 10 T 90 10" stroke="%238b6b4d" fill="none" stroke-width="0.5" opacity="0.1"/><path d="M10 30 Q 40 25, 70 30 T 90 30" stroke="%238b6b4d" fill="none" stroke-width="0.3" opacity="0.1"/><circle cx="20" cy="70" r="3" fill="%238b6b4d" opacity="0.05"/><circle cx="60" cy="80" r="5" fill="%238b6b4d" opacity="0.05"/></svg>'),
+                repeating-linear-gradient(45deg, rgba(139, 107, 77, 0.03) 0px, rgba(139, 107, 77, 0.03) 2px, transparent 2px, transparent 8px);
+            background-size: 200px 200px, auto;
+            pointer-events: none;
             z-index: -1;
         }
 
-        header {
-            text-align: center;
-            padding: 25px 15px;
-            font-size: 38px;
-            color: #e0cf9b;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
-            letter-spacing: 1px;
-            background: linear-gradient(180deg, #1d5e45, transparent);
-            border-bottom: 2px solid #b69b4c;
-        }
-
-        header i {
-            margin: 0 8px;
-            color: #e0cf9b;
-        }
-
-        .container {
-            max-width: 950px;
-            margin: auto;
-            padding: 15px;
-        }
-
-        /* مربع البحث */
-        .search-box {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(4px);
-            border: 1px solid #2a6b4e;
-            border-radius: 50px;
-            padding: 3px 15px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            box-shadow: 0 5px 15px rgba(0, 20, 0, 0.3);
-        }
-
-        .search-box i {
-            font-size: 20px;
-            color: #b69b4c;
-            margin-left: 10px;
-        }
-
-        .search-box input {
-            background: transparent;
-            border: none;
+        /* تأثير حواف ورق محروق */
+        .paper-edge {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            padding: 12px 0;
-            font-size: 20px;
-            color: #f0ecd9;
-            outline: none;
-            font-family: 'Amiri Quran', serif;
+            height: 100%;
+            border: 20px solid transparent;
+            border-image: repeating-linear-gradient(45deg, #8b6b4d, #d9c8a9 20px) 30 stretch;
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0.2;
         }
 
-        .search-box input::placeholder {
-            color: #8fa98c;
-            opacity: 0.7;
-        }
-
-        /* عنوان القائمة */
-        .list-header {
-            text-align: center;
-            margin: 30px 0 20px;
-        }
-
-        .list-header h2 {
-            font-size: 32px;
-            color: #e0cf9b;
-            background: rgba(26, 68, 50, 0.6);
-            display: inline-block;
-            padding: 8px 30px;
-            border-radius: 60px;
-            border: 1px solid #b69b4c;
-            backdrop-filter: blur(4px);
-            box-shadow: 0 3px 10px #1a3326;
-        }
-
-        /* قائمة السور */
-        #surahList {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .surah-card {
-            background: rgba(26, 68, 50, 0.6);
-            backdrop-filter: blur(4px);
-            border: 1px solid #2a6b4e;
-            color: #f0e7c0;
-            padding: 15px 20px;
-            border-radius: 30px;
+        /* شريط الإحصائيات - نمط خريطة قديم */
+        .stats-panel {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            z-index: 20;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            border-bottom: 2px solid #b69b4c;
-        }
-
-        .surah-card:hover {
-            transform: translateY(-3px);
-            background: rgba(36, 94, 70, 0.8);
-            border-color: #e0cf9b;
-            box-shadow: 0 8px 18px #153f2b;
-        }
-
-        .surah-name {
-            font-size: 24px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .surah-name i {
-            color: #b69b4c;
-            font-size: 24px;
-        }
-
-        .surah-number {
-            background: #2a6b4e;
-            color: #e0cf9b;
-            min-width: 42px;
-            height: 42px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            font-size: 20px;
+            padding: 12px 25px;
+            background: #f1e6d2;
+            border: 3px solid #8b6b4d;
+            border-radius: 50px 50px 50px 50px;
+            max-width: 500px;
+            margin: 0 auto;
+            box-shadow: 0 5px 0 #5d3f2b, inset 0 2px 10px rgba(255, 215, 140, 0.5);
             font-weight: 600;
-            border: 1px solid #b69b4c;
         }
 
-        .surah-meta {
+        .stat-item {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
+            color: #3d2a1a;
         }
 
-        .ayah-count {
-            background: #1d4a38;
-            color: #e0cf9b;
-            padding: 4px 12px;
-            border-radius: 25px;
-            font-size: 16px;
-            border: 1px solid #b69b4c;
+        .stat-icon {
+            font-size: 1.3rem;
+            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
         }
 
-        /* رأس القارئ */
-        .reader-header {
-            background: rgba(26, 68, 50, 0.7);
-            backdrop-filter: blur(8px);
-            padding: 12px 20px;
-            border-radius: 60px;
-            border: 1px solid #b69b4c;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-
-        .back, .share-btn {
-            background: #2a6b4e;
-            border: 1px solid #b69b4c;
-            padding: 10px 18px;
-            border-radius: 40px;
-            color: #f0e7c0;
-            cursor: pointer;
-            font-size: 20px;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .share-btn {
-            background: #1d4a38;
-        }
-
-        .back:hover, .share-btn:hover {
-            background: #1d5e45;
-            transform: translateX(-3px);
-        }
-
-        /* القارئ الحالي */
-        .current-reciter {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(0, 0, 0, 0.15);
-            padding: 6px 16px;
-            border-radius: 50px;
-            cursor: pointer;
-            border: 1px solid #b69b4c;
-            transition: 0.2s;
-        }
-
-        .current-reciter:hover {
-            background: rgba(0, 0, 0, 0.25);
-        }
-
-        .reciter-img {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #b69b4c;
-        }
-
-        .reciter-name {
-            font-size: 22px;
-            color: #e0cf9b;
-        }
-
-        .current-reciter i {
-            margin-right: auto;
-            color: #b69b4c;
-            font-size: 18px;
-        }
-
-        /* القائمة المنسدلة للقراء */
-        .reciter-dropdown {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            left: 0;
-            margin-top: 8px;
-            background: rgba(20, 50, 38, 0.98);
-            backdrop-filter: blur(8px);
-            border: 1px solid #b69b4c;
+        .stat-value {
+            background: #5d3f2b;
+            color: #f1e6d2;
+            padding: 2px 10px;
             border-radius: 30px;
-            padding: 12px;
-            z-index: 100;
-            display: none;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            font-size: 0.9rem;
+            margin-right: 5px;
+            border: 1px solid #d9b382;
         }
 
-        .reciter-dropdown.show {
-            display: block;
+        /* خريطة المستويات - نمط أطلس قديم */
+        .atlas-map {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            height: calc(100vh - 80px);
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 20px 10px 40px;
+            scroll-behavior: smooth;
         }
 
-        .reciter-option {
+        .map-scroll {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 12px;
-            padding: 10px 16px;
-            border-radius: 40px;
-            transition: 0.2s;
+            min-height: 100%;
+        }
+
+        .level-container {
+            position: relative;
+            width: 100%;
+            max-width: 350px;
+            margin: 0 auto;
+        }
+
+        /* خط المسار - مثل خطوط خرائط الكنز */
+        .path-line {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 4px;
+            height: 100%;
+            background: repeating-linear-gradient(to bottom, #8b6b4d, #8b6b4d 10px, #d9b382 10px, #d9b382 20px);
+            transform: translateX(-50%);
+            opacity: 0.5;
+            z-index: 1;
+        }
+
+        /* المستويات - مثل أختام شمع قديمة */
+        .level-seal {
+            position: relative;
+            width: 90px;
+            height: 90px;
+            margin: 25px auto;
             cursor: pointer;
-            border-bottom: 1px solid #2a6b4e;
+            transition: all 0.3s ease;
+            z-index: 2;
         }
 
-        .reciter-option:last-child {
-            border-bottom: none;
-        }
-
-        .reciter-option:hover {
-            background: #2a6b4e;
-        }
-
-        .reciter-option img {
-            width: 40px;
-            height: 40px;
+        .seal-outer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #b69b4c;
+            background: #f1e6d2;
+            border: 4px solid #5d3f2b;
+            box-shadow: 0 5px 0 #3d2a1a, inset 0 -3px 0 #d9b382;
+            transition: all 0.2s;
         }
 
-        .reciter-option span {
-            font-size: 20px;
-            color: #f0e7c0;
+        .seal-inner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            background: #d9c8a9;
+            border: 2px solid #8b6b4d;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c1810;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        /* رأس السورة */
-        .surah-info {
+        /* المستوى النشط */
+        .level-seal.active .seal-outer {
+            border-color: #b8860b;
+            background: #ffd700;
+            box-shadow: 0 5px 0 #8b6b4d, inset 0 -3px 0 #ffa500, 0 0 20px rgba(184, 134, 11, 0.3);
+        }
+
+        .level-seal.active .seal-inner {
+            background: #f4c542;
+            border-color: #b8860b;
+            color: #3d2a1a;
+            font-weight: 900;
+        }
+
+        /* المستوى المكتمل */
+        .level-seal.completed .seal-outer {
+            border-color: #2d5a27;
+            background: #4caf50;
+            box-shadow: 0 5px 0 #1e4d1e;
+        }
+
+        .level-seal.completed .seal-inner {
+            background: #81c784;
+            border-color: #2d5a27;
+        }
+
+        .level-seal.completed .seal-inner::after {
+            content: '✓';
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #2d5a27;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin: 15px 0 10px;
         }
 
-        .surah-name-big {
-            font-size: 36px;
-            color: #e0cf9b;
-            text-shadow: 0 2px 6px #1a3b2c;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        /* المستوى المقفول */
+        .level-seal.locked {
+            opacity: 0.6;
+            filter: grayscale(0.7);
+            cursor: not-allowed;
         }
 
-        .surah-stats {
-            font-size: 20px;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 4px 16px;
-            border-radius: 40px;
-            border: 1px solid #b69b4c;
+        .level-seal.locked .seal-inner {
+            background: #a79e8f;
         }
 
-        .font-controls {
-            display: flex;
-            gap: 8px;
-            margin-right: auto;
+        .level-seal.locked .seal-inner::before {
+            content: '🔒';
+            font-size: 1.2rem;
         }
 
-        .font-controls button {
-            background: #2a6b4e;
-            border: 1px solid #b69b4c;
-            color: #e0cf9b;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            font-size: 20px;
-            cursor: pointer;
-            transition: 0.2s;
+        .level-seal.locked .seal-inner span {
+            display: none;
         }
 
-        .font-controls button:hover {
-            background: #1d5e45;
-            transform: scale(1.05);
-        }
-
-        /* المصحف */
-        .mushaf {
-            background: #fbf5e0;
-            padding: 40px 25px;
-            border-radius: 40px 40px 20px 20px;
-            line-height: 2.8;
-            font-size: var(--font-size-base, 30px);
-            text-align: center;
-            box-shadow: 0 0 0 5px #2a6b4e, 0 0 0 10px #b69b4c, 0 15px 30px rgba(0, 30, 0, 0.6);
-            color: #1e3a2b;
-            margin-top: 20px;
-            transition: font-size 0.1s;
-        }
-
-        .mushaf::before {
-            content: "﴿";
-            font-size: 60px;
-            color: #2a6b4e;
+        /* رقم المستوى */
+        .level-number {
+            font-size: 1.2rem;
+            font-weight: 700;
             position: absolute;
             top: -15px;
-            right: 20px;
-            opacity: 0.4;
-            transform: rotate(8deg);
+            left: 50%;
+            transform: translateX(-50%);
+            background: #f1e6d2;
+            padding: 2px 10px;
+            border-radius: 30px;
+            border: 2px solid #8b6b4d;
+            color: #3d2a1a;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            z-index: 3;
         }
 
-        .mushaf::after {
-            content: "﴾";
-            font-size: 60px;
-            color: #2a6b4e;
+        /* بطاقة السؤال - نمط ورق قديم */
+        .question-card {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 500px;
+            background: #f9efd8;
+            border: 8px solid #8b6b4d;
+            border-radius: 30px 30px 30px 30px;
+            padding: 25px;
+            box-shadow: 0 15px 0 #5d3f2b, inset 0 -5px 0 #d9b382, inset 0 5px 15px rgba(255, 235, 190, 0.8);
+            z-index: 100;
+            display: none;
+            font-family: 'Amiri', serif;
+        }
+
+        /* تأثير الورق القديم */
+        .question-card::before {
+            content: '';
             position: absolute;
-            bottom: -15px;
-            left: 20px;
-            opacity: 0.4;
-            transform: rotate(-8deg);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="1" stitchTiles="stitch"/></filter><rect width="100" height="100" filter="url(%23noise)" opacity="0.05"/></svg>');
+            background-size: 150px 150px;
+            pointer-events: none;
+            border-radius: 22px;
+            opacity: 0.2;
         }
 
-        .bismillah {
-            font-size: 42px;
-            color: #2a6b4e;
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
             margin-bottom: 20px;
-            font-weight: 600;
-            border-bottom: 1px dashed #b69b4c;
-            padding-bottom: 10px;
+            border-bottom: 2px dashed #8b6b4d;
+            padding-bottom: 15px;
         }
 
-        .ayah {
-            padding: 4px 8px;
-            border-radius: 20px;
-            transition: 0.2s;
+        .compass-icon {
+            font-size: 2rem;
+            transform: rotate(15deg);
+            filter: drop-shadow(2px 2px 0 #8b6b4d);
+        }
+
+        .category-badge {
+            background: #5d3f2b;
+            color: #f9efd8;
+            padding: 5px 20px;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            border: 1px solid #d9b382;
+        }
+
+        .progress-indicator {
+            display: flex;
+            gap: 15px;
+            margin-right: auto;
+        }
+
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #d9b382;
+            border: 1px solid #8b6b4d;
+        }
+
+        .progress-dot.active {
+            background: #b8860b;
+            border-color: #5d3f2b;
+            box-shadow: 0 0 0 2px #f9efd8, 0 0 0 3px #b8860b;
+        }
+
+        .question-text {
+            font-size: 1.7rem;
+            font-weight: 700;
+            line-height: 1.4;
+            margin: 20px 0;
+            color: #2c1810;
+            text-align: center;
+            font-family: 'Amiri', serif;
+            border-right: 3px solid #8b6b4d;
+            border-left: 3px solid #8b6b4d;
+            padding: 10px;
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 25px 0 15px;
+        }
+
+        .option-btn {
+            background: #f1e6d2;
+            border: 3px solid #8b6b4d;
+            border-radius: 60px;
+            padding: 15px 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c1810;
             cursor: pointer;
-            display: inline-block;
-            margin: 1px 0;
+            transition: all 0.15s;
+            box-shadow: 0 5px 0 #5d3f2b;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .option-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #5d3f2b;
+        }
+
+        .option-btn.correct {
+            background: #a5d6a5;
+            border-color: #2d5a27;
+            box-shadow: 0 5px 0 #1e4d1e;
+        }
+
+        .option-btn.wrong {
+            background: #e6b3b3;
+            border-color: #a13d3d;
+            box-shadow: 0 5px 0 #6b2b2b;
+        }
+
+        .option-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #5d3f2b;
+        }
+
+        /* مؤقت على شكل بوصلة */
+        .timer-compass {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+            font-size: 1.2rem;
+            color: #5d3f2b;
+        }
+
+        .compass-needle {
+            width: 30px;
+            height: 30px;
+            border: 2px solid #8b6b4d;
+            border-radius: 50%;
             position: relative;
         }
 
-        .ayah:hover {
-            background: rgba(42, 107, 78, 0.15);
+        .compass-needle::before {
+            content: '↑';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #b8860b;
+            font-size: 1.2rem;
         }
 
-        .ayah[data-ayah-number]:hover::after {
-            content: attr(data-ayah-number);
-            position: absolute;
-            bottom: 100%;
+        .time-value {
+            background: #5d3f2b;
+            color: #f9efd8;
+            padding: 5px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+        }
+
+        /* رسائل - مثل أختام بريد */
+        .message-seal {
+            position: fixed;
+            top: 100px;
             left: 50%;
             transform: translateX(-50%);
-            background: #1d4a38;
-            color: #e0cf9b;
-            font-size: 14px;
-            padding: 4px 8px;
-            border-radius: 20px;
-            white-space: nowrap;
-            border: 1px solid #b69b4c;
-            margin-bottom: 5px;
-            z-index: 10;
-        }
-
-        .active {
-            background: linear-gradient(145deg, #b69b4c, #2a6b4e);
-            color: #fbf5e0;
-            box-shadow: 0 0 15px #b69b4c;
-            transform: scale(1.01);
-            font-weight: 600;
+            background: #f9efd8;
+            border: 3px solid #8b6b4d;
             border-radius: 30px;
-            padding: 4px 16px;
+            padding: 12px 30px;
+            font-weight: 600;
+            box-shadow: 0 5px 0 #5d3f2b;
+            z-index: 200;
+            opacity: 0;
+            transition: 0.3s;
+            white-space: nowrap;
         }
 
-        /* المشغل */
-        .player {
+        .message-seal.show {
+            opacity: 1;
+            top: 120px;
+        }
+
+        /* أزرار جانبية - مثل أدوات الملاحة */
+        .nav-tools {
             position: fixed;
             bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 94%;
-            max-width: 720px;
-            background: rgba(10, 45, 35, 0.98);
-            backdrop-filter: blur(12px);
-            border: 1px solid #b69b4c;
-            border-radius: 80px;
-            padding: 12px 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            box-shadow: 0 10px 30px #0a251d;
-            z-index: 1000;
-            transition: 0.3s;
-        }
-
-        .player.hidden {
-            opacity: 0;
-            visibility: hidden;
-            transform: translateX(-50%) translateY(20px);
-        }
-
-        .player button {
-            background: linear-gradient(145deg, #b69b4c, #2a6b4e);
-            border: none;
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            font-size: 24px;
-            cursor: pointer;
-            transition: 0.2s;
-            color: #1d3b2c;
-            box-shadow: 0 4px 0 #1a4a33, 0 6px 12px black;
-        }
-
-        .player button:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 0 #1a4a33, 0 10px 16px black;
-        }
-
-        .player button:active:not(:disabled) {
-            transform: translateY(3px);
-            box-shadow: 0 2px 0 #1a4a33, 0 8px 12px black;
-        }
-
-        .player button:disabled {
-            opacity: 0.3;
-            box-shadow: 0 2px 0 #1a4a33;
-        }
-
-        .progress-area {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .progress-bar {
-            flex: 1;
-            height: 5px;
-            background: #1d4a38;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            width: 0%;
-            background: #b69b4c;
-            border-radius: 10px;
-        }
-
-        .ayah-counter {
-            color: #e0cf9b;
-            font-size: 16px;
-            min-width: 70px;
-            text-align: center;
-        }
-
-        /* أزرار مساعدة */
-        .go-top {
-            position: fixed;
-            bottom: 100px;
             left: 20px;
-            background: #2a6b4e;
-            color: #e0cf9b;
+            z-index: 30;
+        }
+
+        .tool-btn {
             width: 50px;
             height: 50px;
+            background: #f1e6d2;
+            border: 3px solid #8b6b4d;
             border-radius: 50%;
+            margin-bottom: 10px;
             display: flex;
-            align-items: center;
             justify-content: center;
-            font-size: 26px;
+            align-items: center;
+            font-size: 1.5rem;
             cursor: pointer;
-            border: 2px solid #b69b4c;
-            box-shadow: 0 4px 12px black;
-            transition: 0.2s;
-            opacity: 0;
-            visibility: hidden;
-            z-index: 999;
+            box-shadow: 0 4px 0 #5d3f2b;
+            transition: 0.1s;
         }
 
-        .go-top.show {
-            opacity: 1;
-            visibility: visible;
+        .tool-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #5d3f2b;
         }
 
-        .go-top:hover {
-            background: #1d5e45;
-            transform: scale(1.07);
-        }
-
-        .notification {
-            position: fixed;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #1d4a38;
-            color: #e0cf9b;
-            padding: 12px 25px;
-            border-radius: 50px;
-            border: 2px solid #b69b4c;
-            font-size: 18px;
-            z-index: 2000;
-            display: none;
-            backdrop-filter: blur(5px);
-        }
-
-        .loader, .error {
-            text-align: center;
-            padding: 30px;
-            font-size: 24px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 40px;
-            margin: 20px 0;
-        }
-
-        .loader {
-            color: #e0cf9b;
-        }
-
-        .loader i {
-            animation: spin 1.5s infinite linear;
-            margin-left: 8px;
-        }
-
-        .error {
-            color: #ffaa7a;
-            border: 1px solid #c47a5b;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .islamic-pattern {
-            height: 10px;
-            background: repeating-linear-gradient(45deg, #b69b4c 0px, #b69b4c 6px, #2a6b4e 6px, #2a6b4e 12px);
-            border-radius: 8px;
-            margin: 15px 0;
-        }
-
-        /* تحسينات الجوال */
-        @media (max-width: 600px) {
-            header { font-size: 32px; }
-            .surah-name { font-size: 20px; }
-            .surah-number { min-width: 36px; height: 36px; font-size: 16px; }
-            .mushaf { font-size: 24px; padding: 30px 12px; }
-            .player button { width: 45px; height: 45px; font-size: 20px; }
-            .reciter-name { font-size: 18px; }
+        @media (max-width: 500px) {
+            .options-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .question-text {
+                font-size: 1.4rem;
+            }
+            
+            .stats-panel {
+                padding: 8px 15px;
+            }
+            
+            .level-seal {
+                width: 75px;
+                height: 75px;
+            }
+            
+            .seal-inner {
+                width: 55px;
+                height: 55px;
+                font-size: 1.4rem;
+            }
         }
     </style>
 </head>
 <body>
-    <header><i class="fas fa-mosque"></i> القرآن الكريم <i class="fas fa-star"></i></header>
-
-    <div class="container">
-        <!-- الصفحة الرئيسية -->
-        <div id="home">
-            <div class="search-box">
-                <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="ابحث عن سورة...">
-            </div>
-            <div class="list-header"><h2><i class="fas fa-list"></i> فهرس السور</h2></div>
-            <div id="surahList"></div>
+    <div class="paper-edge"></div>
+    
+    <!-- شريط الإحصائيات -->
+    <div class="stats-panel">
+        <div class="stat-item">
+            <span class="stat-icon">🧭</span>
+            <span>المستوى <span class="stat-value" id="current-level">1</span></span>
         </div>
+        <div class="stat-item">
+            <span class="stat-icon">📜</span>
+            <span>النقاط <span class="stat-value" id="total-points">0</span></span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-icon">⚓</span>
+            <span>التتابع <span class="stat-value" id="streak">0</span></span>
+        </div>
+    </div>
 
-        <!-- صفحة عرض السورة -->
-        <div id="reader" style="display: none;">
-            <div class="reader-header">
-                <button class="back" onclick="goHome()"><i class="fas fa-arrow-right"></i> العودة</button>
-                
-                <!-- القارئ الحالي مع القائمة المنسدلة -->
-                <div class="current-reciter" id="currentReciterBtn" onclick="toggleReciterDropdown()">
-                    <img id="currentReciterImg" src="1.jpeg" alt="reciter" class="reciter-img" onerror="this.src='https://via.placeholder.com/42?text=?'">
-                    <span id="currentReciterName" class="reciter-name">مشاري العفاسي</span>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-
-                <!-- قائمة القراء المخفية -->
-                <div id="reciterDropdown" class="reciter-dropdown">
-                    <div class="reciter-option" data-value="ar.alafasy" data-img="1.jpeg" onclick="selectReciter('ar.alafasy', 'مشاري العفاسي', '1.jpeg')">
-                        <img src="1.jpeg" onerror="this.src='https://via.placeholder.com/40?text=?'">
-                        <span>مشاري العفاسي</span>
-                    </div>
-                    <div class="reciter-option" data-value="ar.abdulbasitmurattal" data-img="2.jpeg" onclick="selectReciter('ar.abdulbasitmurattal', 'عبد الباسط عبد الصمد', '2.jpeg')">
-                        <img src="2.jpeg" onerror="this.src='https://via.placeholder.com/40?text=?'">
-                        <span>عبد الباسط عبد الصمد</span>
-                    </div>
-                    <div class="reciter-option" data-value="ar.mahermuaiqly" data-img="3.jpeg" onclick="selectReciter('ar.mahermuaiqly', 'ماهر المعيقلي', '3.jpeg')">
-                        <img src="3.jpeg" onerror="this.src='https://via.placeholder.com/40?text=?'">
-                        <span>ماهر المعيقلي</span>
-                    </div>
-                    <div class="reciter-option" data-value="ar.minshawi" data-img="4.jpeg" onclick="selectReciter('ar.minshawi', 'محمد صديق المنشاوي', '4.jpeg')">
-                        <img src="4.jpeg" onerror="this.src='https://via.placeholder.com/40?text=?'">
-                        <span>محمد صديق المنشاوي</span>
-                    </div>
-                </div>
-
-                <button class="share-btn" id="shareBtn" onclick="shareSurah()"><i class="fas fa-share-alt"></i> مشاركة</button>
-            </div>
-
-            <!-- رأس السورة مع أدوات التحكم -->
-            <div class="surah-info">
-                <span class="surah-name-big" id="surahName"><i class="fas fa-quran"></i> سورة الفاتحة</span>
-                <span class="surah-stats" id="surahStats">7 آيات</span>
-                <div class="font-controls">
-                    <button onclick="changeFontSize(2)"><i class="fas fa-plus"></i></button>
-                    <button onclick="changeFontSize(-2)"><i class="fas fa-minus"></i></button>
-                </div>
-            </div>
-
-            <div class="islamic-pattern"></div>
-
-            <div class="mushaf" id="ayahContainer" style="font-size: var(--font-size-base);">
-                <div class="loader"><i class="fas fa-spinner fa-spin"></i> جاري تحميل السورة...</div>
+    <!-- الخريطة الرئيسية -->
+    <div class="atlas-map" id="atlas-map">
+        <div class="map-scroll">
+            <div class="level-container" id="level-container">
+                <div class="path-line"></div>
+                <!-- المستويات ستضاف هنا بالجافاسكريبت -->
             </div>
         </div>
     </div>
 
-    <!-- مشغل الصوت -->
-    <div class="player" id="player">
-        <button onclick="prevAyah()" id="prevBtn" title="الآية السابقة"><i class="fas fa-step-backward"></i></button>
-        <button onclick="togglePlay()" id="playPauseBtn" title="تشغيل/إيقاف"><i class="fas fa-play"></i></button>
-        <button onclick="nextAyah()" id="nextBtn" title="الآية التالية"><i class="fas fa-step-forward"></i></button>
-        <div class="progress-area">
-            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-            <span class="ayah-counter" id="ayahCounter">0/0</span>
+    <!-- بطاقة السؤال -->
+    <div class="question-card" id="question-card">
+        <div class="card-header">
+            <span class="compass-icon">🧭</span>
+            <span class="category-badge" id="question-category">جغرافيا</span>
+            <div class="progress-indicator" id="progress-indicator">
+                <span class="progress-dot"></span>
+                <span class="progress-dot"></span>
+                <span class="progress-dot"></span>
+            </div>
         </div>
-        <audio id="audio" preload="auto"></audio>
+        
+        <div class="question-text" id="question-text">
+            تحميل السؤال...
+        </div>
+        
+        <div class="options-container" id="options-container"></div>
+        
+        <div class="timer-compass">
+            <span class="compass-needle"></span>
+            <span class="time-value" id="timer-display">15 ث</span>
+        </div>
     </div>
 
-    <!-- زر العودة للأعلى -->
-    <div class="go-top" id="goTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-arrow-up"></i></div>
+    <!-- أدوات الملاحة -->
+    <div class="nav-tools">
+        <div class="tool-btn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">⬆️</div>
+        <div class="tool-btn" onclick="game?.scrollToCurrentLevel()">📍</div>
+    </div>
 
-    <!-- إشعارات -->
-    <div class="notification" id="notification"></div>
+    <!-- رسالة -->
+    <div class="message-seal" id="message-seal"></div>
 
     <script>
-        // ========== الإعدادات ==========
-        const API = "https://api.alquran.cloud/v1";
-        let allSurahs = [], ayahs = [], currentIndex = 0, currentSurahNumber = null, isPlaying = false;
-        let currentReciter = localStorage.getItem('reciter') || 'ar.alafasy';
-        let currentReciterName = localStorage.getItem('reciterName') || 'مشاري العفاسي';
-        let currentReciterImg = localStorage.getItem('reciterImg') || '1.jpeg';
-        let fontSize = parseInt(localStorage.getItem('fontSize')) || 30;
+        // ==================== قاعدة البيانات الجغرافية ====================
+        const GeoDatabase = {
+            countries: [
+                { name: 'مصر', capital: 'القاهرة', currency: 'الجنيه المصري', population: '104 مليون', area: '1,002,000 كم²', continent: 'أفريقيا' },
+                { name: 'السعودية', capital: 'الرياض', currency: 'الريال السعودي', population: '35 مليون', area: '2,149,690 كم²', continent: 'آسيا' },
+                { name: 'المغرب', capital: 'الرباط', currency: 'الدرهم المغربي', population: '37 مليون', area: '446,550 كم²', continent: 'أفريقيا' },
+                { name: 'الجزائر', capital: 'الجزائر', currency: 'الدينار الجزائري', population: '44 مليون', area: '2,381,741 كم²', continent: 'أفريقيا' },
+                { name: 'تونس', capital: 'تونس', currency: 'الدينار التونسي', population: '11.8 مليون', area: '163,610 كم²', continent: 'أفريقيا' },
+                { name: 'ليبيا', capital: 'طرابلس', currency: 'الدينار الليبي', population: '6.9 مليون', area: '1,759,541 كم²', continent: 'أفريقيا' },
+                { name: 'السودان', capital: 'الخرطوم', currency: 'الجنيه السوداني', population: '44 مليون', area: '1,886,068 كم²', continent: 'أفريقيا' },
+                { name: 'العراق', capital: 'بغداد', currency: 'الدينار العراقي', population: '40 مليون', area: '438,317 كم²', continent: 'آسيا' },
+                { name: 'سوريا', capital: 'دمشق', currency: 'الليرة السورية', population: '18 مليون', area: '185,180 كم²', continent: 'آسيا' },
+                { name: 'لبنان', capital: 'بيروت', currency: 'الليرة اللبنانية', population: '6 مليون', area: '10,452 كم²', continent: 'آسيا' },
+                { name: 'الأردن', capital: 'عمان', currency: 'الدينار الأردني', population: '10.5 مليون', area: '89,342 كم²', continent: 'آسيا' },
+                { name: 'فلسطين', capital: 'القدس', currency: 'الشيكل', population: '5 مليون', area: '27,000 كم²', continent: 'آسيا' },
+                { name: 'الإمارات', capital: 'أبوظبي', currency: 'الدرهم الإماراتي', population: '10 مليون', area: '83,600 كم²', continent: 'آسيا' },
+                { name: 'الكويت', capital: 'الكويت', currency: 'الدينار الكويتي', population: '4.5 مليون', area: '17,818 كم²', continent: 'آسيا' },
+                { name: 'قطر', capital: 'الدوحة', currency: 'الريال القطري', population: '2.8 مليون', area: '11,571 كم²', continent: 'آسيا' },
+                { name: 'البحرين', capital: 'المنامة', currency: 'الدينار البحريني', population: '1.7 مليون', area: '765 كم²', continent: 'آسيا' },
+                { name: 'عمان', capital: 'مسقط', currency: 'الريال العماني', population: '5 مليون', area: '309,500 كم²', continent: 'آسيا' },
+                { name: 'اليمن', capital: 'صنعاء', currency: 'الريال اليمني', population: '30 مليون', area: '527,968 كم²', continent: 'آسيا' },
+                { name: 'تركيا', capital: 'أنقرة', currency: 'الليرة التركية', population: '84 مليون', area: '783,356 كم²', continent: 'آسيا' },
+                { name: 'إيران', capital: 'طهران', currency: 'الريال الإيراني', population: '85 مليون', area: '1,648,195 كم²', continent: 'آسيا' }
+            ],
+            
+            rivers: [
+                { name: 'النيل', length: '6650 كم', location: 'أفريقيا', countries: 'مصر، السودان' },
+                { name: 'الأمازون', length: '6400 كم', location: 'أمريكا الجنوبية', countries: 'البرازيل، بيرو' },
+                { name: 'اليانغتسي', length: '6300 كم', location: 'الصين', countries: 'الصين' },
+                { name: 'الدجلة', length: '1900 كم', location: 'العراق', countries: 'تركيا، العراق' },
+                { name: 'الفرات', length: '2800 كم', location: 'العراق', countries: 'تركيا، سوريا، العراق' }
+            ],
+            
+            mountains: [
+                { name: 'جبال الأطلس', height: '4167 م', location: 'المغرب الجزائر تونس' },
+                { name: 'جبال الحجاز', height: '2100 م', location: 'السعودية' },
+                { name: 'جبال لبنان الشرقية', height: '2600 م', location: 'لبنان سوريا' }
+            ]
+        };
 
-        // عناصر DOM
-        const homeDiv = document.getElementById('home');
-        const readerDiv = document.getElementById('reader');
-        const surahListDiv = document.getElementById('surahList');
-        const ayahContainer = document.getElementById('ayahContainer');
-        const audio = document.getElementById('audio');
-        const playerDiv = document.getElementById('player');
-        const surahNameSpan = document.getElementById('surahName');
-        const surahStats = document.getElementById('surahStats');
-        const playPauseBtn = document.getElementById('playPauseBtn');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const searchInput = document.getElementById('searchInput');
-        const goTopBtn = document.getElementById('goTop');
-        const notification = document.getElementById('notification');
-        const ayahCounter = document.getElementById('ayahCounter');
-        const progressFill = document.getElementById('progressFill');
-        const currentReciterImgEl = document.getElementById('currentReciterImg');
-        const currentReciterNameEl = document.getElementById('currentReciterName');
-        const reciterDropdown = document.getElementById('reciterDropdown');
+        // ==================== مولد الأسئلة الذكي ====================
+        class QuestionGenerator {
+            constructor(db) {
+                this.db = db;
+                this.questionTypes = ['capital', 'currency', 'population', 'area', 'continent'];
+            }
 
-        // تعيين القارئ المحفوظ
-        currentReciterImgEl.src = currentReciterImg;
-        currentReciterNameEl.textContent = currentReciterName;
-
-        // ========== تحميل السور ==========
-        async function loadSurahs() {
-            try {
-                surahListDiv.innerHTML = '<div class="loader"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</div>';
-                const res = await fetch(`${API}/surah`);
-                if (!res.ok) throw new Error('فشل الاتصال');
-                const data = await res.json();
-                allSurahs = data.data;
-                displaySurahs(allSurahs);
-                const lastSurah = localStorage.getItem('lastSurah');
-                if (lastSurah) {
-                    const { number, name } = JSON.parse(lastSurah);
-                    setTimeout(() => openSurah(number, name), 500);
+            generateQuestion(level) {
+                const type = this.questionTypes[Math.floor(Math.random() * this.questionTypes.length)];
+                const country = this.db.countries[Math.floor(Math.random() * this.db.countries.length)];
+                
+                // زيادة الصعوبة مع المستوى
+                const difficulty = Math.min(level / 100, 0.7); // 70% كحد أقصى
+                const useHardQuestion = Math.random() < difficulty;
+                
+                switch(type) {
+                    case 'capital':
+                        return {
+                            category: '🏛️ عواصم',
+                            question: `ما عاصمة ${country.name}؟`,
+                            correct: country.capital,
+                            options: this.generateOptions(country.capital, 'capital')
+                        };
+                        
+                    case 'currency':
+                        return {
+                            category: '💰 عملات',
+                            question: `ما عملة ${country.name} الرسمية؟`,
+                            correct: country.currency,
+                            options: this.generateOptions(country.currency, 'currency')
+                        };
+                        
+                    case 'population':
+                        return {
+                            category: '👥 سكان',
+                            question: `كم يبلغ عدد سكان ${country.name} تقريباً؟`,
+                            correct: country.population,
+                            options: this.generateOptions(country.population, 'population')
+                        };
+                        
+                    case 'area':
+                        return {
+                            category: '🗺️ مساحة',
+                            question: `ما مساحة ${country.name} تقريباً؟`,
+                            correct: country.area,
+                            options: this.generateOptions(country.area, 'area')
+                        };
+                        
+                    case 'continent':
+                        return {
+                            category: '🌍 قارات',
+                            question: `في أي قارة تقع ${country.name}؟`,
+                            correct: country.continent,
+                            options: this.generateOptions(country.continent, 'continent')
+                        };
+                        
+                    default:
+                        return {
+                            category: '🌎 معلومات عامة',
+                            question: `ما عاصمة ${country.name}؟`,
+                            correct: country.capital,
+                            options: this.generateOptions(country.capital, 'capital')
+                        };
                 }
-            } catch (e) {
-                surahListDiv.innerHTML = `<div class="error"><i class="fas fa-exclamation-triangle"></i> ${e.message}</div>`;
             }
-        }
 
-        function displaySurahs(surahs) {
-            surahListDiv.innerHTML = '';
-            if (!surahs.length) {
-                surahListDiv.innerHTML = '<div class="error">لا توجد نتائج</div>';
-                return;
-            }
-            surahs.forEach(s => {
-                const card = document.createElement('div');
-                card.className = 'surah-card';
-                card.innerHTML = `
-                    <div class="surah-name"><i class="fas fa-quran"></i> ${s.name} (${s.englishName})</div>
-                    <div class="surah-meta"><span class="ayah-count">${s.numberOfAyahs} آية</span><span class="surah-number">${s.number}</span></div>
-                `;
-                card.onclick = () => openSurah(s.number, s.name);
-                surahListDiv.appendChild(card);
-            });
-        }
-
-        // ========== فتح السورة ==========
-        async function openSurah(number, name) {
-            try {
-                localStorage.setItem('lastSurah', JSON.stringify({ number, name }));
-                homeDiv.style.display = 'none';
-                readerDiv.style.display = 'block';
-                surahNameSpan.innerHTML = `<i class="fas fa-quran"></i> سورة ${name}`;
-                ayahContainer.innerHTML = '<div class="loader"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</div>';
-                playerDiv.classList.add('hidden');
-
-                const res = await fetch(`${API}/surah/${number}/quran-uthmani`);
-                if (!res.ok) throw new Error('فشل التحميل');
-                const data = await res.json();
-                ayahs = data.data.ayahs;
-                currentSurahNumber = number;
-                currentIndex = 0;
-
-                surahStats.textContent = `${ayahs.length} آيات`;
-
-                renderAyahs();
-                playerDiv.classList.remove('hidden');
-                updateButtonsState();
-                updateCounter();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } catch (e) {
-                ayahContainer.innerHTML = `<div class="error"><i class="fas fa-exclamation-circle"></i> ${e.message}</div>`;
-            }
-        }
-
-        function renderAyahs() {
-            ayahContainer.innerHTML = '';
-            if (currentSurahNumber !== 9) {
-                const b = document.createElement('div');
-                b.className = 'bismillah';
-                b.textContent = 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ';
-                ayahContainer.appendChild(b);
-            }
-            ayahs.forEach((a, i) => {
-                const span = document.createElement('span');
-                span.className = 'ayah';
-                span.id = `ayah-${i}`;
-                span.textContent = a.text + ' ۝ ';
-                span.setAttribute('data-ayah-number', `الآية ${a.numberInSurah}`);
-                span.onclick = () => copyAyah(a.text, i);
-                ayahContainer.appendChild(span);
-            });
-            if (ayahs.length) highlightAyah();
-        }
-
-        // ========== النسخ والإشعارات ==========
-        function copyAyah(text, index) {
-            navigator.clipboard.writeText(text).then(() => {
-                showNotification('تم نسخ الآية');
-                playAyah(index);
-            }).catch(() => showNotification('تعذر النسخ', true));
-        }
-
-        function showNotification(msg, isError = false) {
-            notification.textContent = msg;
-            notification.style.backgroundColor = isError ? '#8b3a3a' : '#1d4a38';
-            notification.style.display = 'block';
-            setTimeout(() => notification.style.display = 'none', 2000);
-        }
-
-        // ========== قائمة القراء ==========
-        window.toggleReciterDropdown = function() {
-            reciterDropdown.classList.toggle('show');
-        };
-
-        window.selectReciter = function(value, name, img) {
-            currentReciter = value;
-            currentReciterName = name;
-            currentReciterImg = img;
-            localStorage.setItem('reciter', value);
-            localStorage.setItem('reciterName', name);
-            localStorage.setItem('reciterImg', img);
-            currentReciterImgEl.src = img;
-            currentReciterNameEl.textContent = name;
-            reciterDropdown.classList.remove('show');
-            if (!audio.paused) {
-                audio.pause();
-                playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-                isPlaying = false;
-            }
-            audio.src = '';
-        };
-
-        document.addEventListener('click', function(e) {
-            if (!e.target.closest('.current-reciter') && !e.target.closest('.reciter-dropdown')) {
-                reciterDropdown.classList.remove('show');
-            }
-        });
-
-        // ========== مشغل الصوت ==========
-        async function playAyah(index) {
-            if (index < 0 || index >= ayahs.length) return;
-            currentIndex = index;
-            highlightAyah();
-            try {
-                playPauseBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i>';
-                const ayahNumber = ayahs[index].number;
-                const res = await fetch(`${API}/ayah/${ayahNumber}/${currentReciter}`);
-                if (!res.ok) throw new Error('فشل تحميل الصوت');
-                const data = await res.json();
-                audio.src = data.data.audio;
-                await audio.play();
-                playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                isPlaying = true;
-                audio.onended = () => {
-                    if (currentIndex < ayahs.length - 1) {
-                        playAyah(currentIndex + 1);
-                    } else {
-                        playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-                        isPlaying = false;
+            generateOptions(correct, type) {
+                let options = [correct];
+                let allValues = [];
+                
+                // جمع كل القيم الممكنة من نفس النوع
+                this.db.countries.forEach(c => {
+                    if (type === 'capital') allValues.push(c.capital);
+                    else if (type === 'currency') allValues.push(c.currency);
+                    else if (type === 'population') allValues.push(c.population);
+                    else if (type === 'area') allValues.push(c.area);
+                    else if (type === 'continent') allValues.push(c.continent);
+                });
+                
+                // إزالة التكرارات والقيمة الصحيحة
+                allValues = [...new Set(allValues)].filter(v => v !== correct);
+                
+                // إضافة خيارات عشوائية
+                while (options.length < 4) {
+                    const randomValue = allValues[Math.floor(Math.random() * allValues.length)];
+                    if (!options.includes(randomValue)) {
+                        options.push(randomValue);
                     }
-                };
-            } catch (e) {
-                showNotification('تعذر تشغيل الصوت', true);
-                playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-                isPlaying = false;
+                }
+                
+                // خلط عشوائي
+                return this.shuffleArray(options);
+            }
+
+            shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+                return array;
             }
         }
 
-        function highlightAyah() {
-            document.querySelectorAll('.ayah').forEach(a => a.classList.remove('active'));
-            const current = document.getElementById(`ayah-${currentIndex}`);
-            if (current) {
-                current.classList.add('active');
-                current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // ==================== اللعبة الرئيسية ====================
+        class GeographyGame {
+            constructor() {
+                this.currentLevel = parseInt(localStorage.getItem('geo_level')) || 1;
+                this.totalPoints = parseInt(localStorage.getItem('geo_points')) || 0;
+                this.streak = parseInt(localStorage.getItem('geo_streak')) || 0;
+                this.currentStep = 0;
+                this.timer = null;
+                this.timeLeft = 15;
+                this.questionGen = new QuestionGenerator(GeoDatabase);
+                
+                this.init();
             }
-            updateButtonsState();
-            updateCounter();
+
+            init() {
+                this.buildMap();
+                this.updateStats();
+                this.setupEventListeners();
+            }
+
+            buildMap() {
+                const container = document.getElementById('level-container');
+                container.innerHTML = '<div class="path-line"></div>';
+                
+                // بناء 1000 مستوى
+                for (let i = 1000; i >= 1; i--) {
+                    const seal = document.createElement('div');
+                    seal.className = `level-seal ${i < this.currentLevel ? 'completed' : (i === this.currentLevel ? 'active' : 'locked')}`;
+                    seal.setAttribute('data-level', i);
+                    
+                    // حركة متعرجة بسيطة
+                    const xOffset = Math.sin(i * 0.2) * 40;
+                    seal.style.transform = `translateX(${xOffset}px)`;
+                    
+                    // الرقم
+                    const number = document.createElement('div');
+                    number.className = 'level-number';
+                    number.textContent = `المستوى ${i}`;
+                    
+                    // الأختام
+                    const outer = document.createElement('div');
+                    outer.className = 'seal-outer';
+                    
+                    const inner = document.createElement('div');
+                    inner.className = 'seal-inner';
+                    
+                    if (i <= this.currentLevel) {
+                        const span = document.createElement('span');
+                        span.textContent = i;
+                        inner.appendChild(span);
+                    } else {
+                        const span = document.createElement('span');
+                        span.style.display = 'none';
+                        inner.appendChild(span);
+                    }
+                    
+                    seal.appendChild(number);
+                    seal.appendChild(outer);
+                    seal.appendChild(inner);
+                    
+                    if (i <= this.currentLevel) {
+                        seal.onclick = () => this.openLevel(i);
+                    }
+                    
+                    container.appendChild(seal);
+                }
+            }
+
+            openLevel(level) {
+                if (level > this.currentLevel) return;
+                
+                this.currentStep = 0;
+                this.timeLeft = 15;
+                this.showQuestionCard();
+            }
+
+            showQuestionCard() {
+                document.getElementById('question-card').style.display = 'block';
+                this.loadQuestion();
+            }
+
+            loadQuestion() {
+                this.updateProgressDots();
+                
+                const question = this.questionGen.generateQuestion(this.currentLevel);
+                
+                document.getElementById('question-category').textContent = question.category;
+                document.getElementById('question-text').textContent = question.question;
+                
+                const container = document.getElementById('options-container');
+                container.innerHTML = '';
+                
+                question.options.forEach(option => {
+                    const btn = document.createElement('button');
+                    btn.className = 'option-btn';
+                    btn.textContent = option;
+                    btn.onclick = () => this.checkAnswer(option === question.correct, btn);
+                    container.appendChild(btn);
+                });
+                
+                this.startTimer();
+            }
+
+            updateProgressDots() {
+                const dots = document.querySelectorAll('.progress-dot');
+                dots.forEach((dot, i) => {
+                    dot.className = 'progress-dot';
+                    if (i === this.currentStep) {
+                        dot.classList.add('active');
+                    }
+                });
+            }
+
+            startTimer() {
+                if (this.timer) clearInterval(this.timer);
+                
+                this.timeLeft = 15;
+                const timerDisplay = document.getElementById('timer-display');
+                
+                this.timer = setInterval(() => {
+                    this.timeLeft -= 0.1;
+                    timerDisplay.textContent = `${this.timeLeft.toFixed(1)} ث`;
+                    
+                    if (this.timeLeft <= 0) {
+                        clearInterval(this.timer);
+                        this.handleTimeout();
+                    }
+                }, 100);
+            }
+
+            checkAnswer(isCorrect, btn) {
+                clearInterval(this.timer);
+                
+                const allBtns = document.querySelectorAll('.option-btn');
+                allBtns.forEach(b => b.disabled = true);
+                
+                if (isCorrect) {
+                    btn.classList.add('correct');
+                    this.streak++;
+                    
+                    const timeBonus = Math.floor(this.timeLeft);
+                    const pointsEarned = 50 + timeBonus + (this.streak * 5);
+                    this.totalPoints += pointsEarned;
+                    
+                    localStorage.setItem('geo_points', this.totalPoints);
+                    localStorage.setItem('geo_streak', this.streak);
+                    
+                    this.showMessage(`✨ +${pointsEarned} نقطة! (سرعة: +${timeBonus})`);
+                    
+                    setTimeout(() => {
+                        this.currentStep++;
+                        
+                        if (this.currentStep < 3) {
+                            this.loadQuestion();
+                        } else {
+                            this.completeLevel();
+                        }
+                    }, 800);
+                    
+                } else {
+                    btn.classList.add('wrong');
+                    this.streak = 0;
+                    localStorage.setItem('geo_streak', 0);
+                    
+                    this.showMessage('❌ إجابة خاطئة');
+                    
+                    setTimeout(() => {
+                        document.getElementById('question-card').style.display = 'none';
+                    }, 1000);
+                }
+                
+                this.updateStats();
+            }
+
+            handleTimeout() {
+                this.showMessage('⏰ انتهى الوقت!');
+                this.streak = 0;
+                localStorage.setItem('geo_streak', 0);
+                
+                setTimeout(() => {
+                    document.getElementById('question-card').style.display = 'none';
+                }, 1000);
+                
+                this.updateStats();
+            }
+
+            completeLevel() {
+                this.currentLevel++;
+                this.totalPoints += 200;
+                
+                localStorage.setItem('geo_level', this.currentLevel);
+                localStorage.setItem('geo_points', this.totalPoints);
+                
+                this.showMessage('🎉 أتقنت هذا المستوى!');
+                
+                setTimeout(() => {
+                    document.getElementById('question-card').style.display = 'none';
+                    this.buildMap(); // إعادة بناء الخريطة
+                    this.scrollToCurrentLevel();
+                }, 1500);
+                
+                this.updateStats();
+            }
+
+            showMessage(text) {
+                const msg = document.getElementById('message-seal');
+                msg.textContent = text;
+                msg.classList.add('show');
+                
+                setTimeout(() => {
+                    msg.classList.remove('show');
+                }, 2000);
+            }
+
+            updateStats() {
+                document.getElementById('current-level').textContent = this.currentLevel;
+                document.getElementById('total-points').textContent = this.totalPoints;
+                document.getElementById('streak').textContent = this.streak;
+            }
+
+            scrollToCurrentLevel() {
+                setTimeout(() => {
+                    const active = document.querySelector('.level-seal.active');
+                    if (active) {
+                        active.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }, 100);
+            }
+
+            setupEventListeners() {
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        document.getElementById('question-card').style.display = 'none';
+                        clearInterval(this.timer);
+                    }
+                });
+            }
         }
 
-        function updateButtonsState() {
-            if (!ayahs.length) {
-                prevBtn.disabled = true;
-                nextBtn.disabled = true;
-                return;
-            }
-            prevBtn.disabled = currentIndex === 0;
-            nextBtn.disabled = currentIndex === ayahs.length - 1;
-        }
-
-        function updateCounter() {
-            if (ayahs.length) {
-                ayahCounter.textContent = `${currentIndex + 1}/${ayahs.length}`;
-                progressFill.style.width = `${((currentIndex + 1) / ayahs.length) * 100}%`;
-            } else {
-                ayahCounter.textContent = '0/0';
-                progressFill.style.width = '0%';
-            }
-        }
-
-        window.togglePlay = function() {
-            if (!ayahs.length) return;
-            if (audio.paused) {
-                if (!audio.src) playAyah(currentIndex);
-                else audio.play();
-            } else {
-                audio.pause();
-            }
-        };
-
-        window.nextAyah = function() {
-            if (currentIndex < ayahs.length - 1) playAyah(currentIndex + 1);
-        };
-
-        window.prevAyah = function() {
-            if (currentIndex > 0) playAyah(currentIndex - 1);
-        };
-
-        audio.addEventListener('play', () => {
-            playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
-            isPlaying = true;
-        });
-        audio.addEventListener('pause', () => {
-            playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-            isPlaying = false;
-        });
-
-        // ========== العودة للرئيسية ==========
-        window.goHome = function() {
-            homeDiv.style.display = 'block';
-            readerDiv.style.display = 'none';
-            audio.pause();
-            audio.src = '';
-            playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-            isPlaying = false;
-            playerDiv.classList.add('hidden');
-            ayahs = [];
-            currentIndex = 0;
-        };
-
-        // ========== مشاركة السورة ==========
-        window.shareSurah = function() {
-            const name = surahNameSpan.innerText.replace('سورة', '').trim();
-            if (navigator.share) {
-                navigator.share({ title: `سورة ${name}`, text: `أقرأ سورة ${name} من القرآن الكريم`, url: window.location.href });
-            } else {
-                navigator.clipboard.writeText(window.location.href);
-                showNotification('تم نسخ الرابط');
-            }
-        };
-
-        // ========== تغيير حجم الخط ==========
-        window.changeFontSize = function(delta) {
-            fontSize = Math.min(48, Math.max(18, fontSize + delta));
-            localStorage.setItem('fontSize', fontSize);
-            document.documentElement.style.setProperty('--font-size-base', fontSize + 'px');
-        };
-        document.documentElement.style.setProperty('--font-size-base', fontSize + 'px');
-
-        // ========== البحث مع debounce ==========
-        let searchTimeout;
-        searchInput.addEventListener('input', () => {
-            clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(() => {
-                const q = searchInput.value.trim().toLowerCase();
-                if (!q) { displaySurahs(allSurahs); return; }
-                const filtered = allSurahs.filter(s => s.name.includes(q) || s.englishName.toLowerCase().includes(q));
-                displaySurahs(filtered);
-            }, 300);
-        });
-
-        // ========== زر العودة للأعلى ==========
-        window.addEventListener('scroll', () => {
-            goTopBtn.classList.toggle('show', window.scrollY > 300);
-        });
-
-        // ========== بدء التطبيق ==========
-        loadSurahs();
+        // بدء اللعبة
+        const game = new GeographyGame();
+        window.game = game; // للوصول من أدوات التحكم
     </script>
 </body>
 </html>
