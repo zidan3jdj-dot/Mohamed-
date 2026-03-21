@@ -2,136 +2,129 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>الجغرافي - Geo Challenge</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>رحلة الجغرافيا | Geo Journey</title>
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            user-select: none;
             -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Cairo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             min-height: 100vh;
-            padding: 15px;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        /* شريط النقاط */
-        .stats-bar {
-            background: rgba(255,255,255,0.95);
-            border-radius: 60px;
-            padding: 12px 20px;
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .stat {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: #f0f0f0;
-            padding: 5px 15px;
-            border-radius: 40px;
-        }
-
-        .stat span:first-child {
-            font-size: 1.3rem;
-        }
-
-        .stat span:last-child {
-            font-weight: bold;
-            font-size: 1.2rem;
-            color: #667eea;
-        }
-
-        /* حاوية المستويات */
-        .levels-container {
-            background: rgba(255,255,255,0.1);
-            border-radius: 30px;
-            padding: 15px;
-            height: calc(100vh - 100px);
-            overflow-y: auto;
-        }
-
-        .levels-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-            gap: 12px;
-        }
-
-        /* بطاقة المستوى */
-        .level-card {
-            background: white;
-            border-radius: 20px;
-            padding: 15px 5px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            border: 2px solid transparent;
-        }
-
-        .level-card:active {
-            transform: scale(0.95);
-        }
-
-        .level-card.completed {
-            background: linear-gradient(135deg, #2ecc71, #27ae60);
-            color: white;
-        }
-
-        .level-card.active {
-            border-color: #f1c40f;
-            background: linear-gradient(135deg, #f39c12, #e67e22);
-            color: white;
-            transform: scale(1.05);
-        }
-
-        .level-card.locked {
-            opacity: 0.5;
-            filter: grayscale(0.5);
-            cursor: not-allowed;
-        }
-
-        .level-number {
-            font-size: 1.4rem;
-            font-weight: bold;
-        }
-
-        .level-stars {
-            margin-top: 5px;
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-        }
-
-        /* نافذة السؤال */
-        .quiz-modal {
+        /* ===== شاشة البداية ===== */
+        .splash-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.9);
-            display: none;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
-            padding: 20px;
+            z-index: 10000;
+            transition: opacity 0.8s ease;
         }
 
-        .quiz-card {
-            background: white;
-            border-radius: 40px;
-            max-width: 500px;
+        .splash-content {
+            text-align: center;
+            animation: fadeInUp 1s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .splash-logo {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            animation: bounce 1s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .splash-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            margin-bottom: 10px;
+        }
+
+        .splash-subtitle {
+            color: rgba(255,255,255,0.8);
+            font-size: 1rem;
+            margin-bottom: 30px;
+        }
+
+        .loading-bar {
+            width: 250px;
+            height: 4px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px auto;
+        }
+
+        .loading-progress {
+            width: 0%;
+            height: 100%;
+            background: #ffd700;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .loading-text {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.8rem;
+        }
+
+        /* ===== شاشة الترحيب ===== */
+        .intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            padding: 25px;
-            animation: slideUp 0.3s ease;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9000;
+            transition: transform 0.5s ease;
+        }
+
+        .intro-card {
+            background: white;
+            border-radius: 50px;
+            padding: 40px 30px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            animation: slideUp 0.6s ease;
         }
 
         @keyframes slideUp {
@@ -145,6 +138,194 @@
             }
         }
 
+        .intro-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .intro-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #1e3c72;
+            margin-bottom: 10px;
+        }
+
+        .intro-desc {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+
+        .intro-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            gap: 15px;
+        }
+
+        .intro-stat {
+            background: #f5f5f5;
+            border-radius: 30px;
+            padding: 15px;
+            flex: 1;
+        }
+
+        .intro-stat-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #667eea;
+        }
+
+        .intro-stat-label {
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 60px;
+            padding: 16px 40px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .start-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* ===== شريط النقاط ===== */
+        .stats-bar {
+            background: rgba(255,255,255,0.95);
+            border-radius: 60px;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            margin: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            backdrop-filter: blur(10px);
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f0f0f0;
+            padding: 6px 15px;
+            border-radius: 40px;
+        }
+
+        .stat-icon {
+            font-size: 1.2rem;
+        }
+
+        .stat-value {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #667eea;
+        }
+
+        /* ===== خريطة المستويات ===== */
+        .levels-container {
+            background: rgba(255,255,255,0.1);
+            border-radius: 30px;
+            margin: 15px;
+            padding: 15px;
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+            backdrop-filter: blur(5px);
+        }
+
+        .levels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+            gap: 12px;
+        }
+
+        .level-card {
+            background: white;
+            border-radius: 25px;
+            padding: 12px 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+        }
+
+        .level-card:active {
+            transform: scale(0.96);
+        }
+
+        .level-card.completed {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+        }
+
+        .level-card.active {
+            border-color: #ffd700;
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            transform: scale(1.02);
+        }
+
+        .level-card.locked {
+            opacity: 0.5;
+            filter: grayscale(0.5);
+            cursor: not-allowed;
+        }
+
+        .level-number {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .level-stars {
+            margin-top: 6px;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+        }
+
+        /* ===== نافذة السؤال ===== */
+        .quiz-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(10px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .quiz-card {
+            background: white;
+            border-radius: 50px;
+            max-width: 500px;
+            width: 100%;
+            padding: 30px 25px;
+            animation: modalIn 0.3s ease;
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
         .quiz-header {
             display: flex;
             justify-content: space-between;
@@ -155,39 +336,40 @@
         }
 
         .category {
-            background: #667eea;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            padding: 8px 20px;
+            padding: 6px 20px;
             border-radius: 30px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         .stars-progress {
             display: flex;
-            gap: 8px;
+            gap: 6px;
         }
 
         .star-progress {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             color: #ddd;
         }
 
         .star-progress.active {
-            color: #f1c40f;
+            color: #ffd700;
         }
 
         .flag {
-            font-size: 5rem;
+            font-size: 4rem;
             text-align: center;
             margin: 15px 0;
         }
 
         .question {
             font-size: 1.3rem;
-            font-weight: bold;
+            font-weight: 600;
             text-align: center;
             margin: 20px 0;
             line-height: 1.5;
+            color: #333;
         }
 
         .options {
@@ -198,14 +380,15 @@
         }
 
         .option {
-            background: #f5f5f5;
-            border: 2px solid #e0e0e0;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
             border-radius: 60px;
-            padding: 15px;
+            padding: 14px 20px;
             text-align: center;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
+            color: #495057;
         }
 
         .option:active {
@@ -228,12 +411,12 @@
             text-align: center;
             margin-top: 20px;
             padding: 12px;
-            background: #f0f0f0;
+            background: #f8f9fa;
             border-radius: 60px;
         }
 
         .timer span {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: bold;
             color: #e74c3c;
             font-family: monospace;
@@ -244,7 +427,7 @@
             width: 100%;
             margin-top: 15px;
             padding: 12px;
-            background: #95a5a6;
+            background: #6c757d;
             border: none;
             border-radius: 60px;
             color: white;
@@ -253,7 +436,7 @@
             text-align: center;
         }
 
-        /* نافذة النتائج */
+        /* ===== نافذة النتائج ===== */
         .result-modal {
             position: fixed;
             top: 0;
@@ -261,19 +444,20 @@
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(10px);
             display: none;
             justify-content: center;
             align-items: center;
-            z-index: 1100;
+            z-index: 2100;
             padding: 20px;
         }
 
         .result-card {
             background: white;
-            border-radius: 40px;
+            border-radius: 50px;
             max-width: 500px;
             width: 100%;
-            padding: 25px;
+            padding: 30px 25px;
             max-height: 80vh;
             overflow-y: auto;
         }
@@ -286,13 +470,13 @@
         }
 
         .result-item {
-            background: #f5f5f5;
-            border-radius: 20px;
+            background: #f8f9fa;
+            border-radius: 30px;
             padding: 12px;
             margin: 10px 0;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .result-icon {
@@ -302,6 +486,7 @@
         .result-question {
             flex: 1;
             font-size: 0.9rem;
+            color: #495057;
         }
 
         .result-correct {
@@ -319,35 +504,56 @@
             color: white;
             border: none;
             border-radius: 60px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: bold;
             margin-top: 20px;
             cursor: pointer;
         }
 
+        .next-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* ===== رسالة منبثقة ===== */
         .toast {
             position: fixed;
-            bottom: 30px;
+            bottom: 100px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(10px);
             color: white;
-            padding: 10px 25px;
+            padding: 12px 25px;
             border-radius: 60px;
             font-size: 0.9rem;
-            z-index: 1200;
+            z-index: 2200;
             opacity: 0;
             transition: opacity 0.3s;
             pointer-events: none;
+            white-space: nowrap;
         }
 
         .toast.show {
             opacity: 1;
         }
 
-        /* صوت */
-        audio {
-            display: none;
+        /* ===== زر الصوت ===== */
+        .sound-toggle {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 50px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1500;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border: none;
         }
 
         @media (max-width: 500px) {
@@ -368,30 +574,72 @@
                 padding: 12px;
                 font-size: 0.95rem;
             }
+            .toast {
+                white-space: normal;
+                text-align: center;
+                max-width: 80%;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- شريط النقاط -->
-    <div class="stats-bar">
-        <div class="stat">
-            <span>🏆</span>
-            <span id="levelNum">1</span>
-            <span>/300</span>
-        </div>
-        <div class="stat">
-            <span>⭐</span>
-            <span id="pointsNum">0</span>
-        </div>
-        <div class="stat">
-            <span>⚡</span>
-            <span id="streakNum">0</span>
+    <!-- شاشة البداية -->
+    <div class="splash-screen" id="splashScreen">
+        <div class="splash-content">
+            <div class="splash-logo">🌍</div>
+            <div class="splash-title">رحلة الجغرافيا</div>
+            <div class="splash-subtitle">Geo Journey</div>
+            <div class="loading-bar">
+                <div class="loading-progress" id="loadingProgress"></div>
+            </div>
+            <div class="loading-text" id="loadingText">جاري التحميل...</div>
         </div>
     </div>
 
-    <!-- المستويات -->
-    <div class="levels-container">
+    <!-- شاشة الترحيب -->
+    <div class="intro-screen" id="introScreen">
+        <div class="intro-card">
+            <div class="intro-icon">🗺️</div>
+            <div class="intro-title">مرحباً بك</div>
+            <div class="intro-desc">اختبر معلوماتك الجغرافية في 300 مستوى</div>
+            <div class="intro-stats">
+                <div class="intro-stat">
+                    <div class="intro-stat-value">300</div>
+                    <div class="intro-stat-label">مستوى</div>
+                </div>
+                <div class="intro-stat">
+                    <div class="intro-stat-value">900</div>
+                    <div class="intro-stat-label">سؤال</div>
+                </div>
+                <div class="intro-stat">
+                    <div class="intro-stat-value">🎵</div>
+                    <div class="intro-stat-label">موسيقى</div>
+                </div>
+            </div>
+            <button class="start-btn" id="startGameBtn">ابدأ الرحلة</button>
+        </div>
+    </div>
+
+    <!-- شريط النقاط -->
+    <div class="stats-bar" style="display: none;" id="statsBar">
+        <div class="stat">
+            <span class="stat-icon">🏆</span>
+            <span class="stat-value" id="levelNum">1</span>
+            <span>/300</span>
+        </div>
+        <div class="stat">
+            <span class="stat-icon">⭐</span>
+            <span class="stat-value" id="pointsNum">0</span>
+        </div>
+        <div class="stat">
+            <span class="stat-icon">⚡</span>
+            <span class="stat-value" id="streakNum">0</span>
+        </div>
+    </div>
+
+    <!-- خريطة المستويات -->
+    <div class="levels-container" style="display: none;" id="levelsContainer">
         <div class="levels-grid" id="levelsGrid"></div>
     </div>
 
@@ -425,48 +673,43 @@
         </div>
     </div>
 
+    <!-- زر الصوت -->
+    <button class="sound-toggle" id="soundToggle">🔊</button>
+
     <!-- رسالة منبثقة -->
     <div class="toast" id="toast">رسالة</div>
 
-    <!-- عنصر الصوت -->
-    <audio id="victoryAudio" preload="auto"></audio>
+    <!-- عناصر الصوت -->
+    <audio id="music3Stars" preload="auto" style="display: none;"></audio>
+    <audio id="music2Stars" preload="auto" style="display: none;"></audio>
 
     <script>
         // ==================== الأسئلة ====================
         const QUESTIONS = [
-            // مستوى 1
             { level: 1, step: 0, cat: "🏛️ عواصم", q: "ما عاصمة مصر؟", a: "القاهرة", opts: ["القاهرة", "الإسكندرية", "الجيزة", "أسوان"] },
             { level: 1, step: 1, cat: "🌊 أنهار", q: "أين يقع نهر النيل؟", a: "مصر", opts: ["مصر", "السودان", "إثيوبيا", "أوغندا"] },
             { level: 1, step: 2, cat: "🚢 مضائق", q: "أين يقع مضيق جبل طارق؟", a: "بين إسبانيا والمغرب", opts: ["بين إسبانيا والمغرب", "بين إيطاليا وتونس", "بين تركيا واليونان", "بين اليمن وجيبوتي"] },
-            
-            // مستوى 2
             { level: 2, step: 0, cat: "🏛️ عواصم", q: "ما عاصمة السعودية؟", a: "الرياض", opts: ["الرياض", "جدة", "مكة", "الدمام"] },
             { level: 2, step: 1, cat: "🏝️ جزر", q: "أين تقع جزر المالديف؟", a: "المحيط الهندي", opts: ["المحيط الهندي", "المحيط الهادئ", "المحيط الأطلسي", "البحر الأحمر"] },
             { level: 2, step: 2, cat: "🗺️ دول حبيسة", q: "أي دولة أوروبية حبيسة؟", a: "النمسا", opts: ["النمسا", "إيطاليا", "فرنسا", "إسبانيا"] },
-            
-            // مستوى 3
             { level: 3, step: 0, cat: "🏛️ عواصم", q: "ما عاصمة العراق؟", a: "بغداد", opts: ["بغداد", "البصرة", "الموصل", "أربيل"] },
             { level: 3, step: 1, cat: "🌊 بحار", q: "أين يقع البحر المتوسط؟", a: "بين أوروبا وأفريقيا", opts: ["بين أوروبا وأفريقيا", "بين آسيا وأفريقيا", "بين أوروبا وآسيا", "بين أمريكا وأوروبا"] },
             { level: 3, step: 2, cat: "🇪🇬 أعلام", q: "ما دولة علمها؟ 🇪🇬", a: "مصر", opts: ["مصر", "سوريا", "العراق", "اليمن"] },
-            
-            // مستوى 4
             { level: 4, step: 0, cat: "🏛️ عواصم", q: "ما عاصمة سوريا؟", a: "دمشق", opts: ["دمشق", "حلب", "حمص", "اللاذقية"] },
             { level: 4, step: 1, cat: "🏔️ جبال", q: "أين تقع جبال الألب؟", a: "أوروبا", opts: ["أوروبا", "آسيا", "أمريكا الجنوبية", "أفريقيا"] },
             { level: 4, step: 2, cat: "🇸🇦 أعلام", q: "ما دولة علمها؟ 🇸🇦", a: "السعودية", opts: ["السعودية", "الكويت", "قطر", "الإمارات"] },
-            
-            // مستوى 5
             { level: 5, step: 0, cat: "🏛️ عواصم", q: "ما عاصمة لبنان؟", a: "بيروت", opts: ["بيروت", "طرابلس", "صيدا", "صور"] },
             { level: 5, step: 1, cat: "🚢 مضائق", q: "أين يقع مضيق البوسفور؟", a: "تركيا", opts: ["تركيا", "روسيا", "اليونان", "بلغاريا"] },
             { level: 5, step: 2, cat: "🇶🇦 أعلام", q: "ما دولة علمها؟ 🇶🇦", a: "قطر", opts: ["قطر", "البحرين", "الكويت", "الإمارات"] }
         ];
 
-        // إضافة مستويات إضافية حتى 300 (نسخ تلقائي للأسئلة)
+        // إكمال المستويات حتى 300
         for (let i = 6; i <= 300; i++) {
             const baseLevel = ((i - 1) % 5) + 1;
             QUESTIONS.push(
-                { level: i, step: 0, cat: "🏛️ عواصم", q: `ما عاصمة الدولة رقم ${i}؟`, a: "عاصمة", opts: ["عاصمة", "مدينة1", "مدينة2", "مدينة3"] },
-                { level: i, step: 1, cat: "🌍 جغرافيا", q: `سؤال جغرافيا رقم ${i}؟`, a: "الجواب", opts: ["الجواب", "خيار1", "خيار2", "خيار3"] },
-                { level: i, step: 2, cat: "🏞️ معالم", q: `ما هو المعلم الشهير رقم ${i}؟`, a: "المعلم", opts: ["المعلم", "مكان1", "مكان2", "مكان3"] }
+                { level: i, step: 0, cat: "🏛️ عواصم", q: `ما عاصمة الدولة ${i}؟`, a: "العاصمة", opts: ["العاصمة", "مدينة1", "مدينة2", "مدينة3"] },
+                { level: i, step: 1, cat: "🌍 جغرافيا", q: `سؤال جغرافيا رقم ${i}؟`, a: "الإجابة", opts: ["الإجابة", "خيار1", "خيار2", "خيار3"] },
+                { level: i, step: 2, cat: "🏞️ معالم", q: `ما هو المعلم الشهير ${i}؟`, a: "المعلم", opts: ["المعلم", "مكان1", "مكان2", "مكان3"] }
             );
         }
 
@@ -475,7 +718,8 @@
             currentLevel: 1,
             totalPoints: 0,
             streak: 0,
-            levelStars: {}
+            levelStars: {},
+            soundEnabled: true
         };
 
         // تحميل البيانات
@@ -487,25 +731,33 @@
                 gameState.totalPoints = data.totalPoints || 0;
                 gameState.streak = data.streak || 0;
                 gameState.levelStars = data.levelStars || {};
+                gameState.soundEnabled = data.soundEnabled !== false;
             }
         } catch(e) {}
 
         // عناصر DOM
+        const splashScreen = document.getElementById('splashScreen');
+        const introScreen = document.getElementById('introScreen');
+        const statsBar = document.getElementById('statsBar');
+        const levelsContainer = document.getElementById('levelsContainer');
         const levelsGrid = document.getElementById('levelsGrid');
         const quizModal = document.getElementById('quizModal');
         const resultModal = document.getElementById('resultModal');
         const toast = document.getElementById('toast');
-        const victoryAudio = document.getElementById('victoryAudio');
+        const soundToggle = document.getElementById('soundToggle');
+        
+        // عناصر الصوت
+        const music3Stars = document.getElementById('music3Stars');
+        const music2Stars = document.getElementById('music2Stars');
+        
+        music3Stars.src = '1.mp3';
+        music2Stars.src = '2.mp3';
         
         let currentQuestions = [];
         let currentStep = 0;
         let currentAnswers = [];
         let timerInterval = null;
         let timeLeft = 15;
-
-        // تعيين ملف الصوت
-        victoryAudio.src = '1.mp3';
-        victoryAudio.load();
 
         // عرض رسالة
         function showMessage(msg, isGood = true) {
@@ -514,11 +766,15 @@
             setTimeout(() => toast.classList.remove('show'), 2000);
         }
 
-        // تشغيل صوت النصر
-        function playVictory() {
-            if (!victoryAudio.src || victoryAudio.src === window.location.href) return;
-            victoryAudio.currentTime = 0;
-            victoryAudio.play().catch(e => console.log('صوت:', e));
+        // تشغيل الموسيقى حسب عدد النجوم
+        function playMusic(starsCount) {
+            if (!gameState.soundEnabled) return;
+            
+            const audio = starsCount === 3 ? music3Stars : music2Stars;
+            if (audio.src && audio.src !== window.location.href) {
+                audio.currentTime = 0;
+                audio.play().catch(e => console.log('صوت:', e));
+            }
         }
 
         // حفظ البيانات
@@ -559,7 +815,6 @@
                 levelsGrid.appendChild(card);
             }
             
-            // التمرير إلى المستوى الحالي
             setTimeout(() => {
                 const active = document.querySelector('.level-card.active');
                 if (active) active.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -582,7 +837,6 @@
 
         // عرض سؤال
         function showQuestion(step) {
-            // تحديث النجوم
             const stars = document.querySelectorAll('.star-progress');
             stars.forEach((s, i) => {
                 if (i < step) s.classList.add('active');
@@ -603,7 +857,6 @@
             
             document.getElementById('questionText').textContent = q.q;
             
-            // خيارات عشوائية
             const opts = [...q.opts].sort(() => Math.random() - 0.5);
             const container = document.getElementById('optionsContainer');
             container.innerHTML = '';
@@ -616,7 +869,6 @@
                 container.appendChild(btn);
             });
             
-            // بدء المؤقت
             startTimer();
         }
 
@@ -651,10 +903,8 @@
             showMessage('⏰ انتهى الوقت!');
             gameState.streak = 0;
             
-            // تعطيل الأزرار
             document.querySelectorAll('.option').forEach(btn => btn.style.pointerEvents = 'none');
             
-            // إظهار الإجابة الصحيحة
             document.querySelectorAll('.option').forEach(btn => {
                 if (btn.textContent === currentQ.a) {
                     btn.classList.add('correct');
@@ -696,7 +946,6 @@
                 gameState.streak = 0;
                 showMessage('❌ خطأ');
                 
-                // إظهار الإجابة الصحيحة
                 document.querySelectorAll('.option').forEach(b => {
                     if (b.textContent === question.a) {
                         b.classList.add('correct');
@@ -722,14 +971,11 @@
             const correctCount = currentAnswers.filter(a => a.isCorrect).length;
             const levelNum = currentQuestions[0].level;
             
-            // حفظ النجوم
             gameState.levelStars[levelNum] = correctCount;
             
-            // مكافأة
             const levelBonus = correctCount * 100;
             gameState.totalPoints += levelBonus;
             
-            // فتح المستوى التالي
             if (correctCount >= 2 && levelNum === gameState.currentLevel && levelNum < 300) {
                 gameState.currentLevel++;
             }
@@ -737,20 +983,23 @@
             saveGame();
             updateStats();
             
-            // عرض النتائج
-            showResults();
+            // تشغيل الموسيقى حسب عدد النجوم
+            playMusic(correctCount);
             
-            // تشغيل الموسيقى فقط إذا كانت الإجابات 3 صحيحة
+            // عرض رسالة حسب النتيجة
             if (correctCount === 3) {
-                playVictory();
-                showMessage('🎵 مخطوطة ذهبية! +50 نقطة إضافية', true);
+                showMessage('🎵 إنجاز كامل! +50 نقطة إضافية');
                 gameState.totalPoints += 50;
                 updateStats();
                 saveGame();
                 document.getElementById('resultTitle').innerHTML = '🎉 إنجاز كامل! 🎉';
+            } else if (correctCount === 2) {
+                document.getElementById('resultTitle').innerHTML = '📊 جيد جداً';
             } else {
-                document.getElementById('resultTitle').innerHTML = '📊 نتيجة المستوى';
+                document.getElementById('resultTitle').innerHTML = '📊 حاول مرة أخرى';
             }
+            
+            showResults();
         }
 
         // عرض النتائج
@@ -779,21 +1028,54 @@
             buildLevels();
         }
 
+        // تبديل الصوت
+        function toggleSound() {
+            gameState.soundEnabled = !gameState.soundEnabled;
+            soundToggle.textContent = gameState.soundEnabled ? '🔊' : '🔇';
+            saveGame();
+            showMessage(gameState.soundEnabled ? '🔊 تم تشغيل الصوت' : '🔇 تم إيقاف الصوت');
+        }
+
+        // بدء اللعبة
+        function startGame() {
+            introScreen.style.transform = 'translateY(-100%)';
+            setTimeout(() => {
+                introScreen.style.display = 'none';
+                statsBar.style.display = 'flex';
+                levelsContainer.style.display = 'block';
+            }, 500);
+        }
+
+        // شاشة البداية
+        let progress = 0;
+        const loadingInterval = setInterval(() => {
+            progress += 10;
+            document.getElementById('loadingProgress').style.width = progress + '%';
+            if (progress >= 100) {
+                clearInterval(loadingInterval);
+                setTimeout(() => {
+                    splashScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        splashScreen.style.display = 'none';
+                        introScreen.style.display = 'flex';
+                    }, 500);
+                }, 500);
+            }
+        }, 150);
+
         // أحداث
+        document.getElementById('startGameBtn').onclick = startGame;
         document.getElementById('closeQuizBtn').onclick = () => {
             if (timerInterval) clearInterval(timerInterval);
             quizModal.style.display = 'none';
         };
-        
         document.getElementById('nextBtn').onclick = closeResults;
+        soundToggle.onclick = toggleSound;
         
-        // بدء اللعبة
+        // بناء المستويات
         buildLevels();
         updateStats();
-        
-        // إخفاء شاشة البداية إذا وجدت
-        const splash = document.getElementById('splashScreen');
-        if (splash) splash.style.display = 'none';
+        soundToggle.textContent = gameState.soundEnabled ? '🔊' : '🔇';
     </script>
 </body>
 </html>
