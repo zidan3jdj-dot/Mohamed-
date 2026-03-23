@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>الجغرافي | رحلة عبر القارات</title>
+    <title>الجغرافي | رحلة القارات</title>
     <meta name="theme-color" content="#1e5a3a">
     <style>
         * {
@@ -199,14 +199,14 @@
             color: #2d5a3b;
         }
 
-        /* ===== خريطة المستويات - تصميم قارات ===== */
+        /* ===== خريطة القارات - تصميم شبكة المستويات ===== */
         .continents-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(145deg, #0a2f1f, #052015);
+            background: #0a2f1f;
             z-index: 9500;
             display: none;
             flex-direction: column;
@@ -251,108 +251,131 @@
             color: #ffd966;
         }
 
-        /* القارات */
-        .continents-container {
-            padding: 20px;
-        }
-
-        .continent-card {
-            background: rgba(255,255,245,0.1);
-            backdrop-filter: blur(8px);
-            border-radius: 40px;
-            margin-bottom: 25px;
-            overflow: hidden;
-            border: 1px solid rgba(255,215,0,0.3);
-        }
-
-        .continent-header {
-            background: linear-gradient(135deg, #f39c12, #e67e22);
-            padding: 18px 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .continent-icon {
-            font-size: 2.5rem;
-        }
-
-        .continent-name {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: white;
+        /* Swiper للقارات */
+        .continents-swiper {
             flex: 1;
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+            padding: 20px;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
         }
 
-        .continent-progress {
-            background: rgba(0,0,0,0.3);
-            padding: 5px 12px;
-            border-radius: 30px;
-            font-size: 0.8rem;
-            color: #ffd966;
+        .continent-slide {
+            display: inline-block;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 10px;
+            vertical-align: top;
+            scroll-snap-align: start;
+            white-space: normal;
+            background: rgba(0,0,0,0.4);
+            border-radius: 40px;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
         }
 
-        .continent-levels {
-            padding: 15px;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
-            gap: 12px;
+        .continent-bg {
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 550px;
+            border-radius: 40px;
+            overflow: hidden;
         }
 
-        .level-bubble {
-            background: linear-gradient(145deg, #f5e6d3, #ecd9c0);
-            border-radius: 60px;
-            padding: 12px 8px;
+        .continent-overlay {
+            background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%);
+            padding: 20px;
+            min-height: 550px;
+        }
+
+        .continent-title {
             text-align: center;
+            padding: 15px;
+            background: rgba(0,0,0,0.6);
+            border-radius: 50px;
+            margin-bottom: 20px;
+            color: #ffd966;
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
+        /* شبكة المستويات - تصميم مثل الصورة */
+        .levels-network {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            padding: 15px;
+            position: relative;
+        }
+
+        .level-node {
+            width: 65px;
+            height: 65px;
+            background: linear-gradient(145deg, #f5e6d3, #ecd9c0);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
             transition: all 0.2s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 5px 12px rgba(0,0,0,0.3);
             border: 2px solid #ffd966;
+            position: relative;
         }
 
-        .level-bubble:active {
+        .level-node:active {
             transform: scale(0.95);
         }
 
-        .level-bubble.completed {
+        .level-node.completed {
             background: linear-gradient(145deg, #2ecc71, #27ae60);
             border-color: #f9e79f;
         }
 
-        .level-bubble.active {
+        .level-node.active {
             background: linear-gradient(145deg, #f39c12, #e67e22);
-            transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(243,156,18,0.6);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(243,156,18,0.8);
             border-color: white;
         }
 
-        .level-bubble.locked {
-            background: #aaa;
+        .level-node.locked {
+            background: #888;
             opacity: 0.5;
             cursor: not-allowed;
             transform: none;
         }
 
         .level-number {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 800;
             color: #5a3a1a;
         }
 
-        .level-bubble.completed .level-number,
-        .level-bubble.active .level-number {
+        .level-node.completed .level-number,
+        .level-node.active .level-number {
             color: white;
         }
 
         .level-stars {
-            font-size: 0.7rem;
-            letter-spacing: 2px;
-            margin-top: 5px;
+            font-size: 0.6rem;
+            margin-top: 2px;
             color: #f39c12;
         }
 
-        .level-bubble.completed .level-stars {
+        .level-node.completed .level-stars {
             color: white;
+        }
+
+        /* خطوط الاتصال بين المستويات */
+        .levels-network {
+            position: relative;
         }
 
         /* شاشة الألقاب */
@@ -624,14 +647,13 @@
         }
 
         @media (max-width: 550px) {
-            .continent-levels { grid-template-columns: repeat(4, 1fr); gap: 8px; }
-            .level-bubble { padding: 8px 4px; }
-            .level-number { font-size: 1rem; }
+            .level-node { width: 55px; height: 55px; }
+            .level-number { font-size: 0.9rem; }
             .question-text { font-size: 1.1rem; padding: 15px; }
             .question-type { font-size: 3rem; }
             .option-btn { padding: 10px 12px; font-size: 0.9rem; }
             .toast-msg { white-space: normal; text-align: center; max-width: 85%; }
-            .user-stat-value { font-size: 1.4rem; }
+            .continent-slide { max-width: 95%; }
         }
     </style>
 </head>
@@ -702,10 +724,10 @@
 <div class="continents-screen" id="continentsScreen">
     <div class="continents-header">
         <div class="back-btn" id="continentsBackBtn">✖</div>
-        <h2>رحلة عبر القارات</h2>
+        <h2>خريطة القارات</h2>
         <div class="continents-stats" id="continentsStats">⭐ 0</div>
     </div>
-    <div class="continents-container" id="continentsContainer"></div>
+    <div class="continents-swiper" id="continentsSwiper"></div>
 </div>
 
 <!-- شاشة الألقاب -->
@@ -747,37 +769,30 @@
 <div class="toast-msg" id="toastMsg"></div>
 
 <script>
-    // ==================== القارات ====================
+    // ==================== القارات مع الصور ====================
     const CONTINENTS = [
-        { name: "🌍 أفريقيا", icon: "🦒🐪", levels: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50] },
-        { name: "🌏 آسيا", icon: "🐼🏯", levels: [51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100] },
-        { name: "🌎 أوروبا", icon: "🏰🍷", levels: [101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150] },
-        { name: "🗽 أمريكا الشمالية", icon: "🦅🍁", levels: [151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200] },
-        { name: "🦙 أمريكا الجنوبية", icon: "🏔️🐂", levels: [201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250] },
-        { name: "🐧 أوقيانوسيا", icon: "🦘🏝️", levels: [251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,276,277,278,279,280,281,282,283,284,285,286,287,288,289,290,291,292,293,294,295,296,297,298,299,300] }
-    ];
-
-    // ==================== 50 لقب ====================
-    const TITLES = [
-        { name: "🌱 مبتدئ", level: 1 },
-        { name: "🗺️ مستكشف", level: 10 },
-        { name: "🧭 مرشد", level: 25 },
-        { name: "🏔️ متسلق جبال", level: 40 },
-        { name: "🌊 غواص البحار", level: 55 },
-        { name: "🏜️ صحراوي", level: 70 },
-        { name: "🗿 مؤرخ", level: 85 },
-        { name: "⭐ نجم الجغرافيا", level: 100 },
-        { name: "🏆 سيد المعرفة", level: 120 },
-        { name: "👑 ملك الجغرافيا", level: 150 },
-        { name: "💎 أسطورة", level: 180 },
-        { name: "🌍 عبقري العالم", level: 210 },
-        { name: "⚡ سريع البديهة", level: 240 },
-        { name: "🎯 دقيق التصويب", level: 270 },
-        { name: "🌟 أيقونة المعرفة", level: 300 }
+        { name: "أفريقيا", image: "1.png", levels: Array.from({length: 50}, (_, i) => i + 1), icon: "🦒" },
+        { name: "آسيا", image: "2.png", levels: Array.from({length: 50}, (_, i) => i + 51), icon: "🐼" },
+        { name: "أوروبا", image: "3.png", levels: Array.from({length: 50}, (_, i) => i + 101), icon: "🏰" },
+        { name: "أمريكا الشمالية", image: "4.png", levels: Array.from({length: 50}, (_, i) => i + 151), icon: "🦅" },
+        { name: "أمريكا الجنوبية", image: "5.png", levels: Array.from({length: 50}, (_, i) => i + 201), icon: "🦙" },
+        { name: "أستراليا", image: "6.png", levels: Array.from({length: 50}, (_, i) => i + 251), icon: "🦘" },
+        { name: "القارة القطبية", image: "7.png", levels: [], icon: "🐧" }
     ];
     
-    for(let i = TITLES.length; i < 50; i++) {
-        TITLES.push({ name: `🏅 لقب المستوى ${i*6+5}`, level: Math.min(i*6+5, 300) });
+    // ==================== 50 لقب ====================
+    const TITLES = [];
+    for(let i = 1; i <= 50; i++) {
+        let level = i * 6;
+        if(level > 300) level = 300;
+        let names = [
+            "🌱 مبتدئ", "🗺️ مستكشف", "🧭 مرشد", "🏔️ متسلق", "🌊 غواص", "🏜️ صحراوي",
+            "🗿 مؤرخ", "⭐ نجم", "🏆 بطل", "👑 ملك", "💎 أسطورة", "🌍 عبقري",
+            "⚡ سريع", "🎯 دقيق", "🌟 أيقونة", "🔥 محترف", "💪 خارق", "🎖️ قدير",
+            "🏅 فاتح", "🌙 قمري", "☀️ شمسي", "🌀 إعصار", "⚡ برق", "💎 ماسي"
+        ];
+        let name = names[(i-1) % names.length] || `🏅 لقب ${i}`;
+        TITLES.push({ name: name, level: level });
     }
     TITLES.sort((a,b) => a.level - b.level);
     
@@ -787,13 +802,13 @@
     const CAPITALS = {
         "مصر": "القاهرة", "السعودية": "الرياض", "المغرب": "الرباط", "تونس": "تونس", "الجزائر": "الجزائر",
         "الإمارات": "أبوظبي", "قطر": "الدوحة", "الكويت": "الكويت", "لبنان": "بيروت", "سوريا": "دمشق",
-        "العراق": "بغداد", "الأردن": "عمان", "تركيا": "أنقرة", "إيران": "طهران", "فرنسا": "باريس",
-        "إيطاليا": "روما", "ألمانيا": "برلين", "بريطانيا": "لندن", "إسبانيا": "مدريد", "البرتغال": "لشبونة"
+        "العراق": "بغداد", "الأردن": "عمان", "تركيا": "أنقرة", "فرنسا": "باريس", "إيطاليا": "روما",
+        "ألمانيا": "برلين", "بريطانيا": "لندن", "إسبانيا": "مدريد", "البرتغال": "لشبونة", "اليابان": "طوكيو"
     };
     const COUNTRIES = Object.keys(CAPITALS);
     
-    const EMOJIS = ["🐪🏜️🕋", "🗽🦅", "🍕🍝🏛️", "🥐🗼🍷", "🐼🐉🥟", "🍣🗻🤖", "🦘🏏", "🕌🐫🌴", "🍁🍂🦌", "🏔️🧀🍫", "🐂⚽🌊", "🌷🧀🚲", "🐘🛕🕌", "🏯🌸🗻"];
-    const EMOJI_ANSWERS = ["المملكة العربية السعودية", "الولايات المتحدة", "إيطاليا", "فرنسا", "الصين", "اليابان", "أستراليا", "مصر", "كندا", "سويسرا", "البرازيل", "هولندا", "الهند", "اليابان"];
+    const EMOJIS = ["🐪🏜️🕋", "🗽🦅", "🍕🍝🏛️", "🥐🗼🍷", "🐼🐉🥟", "🍣🗻🤖", "🦘🏏", "🕌🐫🌴", "🍁🍂🦌", "🏔️🧀🍫"];
+    const EMOJI_ANSWERS = ["المملكة العربية السعودية", "الولايات المتحدة", "إيطاليا", "فرنسا", "الصين", "اليابان", "أستراليا", "مصر", "كندا", "سويسرا"];
     
     const MOUNTAINS = [
         { q: "أين تقع جبال الألب؟", a: "أوروبا" },
@@ -808,17 +823,23 @@
             let qData;
             if(step === 0) {
                 let country = COUNTRIES[lvl % COUNTRIES.length];
-                qData = { type: "🏛️ عواصم", question: `ما عاصمة ${country}؟`, answer: CAPITALS[country], options: [CAPITALS[country], CAPITALS[COUNTRIES[(lvl+1)%COUNTRIES.length]], CAPITALS[COUNTRIES[(lvl+2)%COUNTRIES.length]], CAPITALS[COUNTRIES[(lvl+3)%COUNTRIES.length]]] };
+                qData = { type: "🏛️ عواصم", question: `ما عاصمة ${country}؟`, answer: CAPITALS[country] };
+                let opts = [qData.answer];
+                for(let i = 1; i <= 3; i++) opts.push(CAPITALS[COUNTRIES[(lvl+i) % COUNTRIES.length]]);
+                qData.options = [...new Set(opts)].slice(0,4);
+                while(qData.options.length < 4) qData.options.push("مدينة أخرى");
             } else if(step === 1) {
                 let idx = lvl % EMOJIS.length;
-                qData = { type: "🎭 خمن الإيموجي", question: EMOJIS[idx], answer: EMOJI_ANSWERS[idx], options: [EMOJI_ANSWERS[idx], EMOJI_ANSWERS[(idx+1)%EMOJI_ANSWERS.length], EMOJI_ANSWERS[(idx+2)%EMOJI_ANSWERS.length], EMOJI_ANSWERS[(idx+3)%EMOJI_ANSWERS.length]] };
+                qData = { type: "🎭 خمن الإيموجي", question: EMOJIS[idx], answer: EMOJI_ANSWERS[idx] };
+                let opts = [qData.answer];
+                for(let i = 1; i <= 3; i++) opts.push(EMOJI_ANSWERS[(idx+i) % EMOJI_ANSWERS.length]);
+                qData.options = [...new Set(opts)].slice(0,4);
             } else {
                 let idx = lvl % MOUNTAINS.length;
-                qData = { type: "🏔️ جبال", question: MOUNTAINS[idx].q, answer: MOUNTAINS[idx].a, options: [MOUNTAINS[idx].a, "آسيا", "أوروبا", "أفريقيا"] };
+                qData = { type: "🏔️ جبال", question: MOUNTAINS[idx].q, answer: MOUNTAINS[idx].a };
+                qData.options = [qData.answer, "آسيا", "أوروبا", "أفريقيا"];
             }
-            let optsSet = [...new Set([qData.answer, ...qData.options.slice(0,3)])];
-            while(optsSet.length < 4) optsSet.push("مكان آخر");
-            qData.options = optsSet.sort(() => Math.random() - 0.5);
+            qData.options = qData.options.sort(() => Math.random() - 0.5);
             QUESTIONS_DB.push({ level: lvl, step: step, ...qData });
         }
     }
@@ -884,7 +905,7 @@
                     <div class="title-icon">${isEarned ? '🏆' : '🔒'}</div>
                     <div class="title-info">
                         <div class="title-name">${title.name}</div>
-                        <div class="title-condition">${title.level ? `الوصول للمستوى ${title.level}` : 'إنجاز خاص'}</div>
+                        <div class="title-condition">الوصول للمستوى ${title.level}</div>
                     </div>
                     <div class="title-status">${isEarned ? '✓ مفتوح' : '✗ مغلق'}</div>
                 `;
@@ -909,43 +930,51 @@
     }
     
     function buildContinents() {
-        const container = document.getElementById('continentsContainer');
+        const container = document.getElementById('continentsSwiper');
         container.innerHTML = '';
         
         CONTINENTS.forEach(continent => {
-            const card = document.createElement('div');
-            card.className = 'continent-card';
+            const slide = document.createElement('div');
+            slide.className = 'continent-slide';
             
-            let completedCount = continent.levels.filter(lvl => gameState.levelStars[lvl] && gameState.levelStars[lvl] > 0).length;
-            let totalCount = continent.levels.length;
+            const bgDiv = document.createElement('div');
+            bgDiv.className = 'continent-bg';
+            bgDiv.style.backgroundImage = `url('${continent.image}')`;
+            bgDiv.style.backgroundSize = 'cover';
+            bgDiv.style.backgroundPosition = 'center';
             
-            card.innerHTML = `
-                <div class="continent-header">
-                    <div class="continent-icon">${continent.icon}</div>
-                    <div class="continent-name">${continent.name}</div>
-                    <div class="continent-progress">${completedCount}/${totalCount}</div>
-                </div>
-                <div class="continent-levels" id="continent-${continent.name.replace(/\s/g,'')}"></div>
+            const overlay = document.createElement('div');
+            overlay.className = 'continent-overlay';
+            
+            overlay.innerHTML = `
+                <div class="continent-title">${continent.icon} ${continent.name} ${continent.icon}</div>
+                <div class="levels-network" id="network-${continent.name.replace(/\s/g,'')}"></div>
             `;
-            container.appendChild(card);
+            bgDiv.appendChild(overlay);
+            slide.appendChild(bgDiv);
+            container.appendChild(slide);
             
-            const levelsDiv = card.querySelector(`.continent-levels`);
-            continent.levels.forEach(level => {
-                const stars = gameState.levelStars[level] || 0;
-                const bubble = document.createElement('div');
-                bubble.className = 'level-bubble';
-                if(level < gameState.currentLevel) bubble.classList.add('completed');
-                if(level === gameState.currentLevel) bubble.classList.add('active');
-                if(level > gameState.currentLevel) bubble.classList.add('locked');
-                bubble.innerHTML = `
-                    <div class="level-number">${level}</div>
-                    <div class="level-stars">${'⭐'.repeat(stars)}${'☆'.repeat(3-stars)}</div>
-                `;
-                if(level <= gameState.currentLevel) {
-                    bubble.onclick = () => startLevel(level);
-                }
-                levelsDiv.appendChild(bubble);
-            });
+            const networkDiv = overlay.querySelector(`.levels-network`);
+            if(continent.levels.length > 0) {
+                continent.levels.forEach(level => {
+                    const stars = gameState.levelStars[level] || 0;
+                    const node = document.createElement('div');
+                    node.className = 'level-node';
+                    if(level < gameState.currentLevel) node.classList.add('completed');
+                    if(level === gameState.currentLevel) node.classList.add('active');
+                    if(level > gameState.currentLevel) node.classList.add('locked');
+                    node.innerHTML = `
+                        <div class="level-number">${level}</div>
+                        <div class="level-stars">${'⭐'.repeat(stars)}${'☆'.repeat(3-stars)}</div>
+                    `;
+                    if(level <= gameState.currentLevel) {
+                        node.onclick = () => startLevel(level);
+                    }
+                    networkDiv.appendChild(node);
+                });
+            } else {
+                networkDiv.innerHTML = '<div style="text-align:center; color:white; padding:40px;">قريباً 🔜</div>';
+            }
         });
     }
     
