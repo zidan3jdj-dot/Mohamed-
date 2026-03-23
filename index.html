@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>زيتونة | رحلة الجغرافيا</title>
+    <title>الجغرافي | رحلة المعرفة</title>
     <meta name="theme-color" content="#1e5a3a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <style>
@@ -160,6 +160,18 @@
             color: #e0e0e0;
         }
 
+        /* الألقاب */
+        .title-badge {
+            background: rgba(0,0,0,0.6);
+            border-radius: 40px;
+            padding: 8px 15px;
+            margin: 10px 20px;
+            text-align: center;
+            font-weight: bold;
+            color: #ffd966;
+            font-size: 0.85rem;
+        }
+
         /* القائمة الرئيسية */
         .home-menu {
             padding: 20px;
@@ -262,14 +274,14 @@
             padding: 20px;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
+            gap: 12px;
             padding-bottom: 40px;
         }
 
         .level-item {
             background: linear-gradient(145deg, #f5e6d3, #ecd9c0);
-            border-radius: 25px;
-            padding: 15px 8px;
+            border-radius: 20px;
+            padding: 12px 6px;
             text-align: center;
             cursor: pointer;
             transition: all 0.2s;
@@ -288,8 +300,8 @@
 
         .level-item.active {
             background: linear-gradient(145deg, #f39c12, #e67e22);
-            transform: scale(1.03);
-            box-shadow: 0 0 15px rgba(243,156,18,0.6);
+            transform: scale(1.02);
+            box-shadow: 0 0 12px rgba(243,156,18,0.6);
         }
 
         .level-item.locked {
@@ -299,7 +311,7 @@
         }
 
         .level-number {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 800;
             color: #5a3a1a;
         }
@@ -312,17 +324,16 @@
         .level-stars {
             font-size: 0.7rem;
             letter-spacing: 2px;
-            margin-top: 6px;
+            margin-top: 5px;
             color: #f39c12;
         }
 
-        .level-item.completed .level-stars,
-        .level-item.active .level-stars {
+        .level-item.completed .level-stars {
             color: white;
         }
 
-        /* شاشة الإعدادات */
-        .settings-screen {
+        /* شاشة الألقاب */
+        .titles-screen {
             position: fixed;
             top: 0;
             left: 0;
@@ -332,46 +343,52 @@
             z-index: 9500;
             display: none;
             flex-direction: column;
+            overflow-y: auto;
         }
 
-        .settings-header {
-            background: #2c5a3a;
+        .titles-grid {
             padding: 20px;
             display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .settings-list {
-            padding: 20px;
-        }
-
-        .setting-item {
-            background: rgba(255,255,245,0.95);
-            border-radius: 60px;
-            padding: 18px 20px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .setting-label {
-            font-weight: 700;
-            color: #2d5a3b;
-            display: flex;
-            align-items: center;
+            flex-direction: column;
             gap: 12px;
         }
 
-        .reset-btn {
-            background: #e74c3c;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 40px;
-            font-weight: bold;
-            cursor: pointer;
+        .title-card {
+            background: rgba(255,255,245,0.95);
+            border-radius: 60px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-right: 5px solid #f39c12;
+        }
+
+        .title-card.locked-title {
+            opacity: 0.5;
+            filter: grayscale(0.3);
+        }
+
+        .title-icon {
+            font-size: 2rem;
+        }
+
+        .title-info {
+            flex: 1;
+        }
+
+        .title-name {
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: #2d5a3b;
+        }
+
+        .title-condition {
+            font-size: 0.7rem;
+            color: #888;
+        }
+
+        .title-status {
+            font-size: 1.2rem;
         }
 
         /* شاشة السؤال */
@@ -381,7 +398,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.92);
+            background: rgba(0,0,0,0.94);
             backdrop-filter: blur(15px);
             z-index: 10000;
             display: none;
@@ -392,10 +409,10 @@
 
         .quiz-card {
             background: linear-gradient(145deg, #fff8ed, #ffefdb);
-            border-radius: 60px;
+            border-radius: 50px;
             max-width: 550px;
             width: 100%;
-            padding: 30px 25px;
+            padding: 25px 20px;
             animation: slideUp 0.3s ease;
         }
 
@@ -409,6 +426,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .level-badge {
@@ -417,45 +436,56 @@
             border-radius: 40px;
             color: white;
             font-weight: bold;
+            font-size: 0.9rem;
         }
 
         .question-counter {
-            color: #8b6946;
+            background: #e0c8a8;
+            padding: 6px 15px;
+            border-radius: 40px;
+            color: #5a3a1a;
             font-weight: bold;
         }
 
         .question-type {
             text-align: center;
-            font-size: 3rem;
-            margin: 15px 0;
+            font-size: 2.5rem;
+            margin: 10px 0;
+            background: #f5e6d3;
+            border-radius: 50px;
+            padding: 15px;
         }
 
         .question-text {
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             font-weight: 700;
             text-align: center;
             color: #2d3e2b;
             margin: 20px 0;
-            line-height: 1.4;
+            line-height: 1.5;
+            background: white;
+            padding: 15px;
+            border-radius: 40px;
         }
 
         .options-list {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
             margin: 20px 0;
         }
 
         .option-btn {
             background: white;
             border: 2px solid #e0c8a8;
-            border-radius: 60px;
-            padding: 14px 18px;
+            border-radius: 50px;
+            padding: 12px 16px;
             text-align: center;
             font-weight: 700;
             cursor: pointer;
             transition: 0.1s;
             color: #4a3720;
+            font-size: 0.95rem;
         }
 
         .option-btn:active {
@@ -477,15 +507,15 @@
         .timer-box {
             text-align: center;
             margin-top: 15px;
-            padding: 12px;
+            padding: 10px;
             background: #2d3e2b;
-            border-radius: 60px;
+            border-radius: 50px;
             color: #ffd966;
             font-weight: bold;
         }
 
         .timer-box span {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-family: monospace;
             color: #ffaa44;
         }
@@ -493,8 +523,8 @@
         .exit-quiz {
             background: #7f8c8d;
             margin-top: 12px;
-            padding: 12px;
-            border-radius: 60px;
+            padding: 10px;
+            border-radius: 50px;
             text-align: center;
             color: white;
             font-weight: bold;
@@ -519,16 +549,16 @@
 
         .result-card {
             background: linear-gradient(145deg, #fff8ed, #ffefdb);
-            border-radius: 60px;
+            border-radius: 50px;
             max-width: 480px;
             width: 100%;
-            padding: 35px 25px;
+            padding: 30px 20px;
             text-align: center;
         }
 
         .result-stars {
-            font-size: 2.5rem;
-            letter-spacing: 8px;
+            font-size: 2.2rem;
+            letter-spacing: 6px;
             margin: 15px 0;
         }
 
@@ -544,35 +574,42 @@
         .next-level-btn {
             background: linear-gradient(135deg, #f39c12, #e67e22);
             border: none;
-            border-radius: 60px;
-            padding: 15px;
+            border-radius: 50px;
+            padding: 14px;
             width: 100%;
             color: white;
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 1rem;
             cursor: pointer;
             margin-top: 15px;
         }
 
         .toast-msg {
             position: fixed;
-            bottom: 100px;
+            bottom: 80px;
             left: 50%;
             transform: translateX(-50%);
             background: rgba(0,0,0,0.9);
             color: #ffd966;
-            padding: 12px 25px;
+            padding: 10px 20px;
             border-radius: 50px;
             z-index: 11000;
             opacity: 0;
             transition: opacity 0.2s;
             pointer-events: none;
             font-weight: bold;
+            font-size: 0.85rem;
+            white-space: nowrap;
         }
 
-        @media (max-width: 500px) {
-            .levels-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
-            .question-text { font-size: 1.1rem; }
+        @media (max-width: 550px) {
+            .levels-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+            .question-text { font-size: 1rem; padding: 12px; }
+            .option-btn { padding: 10px 12px; font-size: 0.85rem; }
+            .quiz-card { padding: 20px 15px; }
+            .toast-msg { white-space: normal; text-align: center; max-width: 85%; }
+            .user-stat-value { font-size: 1.4rem; }
+            .title-name { font-size: 0.9rem; }
         }
     </style>
 </head>
@@ -582,9 +619,9 @@
 <!-- شاشة البداية -->
 <div class="splash-screen" id="splashScreen">
     <div class="splash-content">
-        <div class="splash-logo">🇶🇦</div>
-        <div class="splash-title">زيتونة</div>
-        <div class="splash-sub">رحلة الجغرافيا</div>
+        <div class="splash-logo">🌍🗺️</div>
+        <div class="splash-title">الجغرافي</div>
+        <div class="splash-sub">رحلة المعرفة الجغرافية</div>
         <div class="loading-bar"><div class="loading-progress" id="loadingProgress"></div></div>
         <div style="color:#b8e1b0; font-size:0.8rem; margin-top:10px;">جاري التحميل...</div>
     </div>
@@ -593,9 +630,9 @@
 <!-- الشاشة الرئيسية -->
 <div class="home-screen" id="homeScreen">
     <div class="home-header">
-        <div class="home-logo">🌍🗺️</div>
-        <div class="home-title">زيتونة</div>
-        <div class="home-sub">رحلة الجغرافيا</div>
+        <div class="home-logo">🌍📚</div>
+        <div class="home-title">الجغرافي</div>
+        <div class="home-sub">رحلة المعرفة الجغرافية</div>
     </div>
     
     <div class="user-stats">
@@ -613,6 +650,8 @@
         </div>
     </div>
     
+    <div class="title-badge" id="currentTitle">🏅 مبتدئ</div>
+    
     <div class="home-menu">
         <div class="menu-btn" id="playBtn">
             <div class="menu-btn-left">
@@ -628,17 +667,17 @@
             </div>
             <div class="menu-arrow">▶</div>
         </div>
+        <div class="menu-btn" id="titlesBtn">
+            <div class="menu-btn-left">
+                <div class="menu-icon">🏆</div>
+                <div class="menu-text">الألقاب والإنجازات</div>
+            </div>
+            <div class="menu-arrow">▶</div>
+        </div>
         <div class="menu-btn" id="settingsBtn">
             <div class="menu-btn-left">
                 <div class="menu-icon">⚙️</div>
                 <div class="menu-text">الإعدادات</div>
-            </div>
-            <div class="menu-arrow">▶</div>
-        </div>
-        <div class="menu-btn" id="achievementsBtn">
-            <div class="menu-btn-left">
-                <div class="menu-icon">🏆</div>
-                <div class="menu-text">الإنجازات</div>
             </div>
             <div class="menu-arrow">▶</div>
         </div>
@@ -655,24 +694,34 @@
     <div class="levels-grid" id="levelsGrid"></div>
 </div>
 
+<!-- شاشة الألقاب -->
+<div class="titles-screen" id="titlesScreen">
+    <div class="levels-header">
+        <div class="back-btn" id="titlesBackBtn">✖</div>
+        <h2>الألقاب والإنجازات</h2>
+        <div class="levels-stats" id="titlesCount">0/50</div>
+    </div>
+    <div class="titles-grid" id="titlesGrid"></div>
+</div>
+
 <!-- شاشة الإعدادات -->
-<div class="settings-screen" id="settingsScreen">
-    <div class="settings-header">
+<div class="settings-screen" id="settingsScreen" style="display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:#0a2f1f; z-index:9500; flex-direction:column;">
+    <div class="levels-header">
         <div class="back-btn" id="settingsBackBtn">✖</div>
         <h2 style="color:white;">الإعدادات</h2>
     </div>
-    <div class="settings-list">
-        <div class="setting-item">
-            <div class="setting-label"><span>🔊</span> المؤثرات الصوتية</div>
-            <div style="color:#e67e22;">معطلة</div>
+    <div class="settings-list" style="padding:20px;">
+        <div class="menu-btn" style="justify-content:space-between; margin-bottom:15px;">
+            <div class="menu-btn-left"><span>🔊</span><span>المؤثرات الصوتية</span></div>
+            <div style="color:#f39c12;">✓ مفعلة</div>
         </div>
-        <div class="setting-item">
-            <div class="setting-label"><span>🎨</span> وضع الليل</div>
-            <div style="color:#e67e22;">مفعل</div>
+        <div class="menu-btn" style="justify-content:space-between; margin-bottom:15px;">
+            <div class="menu-btn-left"><span>🌙</span><span>الوضع الليلي</span></div>
+            <div style="color:#f39c12;">✓ مفعل</div>
         </div>
-        <div class="setting-item">
-            <div class="setting-label"><span>🗑️</span> إعادة تعيين التقدم</div>
-            <button class="reset-btn" id="resetBtn">إعادة تعيين</button>
+        <div class="menu-btn" id="resetGameBtn" style="justify-content:space-between; background:#ffe0e0;">
+            <div class="menu-btn-left"><span>🗑️</span><span>إعادة تعيين التقدم</span></div>
+            <div style="color:#e74c3c;">إعادة</div>
         </div>
     </div>
 </div>
@@ -688,7 +737,7 @@
         <div class="question-text" id="questionText"></div>
         <div class="options-list" id="optionsList"></div>
         <div class="timer-box">⏱️ الوقت <span id="timerDisplay">15</span> ثانية</div>
-        <div class="exit-quiz" id="exitQuizBtn">خروج من المستوى</div>
+        <div class="exit-quiz" id="exitQuizBtn">✖️ خروج من المستوى</div>
     </div>
 </div>
 
@@ -698,6 +747,7 @@
         <h2 id="resultTitle">🎉 نتيجة المستوى</h2>
         <div class="result-stars" id="resultStars">⭐⭐⭐</div>
         <div class="result-score" id="resultScore">3/3 إجابات صحيحة</div>
+        <div class="result-score" id="resultPoints">+0 نقطة</div>
         <button class="next-level-btn" id="nextLevelBtn">متابعة</button>
     </div>
 </div>
@@ -705,79 +755,80 @@
 <div class="toast-msg" id="toastMsg"></div>
 
 <script>
-    // ==================== الأسئلة (كل مستوى 3 أسئلة متنوعة) ====================
-    const QUESTIONS_DB = [];
-    
-    // أنواع الأسئلة: عواصم، إيموجي، جغرافيا/جبال
-    const questionTypes = [
-        { type: "🏛️ عواصم", getQ: (lvl) => ({ q: "ما عاصمة " + getRandomCountry(lvl) + "؟", a: getRandomCapital(lvl) }) },
-        { type: "🎭 إيموجي", getQ: (lvl) => ({ q: getRandomEmoji(lvl), a: getEmojiAnswer(lvl) }) },
-        { type: "🏔️ جبال", getQ: (lvl) => ({ q: "أين تقع جبال " + getRandomMountain(lvl) + "؟", a: getMountainLocation(lvl) }) }
+    // ==================== 50 لقب ====================
+    const TITLES = [
+        { name: "🌱 مبتدئ", condition: (s) => s.currentLevel >= 1, level: 1 },
+        { name: "🗺️ مستكشف", condition: (s) => s.currentLevel >= 10, level: 10 },
+        { name: "🧭 مرشد", condition: (s) => s.currentLevel >= 25, level: 25 },
+        { name: "🏔️ متسلق جبال", condition: (s) => s.currentLevel >= 40, level: 40 },
+        { name: "🌊 غواص البحار", condition: (s) => s.currentLevel >= 55, level: 55 },
+        { name: "🏜️ صحراوي", condition: (s) => s.currentLevel >= 70, level: 70 },
+        { name: "🗿 مؤرخ", condition: (s) => s.currentLevel >= 85, level: 85 },
+        { name: "⭐ نجم الجغرافيا", condition: (s) => s.currentLevel >= 100, level: 100 },
+        { name: "🏆 سيد المعرفة", condition: (s) => s.currentLevel >= 120, level: 120 },
+        { name: "👑 ملك الجغرافيا", condition: (s) => s.currentLevel >= 150, level: 150 },
+        { name: "💎 أسطورة", condition: (s) => s.currentLevel >= 180, level: 180 },
+        { name: "🌍 عبقري العالم", condition: (s) => s.currentLevel >= 210, level: 210 },
+        { name: "⚡ سريع البديهة", condition: (s) => s.totalPoints >= 5000, level: 0, type: "points" },
+        { name: "🎯 دقيق التصويب", condition: (s) => Object.values(s.levelStars).filter(v=>v===3).length >= 50, level: 0, type: "perfect" },
+        { name: "💪 محارب الأسئلة", condition: (s) => s.currentLevel >= 250, level: 250 },
+        { name: "🏅 خارق", condition: (s) => s.currentLevel >= 280, level: 280 },
+        { name: "🌟 أيقونة المعرفة", condition: (s) => s.currentLevel >= 300, level: 300 }
     ];
     
-    function getRandomCountry(lvl) {
-        const countries = ["مصر", "السعودية", "الأردن", "المغرب", "تونس", "الجزائر", "الإمارات", "قطر", "الكويت", "لبنان", "سوريا", "العراق", "تركيا", "إيران", "باكستان"];
-        return countries[(lvl + lvl * 7) % countries.length];
+    // إكمال 50 لقب
+    for(let i = TITLES.length; i < 50; i++) {
+        let lvl = 5 + i * 6;
+        if(lvl > 300) lvl = 300;
+        TITLES.push({ name: `🏅 لقب ${i+1}`, condition: (s) => s.currentLevel >= lvl, level: lvl });
     }
+    TITLES.sort((a,b) => (a.level || 999) - (b.level || 999));
+    
+    // ==================== الأسئلة ====================
+    const QUESTIONS_DB = [];
     
     function getRandomCapital(lvl) {
-        const capitals = { "مصر": "القاهرة", "السعودية": "الرياض", "الأردن": "عمان", "المغرب": "الرباط", "تونس": "تونس", "الجزائر": "الجزائر", "الإمارات": "أبوظبي", "قطر": "الدوحة", "الكويت": "الكويت", "لبنان": "بيروت", "سوريا": "دمشق", "العراق": "بغداد", "تركيا": "أنقرة", "إيران": "طهران", "باكستان": "إسلام آباد" };
-        let country = getRandomCountry(lvl);
+        const capitals = { "مصر": "القاهرة", "السعودية": "الرياض", "الأردن": "عمان", "المغرب": "الرباط", "تونس": "تونس", "الجزائر": "الجزائر", "الإمارات": "أبوظبي", "قطر": "الدوحة", "الكويت": "الكويت", "لبنان": "بيروت", "سوريا": "دمشق", "العراق": "بغداد", "تركيا": "أنقرة", "إيران": "طهران" };
+        let countries = ["مصر", "السعودية", "الأردن", "المغرب", "تونس", "الجزائر", "الإمارات", "قطر", "الكويت", "لبنان", "سوريا", "العراق", "تركيا", "إيران"];
+        let country = countries[lvl % countries.length];
         return capitals[country] || "القاهرة";
     }
     
     function getRandomEmoji(lvl) {
-        const emojis = ["🐪🏜️🕋", "🗽🦅", "🍕🍝🏛️", "🥐🗼🍷", "🐼🐉🥟", "🍣🗻🤖", "🦘🏏", "🕌🐫🌴", "🍁🍂🦌", "🏔️🧀🍫", "🐂⚽🌊", "🌷🧀🚲"];
-        return emojis[(lvl * 3) % emojis.length];
+        const emojis = ["🐪🏜️🕋", "🗽🦅", "🍕🍝🏛️", "🥐🗼🍷", "🐼🐉🥟", "🍣🗻🤖", "🦘🏏", "🕌🐫🌴", "🍁🍂🦌", "🏔️🧀🍫", "🐂⚽🌊", "🌷🧀🚲", "🏯🌸🗻", "🐘🛕🕌"];
+        return emojis[lvl % emojis.length];
     }
     
     function getEmojiAnswer(lvl) {
-        const answers = ["المملكة العربية السعودية", "الولايات المتحدة", "إيطاليا", "فرنسا", "الصين", "اليابان", "أستراليا", "مصر", "كندا", "سويسرا", "البرازيل", "هولندا"];
-        return answers[(lvl * 3) % answers.length];
+        const answers = ["المملكة العربية السعودية", "الولايات المتحدة", "إيطاليا", "فرنسا", "الصين", "اليابان", "أستراليا", "مصر", "كندا", "سويسرا", "البرازيل", "هولندا", "اليابان", "الهند"];
+        return answers[lvl % answers.length];
     }
     
-    function getRandomMountain(lvl) {
-        const mountains = ["الألب", "الهimalaya", "الأطلس", "الروكي", "الأنديز", "القوقاز"];
-        return mountains[(lvl) % mountains.length];
+    function getMountainQuestion(lvl) {
+        const mountains = ["جبال الألب", "جبال الهيمالايا", "جبال الأطلس", "جبال روكي", "جبال الأنديز", "جبال القوقاز", "جبال طوروس"];
+        const locations = ["أوروبا", "آسيا", "شمال أفريقيا", "أمريكا الشمالية", "أمريكا الجنوبية", "بين أوروبا وآسيا", "تركيا"];
+        let idx = lvl % mountains.length;
+        return { q: `أين تقع ${mountains[idx]}؟`, a: locations[idx] };
     }
     
-    function getMountainLocation(lvl) {
-        const locations = ["أوروبا", "آسيا", "شمال أفريقيا", "أمريكا الشمالية", "أمريكا الجنوبية", "بين أوروبا وآسيا"];
-        return locations[(lvl * 2) % locations.length];
-    }
-    
-    // بناء 300 مستوى × 3 أسئلة
-    for (let lvl = 1; lvl <= 300; lvl++) {
-        for (let step = 0; step < 3; step++) {
-            let typeIdx = step % 3;
-            let typeData = questionTypes[typeIdx];
+    for(let lvl = 1; lvl <= 300; lvl++) {
+        for(let step = 0; step < 3; step++) {
             let qData;
-            if (typeIdx === 0) {
-                let country = getRandomCountry(lvl);
+            if(step === 0) {
                 let capital = getRandomCapital(lvl);
-                qData = { q: `ما عاصمة ${country}؟`, a: capital, opts: [capital, getRandomCapital(lvl+1), getRandomCapital(lvl+2), getRandomCapital(lvl+3)] };
-            } else if (typeIdx === 1) {
-                let emoji = getRandomEmoji(lvl);
-                let answer = getEmojiAnswer(lvl);
-                qData = { q: emoji, a: answer, opts: [answer, getEmojiAnswer(lvl+5), getEmojiAnswer(lvl+7), getEmojiAnswer(lvl+11)] };
+                let country = lvl % 14;
+                let countriesList = ["مصر", "السعودية", "الأردن", "المغرب", "تونس", "الجزائر", "الإمارات", "قطر", "الكويت", "لبنان", "سوريا", "العراق", "تركيا", "إيران"];
+                qData = { type: "🏛️ عواصم", question: `ما عاصمة ${countriesList[lvl % countriesList.length]}؟`, answer: capital, options: [capital, getRandomCapital(lvl+1), getRandomCapital(lvl+2), getRandomCapital(lvl+3)] };
+            } else if(step === 1) {
+                qData = { type: "🎭 خمن الإيموجي", question: getRandomEmoji(lvl), answer: getEmojiAnswer(lvl), options: [getEmojiAnswer(lvl), getEmojiAnswer(lvl+3), getEmojiAnswer(lvl+5), getEmojiAnswer(lvl+7)] };
             } else {
-                let mountain = getRandomMountain(lvl);
-                let location = getMountainLocation(lvl);
-                qData = { q: `أين تقع جبال ${mountain}؟`, a: location, opts: [location, getMountainLocation(lvl+1), getMountainLocation(lvl+2), getMountainLocation(lvl+3)] };
+                let m = getMountainQuestion(lvl);
+                qData = { type: "🏔️ جبال ومعالم", question: m.q, answer: m.a, options: [m.a, "أوروبا", "آسيا", "أفريقيا"] };
             }
-            // ضبط الخيارات
-            let optsSet = [...new Set([qData.a, ...qData.opts.slice(0,3)])];
+            let optsSet = [...new Set([qData.answer, ...qData.options.slice(0,3)])];
             while(optsSet.length < 4) optsSet.push("مكان آخر");
-            qData.opts = optsSet.sort(() => Math.random() - 0.5);
-            
-            QUESTIONS_DB.push({
-                level: lvl,
-                step: step,
-                type: typeIdx === 0 ? "🏛️ عواصم" : (typeIdx === 1 ? "🎭 خمن الإيموجي" : "🏔️ جبال ومعالم"),
-                question: qData.q,
-                answer: qData.a,
-                options: qData.opts
-            });
+            qData.options = optsSet.sort(() => Math.random() - 0.5);
+            QUESTIONS_DB.push({ level: lvl, step: step, ...qData });
         }
     }
     
@@ -789,7 +840,7 @@
     };
     
     try {
-        const saved = localStorage.getItem('zeitounaGeo');
+        const saved = localStorage.getItem('geographerGame');
         if(saved) {
             let data = JSON.parse(saved);
             gameState.currentLevel = data.currentLevel || 1;
@@ -802,6 +853,7 @@
     const splash = document.getElementById('splashScreen');
     const homeScreen = document.getElementById('homeScreen');
     const levelsScreen = document.getElementById('levelsScreen');
+    const titlesScreen = document.getElementById('titlesScreen');
     const settingsScreen = document.getElementById('settingsScreen');
     const quizScreen = document.getElementById('quizScreen');
     const resultScreen = document.getElementById('resultScreen');
@@ -820,9 +872,41 @@
         setTimeout(() => toast.style.opacity = '0', 1800);
     }
     
+    function getCurrentTitle() {
+        let earned = TITLES.filter(t => t.condition(gameState));
+        if(earned.length === 0) return TITLES[0].name;
+        return earned[earned.length-1].name;
+    }
+    
+    function updateTitlesUI() {
+        let earnedCount = TITLES.filter(t => t.condition(gameState)).length;
+        document.getElementById('titlesCount').innerHTML = `${earnedCount}/${TITLES.length}`;
+        document.getElementById('currentTitle').innerHTML = getCurrentTitle();
+        
+        const grid = document.getElementById('titlesGrid');
+        if(grid) {
+            grid.innerHTML = '';
+            TITLES.forEach(title => {
+                let isEarned = title.condition(gameState);
+                let card = document.createElement('div');
+                card.className = `title-card ${!isEarned ? 'locked-title' : ''}`;
+                card.innerHTML = `
+                    <div class="title-icon">${isEarned ? '🏆' : '🔒'}</div>
+                    <div class="title-info">
+                        <div class="title-name">${title.name}</div>
+                        <div class="title-condition">${title.level ? `الوصول للمستوى ${title.level}` : 'إنجاز خاص'}</div>
+                    </div>
+                    <div class="title-status">${isEarned ? '✓ مفتوح' : '✗ مغلق'}</div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+    }
+    
     function saveGame() {
-        localStorage.setItem('zeitounaGeo', JSON.stringify(gameState));
+        localStorage.setItem('geographerGame', JSON.stringify(gameState));
         updateHomeStats();
+        updateTitlesUI();
     }
     
     function updateHomeStats() {
@@ -831,6 +915,7 @@
         let totalStars = Object.values(gameState.levelStars).reduce((a,b) => a + b, 0);
         document.getElementById('homeStars').innerText = totalStars;
         document.getElementById('levelsStats').innerHTML = `⭐ ${totalStars}`;
+        document.getElementById('currentTitle').innerHTML = getCurrentTitle();
     }
     
     function buildLevelsMap() {
@@ -843,30 +928,23 @@
             if(i < gameState.currentLevel) item.classList.add('completed');
             if(i === gameState.currentLevel) item.classList.add('active');
             if(i > gameState.currentLevel) item.classList.add('locked');
-            
-            item.innerHTML = `
-                <div class="level-number">${i}</div>
-                <div class="level-stars">${'⭐'.repeat(stars)}${'☆'.repeat(3-stars)}</div>
-            `;
-            if(i <= gameState.currentLevel) {
-                item.onclick = () => startLevel(i);
-            }
+            item.innerHTML = `<div class="level-number">${i}</div><div class="level-stars">${'⭐'.repeat(stars)}${'☆'.repeat(3-stars)}</div>`;
+            if(i <= gameState.currentLevel) item.onclick = () => startLevel(i);
             grid.appendChild(item);
         }
     }
     
     function startLevel(level) {
         currentLevelQuestions = QUESTIONS_DB.filter(q => q.level === level).sort((a,b) => a.step - b.step);
-        if(currentLevelQuestions.length !== 3) {
-            showToast("بيانات المستوى غير مكتملة");
-            return;
-        }
+        if(currentLevelQuestions.length !== 3) { showToast("بيانات المستوى غير مكتملة"); return; }
         currentStep = 0;
         currentAnswers = [];
         isAnswered = false;
         showQuestion(0);
         homeScreen.style.display = 'none';
         levelsScreen.style.display = 'none';
+        titlesScreen.style.display = 'none';
+        settingsScreen.style.display = 'none';
         quizScreen.style.display = 'flex';
         document.getElementById('quizLevelNum').innerHTML = `المستوى ${level}`;
     }
@@ -907,7 +985,6 @@
         const q = currentLevelQuestions[currentStep];
         currentAnswers.push({ question: q.question, correct: q.answer, isCorrect: false });
         showToast("⏰ انتهى الوقت!");
-        gameState.streak = 0;
         document.querySelectorAll('.option-btn').forEach(btn => btn.style.pointerEvents = 'none');
         document.querySelectorAll('.option-btn').forEach(btn => {
             if(btn.innerText === q.answer) btn.classList.add('correct');
@@ -928,12 +1005,12 @@
         
         if(isCorrect) {
             btn.classList.add('correct');
-            let points = 100 + timeLeft;
+            let points = 10 + Math.floor(timeLeft / 2);
             gameState.totalPoints += points;
             showToast(`✅ +${points} نقطة`);
         } else {
             btn.classList.add('wrong');
-            showToast(`❌ الإجابة الصحيحة: ${question.answer}`);
+            showToast(`❌ الإجابة: ${question.answer}`);
             document.querySelectorAll('.option-btn').forEach(b => {
                 if(b.innerText === question.answer) b.classList.add('correct');
             });
@@ -950,49 +1027,49 @@
         const correctCount = currentAnswers.filter(a => a.isCorrect).length;
         const levelNum = currentLevelQuestions[0].level;
         gameState.levelStars[levelNum] = correctCount;
-        const levelBonus = correctCount * 100;
+        const levelBonus = correctCount * 10;
         gameState.totalPoints += levelBonus;
         
         if(correctCount >= 2 && levelNum === gameState.currentLevel && levelNum < 300) {
             gameState.currentLevel++;
+            showToast(`🎉 انتقلت إلى المستوى ${gameState.currentLevel}!`);
         }
         saveGame();
         
         const starsDisplay = '⭐'.repeat(correctCount) + '☆'.repeat(3-correctCount);
         document.getElementById('resultStars').innerHTML = starsDisplay;
         document.getElementById('resultScore').innerHTML = `${correctCount}/3 إجابات صحيحة`;
-        document.getElementById('resultTitle').innerHTML = correctCount === 3 ? "🎉 ممتاز!" : (correctCount >= 1 ? "📊 أحسنت" : "📖 حاول مجدداً");
+        let earnedPoints = (correctCount * 10) + (currentAnswers.filter(a=>a.isCorrect).reduce((s,_,i)=> s + (10 + Math.floor(12/i)), 0));
+        document.getElementById('resultPoints').innerHTML = `+${correctCount * 10 + (correctCount * 5)} نقطة`;
+        document.getElementById('resultTitle').innerHTML = correctCount === 3 ? "🎉 إنجاز رائع!" : (correctCount >= 1 ? "📊 أحسنت" : "📖 حاول مجدداً");
         
         quizScreen.style.display = 'none';
         resultScreen.style.display = 'flex';
+        updateTitlesUI();
     }
     
     function nextLevel() {
         resultScreen.style.display = 'none';
-        if(gameState.currentLevel <= 300) {
-            homeScreen.style.display = 'flex';
-            updateHomeStats();
-            buildLevelsMap();
-        } else {
-            showToast("🎉 أكملت جميع المستويات!");
-            homeScreen.style.display = 'flex';
-        }
+        homeScreen.style.display = 'flex';
+        updateHomeStats();
+        buildLevelsMap();
     }
     
-    function resetProgress() {
-        if(confirm("هل أنت متأكد؟ سيتم حذف كل تقدمك!")) {
+    function resetGame() {
+        if(confirm("⚠️ هل أنت متأكد؟ سيتم حذف كل تقدمك ونجومك!")) {
             gameState = { currentLevel: 1, totalPoints: 0, levelStars: {} };
             saveGame();
             updateHomeStats();
             buildLevelsMap();
-            showToast("تم إعادة تعيين التقدم");
+            updateTitlesUI();
+            showToast("تم إعادة تعيين اللعبة");
         }
     }
     
     // شاشة البداية
     let loadProgress = 0;
     const loadInt = setInterval(() => {
-        loadProgress += 12;
+        loadProgress += 10;
         document.getElementById('loadingProgress').style.width = Math.min(loadProgress, 100) + '%';
         if(loadProgress >= 100) {
             clearInterval(loadInt);
@@ -1003,42 +1080,22 @@
                     homeScreen.style.display = 'flex';
                     updateHomeStats();
                     buildLevelsMap();
+                    updateTitlesUI();
                 }, 400);
             }, 300);
         }
-    }, 90);
+    }, 80);
     
     // أحداث
-    document.getElementById('playBtn').onclick = () => {
-        startLevel(gameState.currentLevel);
-    };
-    document.getElementById('levelsBtn').onclick = () => {
-        homeScreen.style.display = 'none';
-        levelsScreen.style.display = 'flex';
-        buildLevelsMap();
-    };
-    document.getElementById('settingsBtn').onclick = () => {
-        homeScreen.style.display = 'none';
-        settingsScreen.style.display = 'flex';
-    };
-    document.getElementById('achievementsBtn').onclick = () => {
-        let totalStars = Object.values(gameState.levelStars).reduce((a,b) => a + b, 0);
-        showToast(`🏆 إجمالي النجوم: ${totalStars} | أعلى مستوى: ${gameState.currentLevel}`);
-    };
-    document.getElementById('levelsBackBtn').onclick = () => {
-        levelsScreen.style.display = 'none';
-        homeScreen.style.display = 'flex';
-    };
-    document.getElementById('settingsBackBtn').onclick = () => {
-        settingsScreen.style.display = 'none';
-        homeScreen.style.display = 'flex';
-    };
-    document.getElementById('resetBtn').onclick = resetProgress;
-    document.getElementById('exitQuizBtn').onclick = () => {
-        if(timerInterval) clearInterval(timerInterval);
-        quizScreen.style.display = 'none';
-        homeScreen.style.display = 'flex';
-    };
+    document.getElementById('playBtn').onclick = () => startLevel(gameState.currentLevel);
+    document.getElementById('levelsBtn').onclick = () => { homeScreen.style.display = 'none'; levelsScreen.style.display = 'flex'; buildLevelsMap(); };
+    document.getElementById('titlesBtn').onclick = () => { homeScreen.style.display = 'none'; titlesScreen.style.display = 'flex'; updateTitlesUI(); };
+    document.getElementById('settingsBtn').onclick = () => { homeScreen.style.display = 'none'; settingsScreen.style.display = 'flex'; };
+    document.getElementById('levelsBackBtn').onclick = () => { levelsScreen.style.display = 'none'; homeScreen.style.display = 'flex'; };
+    document.getElementById('titlesBackBtn').onclick = () => { titlesScreen.style.display = 'none'; homeScreen.style.display = 'flex'; };
+    document.getElementById('settingsBackBtn').onclick = () => { settingsScreen.style.display = 'none'; homeScreen.style.display = 'flex'; };
+    document.getElementById('resetGameBtn').onclick = resetGame;
+    document.getElementById('exitQuizBtn').onclick = () => { if(timerInterval) clearInterval(timerInterval); quizScreen.style.display = 'none'; homeScreen.style.display = 'flex'; };
     document.getElementById('nextLevelBtn').onclick = nextLevel;
 </script>
 </body>
